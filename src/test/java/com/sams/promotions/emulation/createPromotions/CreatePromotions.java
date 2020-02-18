@@ -50,7 +50,7 @@ public class CreatePromotions extends BaseStep {
 	@Given("^Utilize URL and post data$")
 	public void POST_Operation(DataTable datatable) throws Exception {		
 	     
-	     
+	     System.out.println("clear");
 		
 		
 		/*
