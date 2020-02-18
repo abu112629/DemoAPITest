@@ -1,0 +1,3 @@
+Content-Type:application/x-www-form-urlencoded
+Ocp-Apim-Subscription-Key:1eebe69a8ea746b5ae83de6a0709e79a
+CORE_VSN:v1

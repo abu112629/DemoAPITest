@@ -1,0 +1,12 @@
+Content-Type:application/json
+Sams-Consumer-App-Id: 77e8d5s7e6f14b6bkurc2150d7c9j241
+Sams-Consumer-Country-Code: US
+Sams-Consumer-Tenant-Id: 2
+Sams-Consumer-Pref-Lang: 101
+Sams-Consumer-Club-Number: 4969
+Sams-Consumer-User-Id: vn50kma
+Sams-Consumer-Source-Application: DOTCOM
+Cache-Control: no-cache
+Ocp-Apim-Trace: true
+Ocp-Apim-Subscription-Key: 8cbf9572533e4787ab8c655efd42d16e
+core_vsn: v1

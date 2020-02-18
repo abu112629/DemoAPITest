@@ -1,0 +1,62 @@
+{
+  "header": {},
+  "payload": {
+    "createdBy": "TEST",
+    "modifiedBy": "TEST",
+    "name": "IS-BV-PROMO-MMB-TEST_",
+    "description": "IS-BV-PROMO-MMBUND",
+    "termsEx": {
+      "desktop": "Offer only valid through participating Sams Club locations in the US, excluding Puerto Rico. Sams Club reserves the right to amend or cancel this offer, in whole or in part, or change part of the offer at any time for any or no reason, including without limitation, in the event of fraud, abuse of offer or violations of offer, as determined by the sole discretion of Sams Club without notice to the member.",
+      "mweb": "Offer only valid through participating Sams Club locations in the US, excluding Puerto Rico. Sams Club reserves the right to amend or cancel this offer, in whole or in part, or change part of the offer at any time for any or no reason, including without limitation, in the event of fraud, abuse of offer or violations of offer, as determined by the sole discretion of Sams Club without notice to the member.",
+      "desktopContentType": "html",
+      "mwebContentType": "html",
+      "code": "INSTANT-SAVINGS-2"
+    },
+    "message": {
+      "desktopContentType": "html",
+      "mwebContentType": "html",
+      "kioskContentType": "text",
+      "code": "INSTANT-SAVINGS-1"
+    },
+    "redemptionLimit": 0,
+    "perCustomerRedemptionLimit": 0,
+    "perMembershipRedemptionLimit": 0,
+    "perPrimaryHouseholdRedemptionLimit": 0,
+    "perAddOnHouseholdRedemptionLimit": 0,
+    "perCustomerRedemptionExpirDays": 0,
+    "multiMatchLimit": 0,
+    "promoMatchCount": 0,
+    "type": "INSTANT_SAVINGS",
+    "status": "PUBLISHED",
+    "schedule": {
+      "startDate": "2020-01-19T11:00:36.000-0600",
+      "endDate": "2021-01-19T11:00:36.000-0600",
+      "timezone": "GMT"
+    },
+    "conditionString": "mCount(itemNumber in (\"622780\"), \">=\", \"2\")",
+    "eligiblityConditionString": "itemNumber in (\"622780\")",
+    "actions": [
+      {
+        "actionType": "AWARD",
+        "award": {
+          "type": "Discount",
+          "applyTo": "ITEM_PRICE",
+          "deferred": true,
+          "sendEmail": false,
+          "discountType": "AMOUNT_OFF",
+          "value": 1,
+          "currencyUnit": "USD",
+          "gs1Code": "1192020001111",
+          "promotionItemNumber": "119202",
+          "discountLimit": 2,
+          "isAlreadyApplied": false
+        }
+      }
+    ],
+    "displayAtOrderLevel": false,
+    "autoApply": false,
+    "thresholdValue": 0,
+    "vendorFundingPercent": 100,
+    "promotionNumber": 192020
+  }
+}

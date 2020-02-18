@@ -1,0 +1,236 @@
+{
+    "status": "OK",
+    "payload": {
+        "promotions": [
+            {
+                "promotionId": "eb3403b6-231f-453c-9fa1-7a810c427643",
+                "name": "Item Messaging Promo 828f968e-d03d-486a-a071-038da695022d",
+                "description": "Spend $25 on San Pellegrino and save $5 off",
+                "matchStatus": "FULL",
+                "itemPriceDiscount": {
+                    "currencyAmount": -5.00,
+                    "currencyUnit": "USD"
+                },
+                "shipPriceDiscount": {
+                    "currencyAmount": 0.00,
+                    "currencyUnit": "USD"
+                },
+                "surchargeDiscount": {
+                    "currencyAmount": 0.00,
+                    "currencyUnit": "USD"
+                },
+                "promotionDiscount": {
+                    "currencyAmount": -5.00,
+                    "currencyUnit": "USD"
+                },
+                "message": {
+                    "messageCode": "VENDOR-DISCOUNT-0",
+                    "message": "Item Messaging",
+                    "contentType": "html"
+                },
+                "type": "VENDOR_DISCOUNT",
+                "displayAtOrderLevel": true,
+                "startDate": "2019-06-15T00:00:00.000+0000",
+                "expiryDate": "2025-08-31T23:59:59.000+0000",
+                "autoApply": false,
+                "memberLimit": 0,
+                "memberUsageCount": 0,
+                "promotionCount": 1,
+                "extendedDescription": {},
+                "extendedTerms": {
+                    "messageCode": "VENDOR-DISCOUNT-1",
+                    "message": "*Item Messaging",
+                    "contentType": "html"
+                },
+                "thresholdValue": 25.00,
+                "vendorFundingPercent": 100.00,
+                "priority": 0
+            }
+        ],
+        "items": [
+            {
+                "itemPrice": {
+                    "unitPrice": {
+                        "currencyAmount": 50.00,
+                        "currencyUnit": "USD"
+                    },
+                    "extendedPrice": {
+                        "currencyAmount": 50.00,
+                        "currencyUnit": "USD"
+                    },
+                    "unitDiscount": {
+                        "currencyAmount": -5.00,
+                        "currencyUnit": "USD"
+                    },
+                    "extendedDiscount": {
+                        "currencyAmount": -5.00,
+                        "currencyUnit": "USD"
+                    },
+                    "netUnitPrice": {
+                        "currencyAmount": 45.00,
+                        "currencyUnit": "USD"
+                    },
+                    "netExtendedPrice": {
+                        "currencyAmount": 45.00,
+                        "currencyUnit": "USD"
+                    }
+                },
+                "quantity": 1,
+                "product": {
+                    "offerId": {},
+                    "productId": {
+                        "productId": "735744"
+                    },
+                    "productAttributes": {
+                        "shippingFlag": "PAID",
+                        "freeShippingOverrideForSubscription": false,
+                        "d2pEligible": false,
+                        "isWeightedItem": false
+                    }
+                },
+                "surcharge": {
+                    "unitPrice": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    },
+                    "extendedPrice": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    },
+                    "unitDiscount": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    },
+                    "extendedDiscount": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    },
+                    "netUnitPrice": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    },
+                    "netExtendedPrice": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    }
+                },
+                "lineId": "1",
+                "fulfillmentCorrelationId": "0",
+                "shipPrice": {
+                    "unitPrice": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    },
+                    "extendedPrice": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    },
+                    "unitDiscount": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    },
+                    "extendedDiscount": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    },
+                    "netUnitPrice": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    },
+                    "netExtendedPrice": {
+                        "currencyAmount": 0.00,
+                        "currencyUnit": "USD"
+                    }
+                },
+                "promotions": [
+                    {
+                        "promotionId": "eb3403b6-231f-453c-9fa1-7a810c427643",
+                        "unitPriceDiscount": {
+                            "currencyAmount": -5.00,
+                            "currencyUnit": "USD"
+                        },
+                        "unitShipPriceDiscount": {
+                            "currencyAmount": 0.00,
+                            "currencyUnit": "USD"
+                        },
+                        "unitSurchargeDiscount": {
+                            "currencyAmount": 0.00,
+                            "currencyUnit": "USD"
+                        },
+                        "unitDiscount": {
+                            "currencyAmount": -5.00,
+                            "currencyUnit": "USD"
+                        },
+                        "discountedUnitCount": 1,
+                        "matchStatus": "FULL",
+                        "message": {
+                            "messageCode": "VENDOR-DISCOUNT-0",
+                            "message": "Item Messaging",
+                            "contentType": "html"
+                        },
+                        "promotionType": "VENDOR_DISCOUNT"
+                    }
+                ],
+                "subscription": false,
+                "isPostPaid": false,
+                "isInstantSavingsItem": false,
+                "isPriceOverride": false
+            }
+        ],
+        "totalItemPrice": {
+            "price": {
+                "currencyAmount": 50.00,
+                "currencyUnit": "USD"
+            },
+            "discount": {
+                "currencyAmount": -5.00,
+                "currencyUnit": "USD"
+            },
+            "netPrice": {
+                "currencyAmount": 45.00,
+                "currencyUnit": "USD"
+            }
+        },
+        "totalShipPrice": {
+            "price": {
+                "currencyAmount": 0.00,
+                "currencyUnit": "USD"
+            },
+            "discount": {
+                "currencyAmount": 0.00,
+                "currencyUnit": "USD"
+            },
+            "netPrice": {
+                "currencyAmount": 0.00,
+                "currencyUnit": "USD"
+            }
+        },
+        "totalSurcharge": {
+            "price": {
+                "currencyAmount": 0.00,
+                "currencyUnit": "USD"
+            },
+            "discount": {
+                "currencyAmount": 0.00,
+                "currencyUnit": "USD"
+            },
+            "netPrice": {
+                "currencyAmount": 0.00,
+                "currencyUnit": "USD"
+            }
+        },
+        "orderType": "CLUB_PICKUP",
+        "promotionMetaData": "H4sIAAAAAAAAAKtWSiwoyMlMTQkoys/NL8nMzytWsopWSk0yNjEwTjLTNTI2TNM1MTVO1rVMSzTUNU+0MDRINjEyNzMxVoqtBQD3Lco/PgAAAA==",
+        "transactionKeyAttributes": {
+            "status": "RESERVE",
+            "registrationNumber": "83",
+            "transactionNumber": "4116",
+            "clubId": "4969",
+            "channel": "DOTCOM",
+            "redemptionDate": "2019-12-12T04:30:43.000+0000",
+            "membershipId": "10142100921963000"
+        },
+        "reserveCount": "{\"promoData\":[],\"couponData\":[]}",
+        "transactionNumber": "10921963000834116496919346"
+    }
+}

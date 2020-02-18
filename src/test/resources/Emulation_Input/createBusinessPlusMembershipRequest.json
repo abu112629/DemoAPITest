@@ -1,0 +1,181 @@
+{
+    "membership": {
+        "membershipTier": "PLUS",
+        "memberRole": "PRIMARY",
+        "assignedClub": "4969",
+        "preferredClub": "4969",
+        "isAutoRenew": false,
+        "autoRenewMethod": null,
+        "paidStatus": "paid",
+        "isTaxExempt": null,
+        "allowTaxExemptPurchase": null,
+        "isSoldInField": true,
+        "parentMembershipReference": "",
+        "promotions": null,
+        "subscriptionId" : "Membership.PLUS.PRIMARY.Standard"
+    },
+    "person": {
+        "personId": null,
+        "memberName": {
+            "completeName": null,
+            "firstName": "FN",
+            "middleName": "M",
+            "lastName": "LN",
+            "namePrefix": null,
+            "nameSuffix": null,
+            "titleOfRespect": null
+        },
+        "birthDate": "1998-08-29",
+        "verifiedAge": 18,
+        "ageVerifiedDate": null,
+        "preferredLanguage": "American English",
+        "identifiers" : [
+            {
+               "identifierType": "SOCIAL_SECURITY_NUMBER",
+               "identifierNumber": "76890123",
+               "issuedDate": "2018-08-30",
+               "expireDate": "2028-08-30",
+               "issuingStateProvinceCode": "AR",
+               "issuingCountryCode": "US",
+               "verifiedByUser": "USER5",
+               "verifiedByDate": "2018-08-30T10:10:10.422-05:00",
+               "verifiedByClub": "6270",
+               "verifiedSource": "MEMBERSHIP DESK"
+           }],
+        "contact": {
+            "addresses": [{
+                    "addressType": "MAILING_ADDRESS",
+                    "lineOne": "123 Main st",
+                    "lineTwo": "apt 1",
+                    "contactOrder": "Primary",
+                    "city": "Bentonville",
+                    "country": "United States",
+                    "county": "Benton",
+                    "postalCode": "72756",
+                    "extendedPostalCode": null,
+                    "state": null,
+                    "stateCode": "AR",
+                    "isOkayToContact": true
+                }
+            ],
+            "emails": [{
+                    "emailAddress": "abc@xyz.com",
+                    "type": "HOME_EMAIL",
+                    "contactOrder": "Primary",
+                    "preferred": true,
+                    "verified": false
+             }],
+            "phones": [{
+                    "phoneType" : "MOBILE",
+                    "phoneNumber": "2512512511",
+                    "contactOrder": "Primary",
+                    "isOkayToContact": true
+            }]
+        },
+        "isResident": null,
+        "biometricIdentifier": null
+    },
+     "organization": {
+    "organizationId": "92836fc1-bdb7-4aa7-8fc6-0b60a4023b62",
+    "businessLegalName": "Business Legal Name ADD New 1",
+    "businessContacts": [
+      {
+        "businessContactFirstName": "DOTCOM",
+        "businessContactLastName": "TEST",
+        "businessContactFullName": "DOTCOM TEST"
+      }
+    ],
+    "baseCode": "7231",
+    "subIndustryCode": "00",
+    "businessLineCode": "01",
+    "isCashOnly": false,
+    "preferredLanguage": "American English",
+    "isConfidential": false,
+    "isPORequired": false,
+    "canAcceptCheck": true,
+    "yearStarted": "2016",
+    "isAdditionalInfoRequired": true,
+    "contact": {
+      "addresses": [
+        {
+          "id": "9a3f223c-7220-3f5e-a456-089e82731b61",
+          "lineOne": "106 SE MOBERLY LN",
+          "lineTwo": "BUILD3",
+          "contactOrder": "PRIMARY",
+          "city": "BENTONVILLE",
+          "country": "United States",
+          "county": "ARKANSAS",
+          "postalCode": "72712",
+          "stateCode": "AR",
+          "addressType": "MAILING_ADDRESS",
+          "poBox": false
+        },
+        {
+          "id": "5f288899-2668-3014-bcb6-746291489543",
+          "lineOne": "206 SE MOBERLY LN",
+          "lineTwo": "BUILD3",
+          "contactOrder": "PRIMARY",
+          "city": "BENTONVILLE",
+          "country": "United States",
+          "county": "ARKANSAS",
+          "postalCode": "72712",
+          "stateCode": "AR",
+          "addressType": "PHYSICAL_ADDRESS",
+          "poBox": false
+        },
+        {
+          "id": "d81a2a69-00f2-3f06-94a2-3a9bdb84f4e7",
+          "lineOne": "306 SE MOBERLY LN",
+          "lineTwo": "BUILD3",
+          "contactOrder": "PRIMARY",
+          "city": "BENTONVILLE",
+          "country": "United States",
+          "county": "ARKANSAS",
+          "postalCode": "72712",
+          "state": "Arkansas",
+          "stateCode": "AR",
+          "addressType": "SHIPPING_ADDRESS",
+          "poBox": false,
+		  "contactFirstName": "TEST",
+          "contactLastName": "ATG",
+          "contactPhone": "1234567890"
+        }
+      ],
+      "emails": [
+        {
+          "emailAddress": "TEST4990918918@GMAIL.COM",
+          "type": "HOME_EMAIL",
+          "contactOrder": "PRIMARY"
+        },
+        {
+          "emailAddress": "TEST4990918918@GMAIL.COM",
+          "type": "WORK_EMAIL",
+          "contactOrder": "ALTERNATE"
+        }
+      ],
+      "phones": [
+        {
+          "areaCode": "479",
+          "phoneNumber": "4791231234",
+          "contactOrder": "PRIMARY",
+          "phoneType": "BUSINESS_PHONE"
+        },
+        {
+          "areaCode": "479",
+          "phoneNumber": "4791231234",
+          "contactOrder": "ALTERNATE",
+          "phoneType": "BUSINESS_FAX"
+        }
+      ]
+    },
+    "identifiers": [
+      {
+        "identifierType": "BUSINESS_LICENSE",
+        "identifierNumber": "123456",
+        "issuedDate": "2018-08-30",
+        "expireDate": "2028-08-30",
+        "issuingStateProvinceCode": "AR",
+        "issuingCountryCode": "US"
+      }]
+    }
+}

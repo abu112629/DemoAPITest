@@ -1,0 +1,11 @@
+Content-Type:application/json
+WMT-SVC-UserId:DOTCOM
+WMT-SVC-ConsumerId:C[B@47e047e2
+WMT-SVC-SubscriberId:S[B@3bc53bc5
+WMT-SVC-SrcSysId:1
+WMT-SrcSubSysId:1
+WMT-SVC-CountryCode:US
+WMT-SVC-StoreNumber:4969
+WMT-SVC-PrefLanguage:101
+WMT-SVC-Version:1.0
+Authorization:Basic U1ZDU2Ftc0luc3RhbnRTYXZpbmc6cXRheVduLXdXNyslKk5BYnMxVzE=

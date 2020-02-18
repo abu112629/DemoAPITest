@@ -1,0 +1,112 @@
+{
+	"membership": {
+		"membershipTier": "CLUB",
+		"memberRole": "PRIMARY",
+		"memberStatus": "ACTIVE",
+		"assignedClub": "3707",
+		"preferredClub": null,
+		"isAutoRenew": false,
+		"paidStatus": "PAID",
+		"isTaxExempt": false,
+		"allowTaxExemptPurchase": null,
+		"isSoldInField": false,
+		"parentMembershipReference": "f4d734bf-9f49-4d94-9bbd-893db6b65976",
+		"promotion": null
+	},
+	"person": {
+		"personId": null,
+		"memberName": {
+			"completeName": null,
+			"firstName": "FN",
+			"middleName": "M",
+			"lastName": "LN",
+			"namePrefix": null,
+			"nameSuffix": null,
+			"titleOfRespect": null
+		},
+		"verifiedAge": 18,
+		"ageVerifiedDate": null,
+		"preferredLanguage": "American English",
+		"isCashOnly": false,
+		"hasBadCheck": false,
+		"isConfidential": false,
+		"isAdditionalInfoRequired": false,
+		"contact": {
+			"addresses": [
+				{
+					"addressType": "MAILING_ADDRESS",
+					"lineOne": "123 Main st",
+					"lineTwo": "apt 1",
+					"contactOrder": "PRIMARY",
+					"city": "Bentonville",
+					"country": "United States",
+					"county": "Benton",
+					"postalCode": "72756",
+					"extendedPostalCode": null,
+					"state": null,
+					"stateCode": "AR",
+					"poBox": false,
+					"isOkayToContact": true,
+					"jurisdictionId": null,
+					"geoPoint": null
+				},
+				{
+					"addressType": "PHYSICAL_ADDRESS",
+					"lineOne": "123 Main Rd",
+					"lineTwo": "apt 2",
+					"contactOrder": "PRIMARY",
+					"city": "Bentonville",
+					"country": "United States",
+					"county": "Benton",
+					"postalCode": "72125",
+					"extendedPostalCode": null,
+					"state": null,
+					"stateCode": "AR",
+					"isOkayToContact": false,
+					"jurisdictionId": null,
+					"geoPoint": null
+				},
+				{
+					"addressType": "SHIPPING_ADDRESS",
+					"lineOne": "123 Washington st",
+					"lineTwo": "apt 1",
+					"contactOrder": "PRIMARY",
+					"city": "Bentonville",
+					"country": "United States",
+					"county": "Benton",
+					"postalCode": "52516",
+					"extendedPostalCode": null,
+					"state": null,
+					"stateCode": "AR",
+					"isOkayToContact": false,
+					"jurisdictionId": null,
+					"geoPoint": null,
+					"contactFirstName": "TEST",
+					"contactLastName": "ATG",
+                    "contactPhone": "1234567890"
+				}
+			],
+			"emails": [
+				{
+					"emailAddress": "abc@xyz.com",
+					"type": "HOME_EMAIL",
+					"contactOrder": "Primary",
+					"isOkayToContact": true,
+					"isVerified": false
+				}
+			],
+			"phones": [
+				{
+					"phoneType": "MOBILE",
+					"phoneNumber": "2512512511",
+					"contactOrder": "Primary",
+					"isOkayToContact": true
+				}
+			]
+		},
+		"isResident": false,
+		"biometricIdentifier": null,
+		"personStatus": "ACTIVE",
+		"identifiers": null
+	}
+}
