@@ -48,7 +48,7 @@ public class BaseStep {
 	public BaseStep() throws IOException {
 
 		prop = new Properties();
-		FileInputStream fis = new FileInputStream(UrlConstants.PROPERTIES_FILE);
+		FileInputStream fis = new FileInputStream(UrlConstants.PROPERTIES_FILE_TEST);
 		prop.load(fis);
 
 	}

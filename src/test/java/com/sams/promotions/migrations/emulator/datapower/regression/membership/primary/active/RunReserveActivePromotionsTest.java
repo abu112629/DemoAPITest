@@ -15,6 +15,7 @@ import cucumber.api.junit.Cucumber;
 							
 							features= {"src/test/resources/promotions/emulator/RegressionPromotionsMigrationActivePrimaryMember/"},
 							glue= {"com/sams/promotions/migrations/emulator/datapower/regression/membership/primary/active/"},
+							tags= {"@Primaryactiveregression"},
 							
 							
 							

@@ -3,7 +3,6 @@ package com.sams.promotions.emulation.test.helper;
 import static com.sams.promotions.emulation.test.steps.util.UnitTestUtil.loadResourceAsString;
 import static org.mockito.ArgumentMatchers.anyInt;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.xml.bind.Unmarshaller;
 
@@ -32,9 +30,13 @@ import com.sams.promotions.emulation.checkoutcustomerbasket.request.CheckoutCust
 import com.sams.promotions.emulation.checkoutcustomerbasket.request.OrderLine;
 import com.sams.promotions.emulation.promoCreation.Action;
 import com.sams.promotions.emulation.promoCreation.PromoCreationRequest;
+import com.sams.promotions.emulation.test.base.BaseStep;
 import com.sams.promotions.emulation.test.common.constants.UrlConstants;
 import com.sams.promotions.emulation.test.steps.util.HeaderMapper;
 import com.sams.promotions.emulation.test.steps.util.MemberShipNbrValidate;
+import com.sams.promotions.emulation.triggerOffers.ItemDetails;
+import com.sams.promotions.emulation.triggerOffers.TriggerOffer;
+import com.sams.promotions.emulation.triggerOffers.TriggerOffer_;
 import com.sams.promotions.platform.common.dateutil.DateUtil;
 import com.sams.promotions.platform.emulation.core.ChannelAware;
 import com.sams.promotions.platform.emulation.core.Lookup;
@@ -60,27 +62,30 @@ import io.restassured.response.Response;
 @Slf4j
 @Component
 
-public class ReserveEmulationHelper {
+public class ReserveEmulationHelper extends BaseStep {
 
 	/*
 	 * Author : Abu Description : Helper Method Date : 11/11/2019
 	 * 
 	 */
 
+	public ReserveEmulationHelper() throws IOException {
+		super();
+	}
+
 	private static String inputreserve;
 	private static DateUtil dUtil;
 	private static String testjson;
-	
-	protected long PromoNumber, Itemnumber, Mpq,PackageCode;
+
+	protected long PromoNumber, Itemnumber, Mpq, PackageCode,maxRedemptionCount;
 	protected ArrayList<String> arrList = new ArrayList<String>();
 	protected float Discount;
 	protected String[] expected;
-	protected String StartDate, EndDate, arr[],postdata,postdata2;
-	protected int ItemId,Quantity,ItemId2,Quantity2;
-	
-	protected String conditionString, eligibilitycondition,name,value,limit,promotionItem;
-	
-	public static Properties prop;
+	protected String StartDate, EndDate, arr[], postdata, postdata2,offerTypeDescription;
+	protected int ItemId, Quantity, ItemId2, Quantity2;
+
+	protected String conditionString, eligibilitycondition, name, value, limit, promotionItem,maxredcnt;
+
 	@SuppressWarnings("unused")
 	private Map<String, String> Items;
 
@@ -108,7 +113,6 @@ public class ReserveEmulationHelper {
 	HeaderMapper headerMapper;
 	private Helper helpermethod;
 	private String res;
-
 
 	@SuppressWarnings("deprecation")
 	public String XMLtoJSON(String path) throws Exception {
@@ -154,10 +158,8 @@ public class ReserveEmulationHelper {
 
 	}
 
-
 	public String convertJSONtoXML(String qs_response) throws Exception {
 
-		
 		MockitoAnnotations.initMocks(this);
 
 		transform.afterPropertiesSet();
@@ -172,12 +174,10 @@ public class ReserveEmulationHelper {
 		return response;
 	}
 
-
-
 	public String RedeemRequestUpdater(String Reservepath, String Redeempath) throws Exception {
 
-		helpermethod=new Helper();
-		
+		helpermethod = new Helper();
+
 		String xml = helpermethod.GenerateStringFromResource(Reservepath);
 
 		xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketRequest.class);
@@ -224,31 +224,27 @@ public class ReserveEmulationHelper {
 		}
 
 		String req1 = soapUtil.wrapSoap(req);
-		
+
 		HashMap<String, String> customData = new HashMap<String, String>();
-		customData.put("<soapenv:Header/>", "<soapenv:Header>\r\n" + 
-				"		<wsse:Security soapenv:mustUnderstand=\"1\"\r\n" + 
-				"			xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\r\n" + 
-				"			<wsse:UsernameToken>\r\n" + 
-				"				<wsse:Username>MESPROD</wsse:Username>\r\n" + 
-				"				<wsse:Password>RErahin6K</wsse:Password>\r\n" + 
-				"			</wsse:UsernameToken>\r\n" + 
-				"		</wsse:Security>\r\n" + 
-				"	</soapenv:Header>");
+		customData.put("<soapenv:Header/>", "<soapenv:Header>\r\n"
+				+ "		<wsse:Security soapenv:mustUnderstand=\"1\"\r\n"
+				+ "			xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\r\n"
+				+ "			<wsse:UsernameToken>\r\n" + "				<wsse:Username>MESPROD</wsse:Username>\r\n"
+				+ "				<wsse:Password>RErahin6K</wsse:Password>\r\n" + "			</wsse:UsernameToken>\r\n"
+				+ "		</wsse:Security>\r\n" + "	</soapenv:Header>");
 		String req2 = helpermethod.updateRequest(customData, req1);
 		System.out.println(Helper.getPrettyString(req2));
 		return req1;
 
 	}
 
-
 	public String XMLRequestUpdater(int number, int ItemId, int RetailPrice, String BusinessUnit, String lineNumber,
-			int code,String channelName,String Custid,String createTimestamp,
+			int code, String channelName, String Custid, String createTimestamp,
 
 			String path) throws Exception {
 
-		helpermethod=new Helper();
-		
+		helpermethod = new Helper();
+
 		BigInteger b1 = BigInteger.valueOf(number);
 		String b2 = String.valueOf(ItemId);
 		BigInteger b3 = BigInteger.valueOf(RetailPrice);
@@ -296,9 +292,9 @@ public class ReserveEmulationHelper {
 
 	public String XMLRequestUpdaternew(int number, int ItemId, int RetailPrice, String BusinessUnit, String lineNumber,
 			String xml) throws Exception {
-		
-		helpermethod=new Helper();
-		
+
+		helpermethod = new Helper();
+
 		BigInteger b1 = BigInteger.valueOf(number);
 		String b2 = String.valueOf(ItemId);
 		BigInteger b3 = BigInteger.valueOf(RetailPrice);
@@ -337,35 +333,35 @@ public class ReserveEmulationHelper {
 		return req2;
 
 	}
-	
+
 	public String PromoCreationRequestPayload(DataTable dataTable) throws Exception {
-		
-		helpermethod=new Helper();
-		
-		int x=Helper.generateRandomDigits(6);
+
+		helpermethod = new Helper();
+
+		int x = Helper.generateRandomDigits(6);
 		List<Map<String, String>> elements = dataTable.asMaps(String.class, String.class);
-		
+
 		for (Map<String, String> promo : elements) {
 			conditionString = promo.get("Condition String");
 			eligibilitycondition = promo.get("eligibility Condition");
 			name = promo.get("PromoName");
 			value = promo.get("AwardValue");
-			limit=promo.get("Discount limit");
-			promotionItem=promo.get("Promotion ItemNumber");
+			limit = promo.get("Discount limit");
+			promotionItem = promo.get("Promotion ItemNumber");
 
 		}
-		
-		String promoJson=helpermethod.GenerateStringFromResource(UrlConstants.JSON_PROMOTION_FILE);
-		ObjectMapper objectmapper =new ObjectMapper();
-		
-		PromoCreationRequest promo=objectmapper.readValue(promoJson, PromoCreationRequest.class);
+
+		String promoJson = helpermethod.GenerateStringFromResource(UrlConstants.JSON_PROMOTION_FILE);
+		ObjectMapper objectmapper = new ObjectMapper();
+
+		PromoCreationRequest promo = objectmapper.readValue(promoJson, PromoCreationRequest.class);
 		promo.getPayload().setConditionString(conditionString);
 		promo.getPayload().setEligiblityConditionString(eligibilitycondition);
-		promo.getPayload().setName(name+"_"+x);
-		promo.getPayload().setDescription(name+"_"+x);
+		promo.getPayload().setName(name + "_" + x);
+		promo.getPayload().setDescription(name + "_" + x);
 		promo.getPayload().setPromotionNumber(x);
-		List<Action> list= promo.getPayload().getActions();
-		
+		List<Action> list = promo.getPayload().getActions();
+
 		for (Action line : list) {
 
 			line.getAward().setValue(Integer.valueOf(value));
@@ -373,19 +369,18 @@ public class ReserveEmulationHelper {
 			line.getAward().setPromotionItemNumber(promotionItem);
 
 		}
-		
+
 		return objectmapper.writeValueAsString(promo);
 	}
-	
-	
-	public String PromoMetaData(String Uri,int index) throws JsonParseException, JsonMappingException, IOException {
-		
+
+	public String PromoMetaData(String Uri, int index) throws JsonParseException, JsonMappingException, IOException {
+
 		headerMapper = new HeaderMapper();
-		helpermethod=new Helper();
-		
+		helpermethod = new Helper();
+
 		Map<String, Object> header = headerMapper.mapHeaders(UrlConstants.METADATA_HEADER_PATH);
 
-		Response res = helpermethod.sendGetRequest(Uri,UrlConstants.METADATA_PROMOTION, header);
+		Response res = helpermethod.sendGetRequest(Uri, UrlConstants.METADATA_PROMOTION_BROADREACH, header);
 		String metadataJson = res.asString();
 
 		ObjectMapper objectmapper = new ObjectMapper();
@@ -398,56 +393,114 @@ public class ReserveEmulationHelper {
 			Discount = line.getCouponValue();
 			StartDate = line.getStartDate();
 			EndDate = line.getEndDate();
-			PackageCode=line.getPackageCode();
-
+			PackageCode = line.getPackageCode();
+			maxRedemptionCount=line.getMaxRedemptionCount();
+			offerTypeDescription=line.getOfferTypeDescription();
+			
+			maxredcnt=String.valueOf(maxRedemptionCount);
 			String ite = null;
 			String mpq = null;
 
 			if (line.getMerchandiseDetails().getItemDetails() != null) {
 				List<ItemDetail> item = line.getMerchandiseDetails().getItemDetails();
-				int i=0;
+				int i = 0;
 				for (ItemDetail linenew : item) {
-					
+
 					i++;
-					if(i>2) {
+					if (i > 2) {
 						break;
 					}
 					Itemnumber = linenew.getItemNumber();
 					Mpq = linenew.getMinimumPurchaseQuantity();
 					ite = String.valueOf(Itemnumber);
 					mpq = String.valueOf(Mpq);
-					arr = new String[] {
-							PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite + "||" + mpq +"||"+ PackageCode};
-					arrList.add(arr[0].toString());
-					
+					arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
+							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription};
+					arrList.add(arr[0].toString()); 
+
 				}
 			}
 
 			else {
-				arr = new String[] {
-						PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite + "||" + mpq +"||"+ PackageCode};
+				arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
+						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription};
 				arrList.add(arr[0].toString());
 
 			}
 
 		}
-		
-		
-		
-		return arrList.get(index)+"||"+arrList.size();
-		
-		
-		
+
+		return arrList.get(index) + "||" + arrList.size();
+
 	}
 	
-	public Map<String,String> getPostRequestDetails(int i,String membershipNumber,String channelName, String ClubId, String ClubId2, int code, int RetailPrice,
-			String lineNumber, String Applied_Dates, String OfferId,String pathsingle) throws Exception {
-		
-		prop = new Properties();
-		FileInputStream fis = new FileInputStream(UrlConstants.PROPERTIES_FILE);
-		prop.load(fis);
-		
-		String arrx =PromoMetaData(prop.get("datapower.production.cert").toString(), i);
+	public String TriggerPromoMetaData(String Uri, int index) throws JsonParseException, JsonMappingException, IOException {
+
+		headerMapper = new HeaderMapper();
+		helpermethod = new Helper();
+
+		Map<String, Object> header = headerMapper.mapHeaders(UrlConstants.METADATA_HEADER_PATH);
+
+		Response res = helpermethod.sendGetRequest(Uri, UrlConstants.METADATA_PROMOTION_TRIGGERS, header);
+		String metadataJson = res.asString();
+
+		ObjectMapper objectmapper = new ObjectMapper();
+		TriggerOffer metadata = objectmapper.readValue(metadataJson, TriggerOffer.class);
+		List<TriggerOffer_> list = metadata.getTriggerOffers();
+
+		for (TriggerOffer_ line : list) {
+
+			PromoNumber = line.getCouponNumber();
+			Discount = line.getCouponValue();
+			StartDate = line.getStartDate();
+			EndDate = line.getEndDate();
+			PackageCode = line.getPackageCode();
+			maxRedemptionCount=line.getMaxRedemptionCount();
+			offerTypeDescription=line.getOfferTypeDescription();
+			
+			maxredcnt=String.valueOf(maxRedemptionCount);
+			String ite = null;
+			String mpq = null;
+
+			if (line.getMerchandiseDetails().getItemDetails() != null) {
+				List<ItemDetails> item = line.getMerchandiseDetails().getItemDetails();
+				int i = 0;
+				for (ItemDetails linenew : item) {
+
+					i++;
+					if (i > 2) {
+						break;
+					}
+					Itemnumber = linenew.getItemNumber();
+					Mpq = linenew.getMinimumPurchaseQuantity();
+					ite = String.valueOf(Itemnumber);
+					mpq = String.valueOf(Mpq);
+					arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
+							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription};
+					arrList.add(arr[0].toString()); 
+
+				}
+			}
+
+			else {
+				arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
+						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription};
+				arrList.add(arr[0].toString());
+
+			}
+
+		}
+
+		return arrList.get(index) + "||" + arrList.size();
+
+	}
+
+	public Map<String, String> getPostRequestDetails(int i, String membershipNumber, String channelName, String ClubId,
+			String ClubId2, int code, int RetailPrice, String lineNumber, String Applied_Dates, String OfferId,
+			String pathsingle) throws Exception {
+
+
+		String arrx = PromoMetaData(prop.get("datapower.production.cert").toString(), i);
 
 		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
 
@@ -465,29 +518,31 @@ public class ReserveEmulationHelper {
 
 		String packagecode = promodetails.get("PackageCode");
 
-		Double Discount = Double.valueOf(promodetails.get("Discount"));
-		int disc = (int) Math.round(Discount) * 100;
+		Double Discount = Double.valueOf(promodetails.get("Discount"))*100;
+		int disc = (int) Math.abs(Discount);
 		OfferId = promodetails.get("PromoId");
-		
-		Quantity = Integer.valueOf(promodetails.get("MinimumPurchaseQuantity"));
-		
-		switch (Applied_Dates) {
-		case "FIRST_DATE":
-			postdata = XMLRequestUpdater(Quantity, ItemId, RetailPrice, ClubId, lineNumber, code,
-					channelName, membershipNumber, map.get("firstdate"), pathsingle);
-			postdata2 = XMLRequestUpdater(Quantity, ItemId, RetailPrice, ClubId2, lineNumber, code,
-					channelName, membershipNumber, map.get("firstdate"), pathsingle);
 
+		Quantity = Integer.valueOf(promodetails.get("MinimumPurchaseQuantity"));
+
+		switch (Applied_Dates) {
+		
+		case "FIRST_DATE":
+			postdata = XMLRequestUpdater(Quantity, ItemId, RetailPrice, ClubId, lineNumber, code, channelName,
+					membershipNumber, map.get("firstdate"), pathsingle);
+			postdata2 = XMLRequestUpdater(Quantity, ItemId, RetailPrice, ClubId2, lineNumber, code, channelName,
+					membershipNumber, map.get("firstdate"), pathsingle);
+			
 			expected = new String[] { OfferId, String.valueOf(disc) };
+			
 
 			break;
 		case "MIDDLE_DATE":
-			
-			postdata = XMLRequestUpdater(Quantity * 2, ItemId, RetailPrice, ClubId, lineNumber,
-					code, channelName, membershipNumber, map.get("midDate"), pathsingle);
-			
-			postdata2 = XMLRequestUpdater(Quantity, ItemId, RetailPrice, ClubId2, lineNumber, code,
-					channelName, membershipNumber, map.get("midDate"), pathsingle);
+
+			postdata = XMLRequestUpdater(Quantity * 2, ItemId, RetailPrice, ClubId, lineNumber, code, channelName,
+					membershipNumber, map.get("midDate"), pathsingle);
+
+			postdata2 = XMLRequestUpdater(Quantity * 2, ItemId, RetailPrice, ClubId2, lineNumber, code, channelName,
+					membershipNumber, map.get("midDate"), pathsingle);
 
 			int SecondDiscountfirstline = disc * 2;
 			String discount2 = String.valueOf(SecondDiscountfirstline);
@@ -496,12 +551,11 @@ public class ReserveEmulationHelper {
 
 			break;
 		case "LAST_DATE":
-			postdata = XMLRequestUpdater(Quantity * 3, ItemId, RetailPrice, ClubId, lineNumber,
-					code, channelName, membershipNumber, map.get("lastdate"), pathsingle);
-			
-			postdata2 = XMLRequestUpdater(Quantity, ItemId, RetailPrice, ClubId2, lineNumber, code,
-					channelName, membershipNumber, map.get("lastdate"), pathsingle);
+			postdata = XMLRequestUpdater(Quantity * 3, ItemId, RetailPrice, ClubId, lineNumber, code, channelName,
+					membershipNumber, map.get("lastdate"), pathsingle);
 
+			postdata2 = XMLRequestUpdater(Quantity * 3, ItemId, RetailPrice, ClubId2, lineNumber, code, channelName,
+					membershipNumber, map.get("lastdate"), pathsingle);
 
 			int ThirdDiscountfirstline = disc * 3;
 			String discount3 = String.valueOf(ThirdDiscountfirstline);
@@ -511,25 +565,20 @@ public class ReserveEmulationHelper {
 			break;
 
 		}
-		
-		
-		Map<String,String> postrequestDetails = new HashMap<String,String>();
-		
-		
+
+		Map<String, String> postrequestDetails = new HashMap<String, String>();
+
 		postrequestDetails.put("DataPowerRequest", postdata);
 		postrequestDetails.put("EmulatorRequest", postdata2);
-		postrequestDetails.put("PackageCode",packagecode);
+		postrequestDetails.put("PackageCode", packagecode);
 		postrequestDetails.put("OfferId", OfferId);
 		postrequestDetails.put("expected", Arrays.toString(expected));
-		
-		
-		  
-		 
+
 		return postrequestDetails;
-		
+
 	}
 	
 	
 	
-	
+
 }

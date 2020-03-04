@@ -1,13 +1,17 @@
 package com.sams.promotions.emulation.createPromotions;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sams.promotions.emulation.test.base.BaseStep;
+import com.sams.promotions.emulation.test.common.constants.MembershipConstants;
 import com.sams.promotions.emulation.test.helper.Helper;
 import com.sams.promotions.emulation.test.helper.ReserveEmulationHelper;
 import com.sams.promotions.emulation.test.membershipCreate.Membership;
@@ -18,6 +22,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.restassured.response.Response;
 
 @SpringBootTest
 
@@ -31,7 +36,7 @@ public class CreatePromotions extends BaseStep {
 	protected ArrayList<String> arrList = new ArrayList<String>();
 	protected float Discount;
 	protected String StartDate, EndDate, arr[];
-	protected int pro1,pro2;
+	protected int pro1, pro2;
 
 	public CreatePromotions() throws IOException {
 		super();
@@ -48,46 +53,48 @@ public class CreatePromotions extends BaseStep {
 	}
 
 	@Given("^Utilize URL and post data$")
-	public void POST_Operation(DataTable datatable) throws Exception {		
-	     
-	     System.out.println("clear");
+	public void POST_Operation(DataTable datatable) throws Exception {
 		
+
+		Response membershipResponse = membership.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_REQUEST_PATH);
+		membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
 		
-		/*
-		 * String
-		 * arr=reserveemulator.PromoMetaData(prop.get("datapower.production.cert").
-		 * toString(), 1);
-		 * 
-		 * Map<String, String> map = Helper.getPromotionDetails(arr);
-		 * 
-		 * int size=Integer.valueOf(map.get("SizeOfMetaData"));
-		 * 
-		 * Response membershipResponse =
-		 * membership.createPRIMARYMembership(MembershipConstants.
-		 * MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH); membershipNbr =
-		 * helper.getResponseValue(membershipResponse,
-		 * MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
-		 * 
-		 * 
-		 * 
-		 * System.out.println(membershipNbr);
-		 * 
-		 * for(int i=0;i<size;i++) {
-		 * 
-		 * String
-		 * arrx=reserveemulator.PromoMetaData(prop.get("datapower.production.cert").
-		 * toString(),i); Map<String, String> mapnew = Helper.getPromotionDetails(arrx);
-		 * 
-		 * 
-		 * System.out.println(arrx); //System.out.println(mapnew.get("PromoId"));
-		 * 
-		 * } //
-		 * 
-		 * System.out.println(map.get("SizeOfMetaData"));
-		 */
+		System.out.println(membershipNbr);
 		
-		
-		//System.out.println(arr);
+		BufferedWriter writer = new BufferedWriter(new FileWriter("src/test/resources/Emulation_Input/Promotions.txt"));
+
+		String arr = reserveemulator.TriggerPromoMetaData(prop.get("datapower.production.cert").toString(), 1);
+
+		String arrxyz = reserveemulator.PromoMetaData(prop.get("datapower.production.cert").toString(), 5);
+
+		Map<String, String> map = Helper.getPromotionDetails(arr);
+		Map<String, String> mapx = Helper.getPromotionDetails(arrxyz);
+
+		int size = Integer.valueOf(map.get("SizeOfMetaData"));
+
+		System.out.println(map.get("SizeOfMetaData"));
+
+		int MaxRedemptionCount = Integer.valueOf(map.get("MaxRedemptionCount"));
+		System.out.println(MaxRedemptionCount);
+
+		int MaxRedemptionCountX = Integer.valueOf(mapx.get("MaxRedemptionCount"));
+		System.out.println(MaxRedemptionCountX);
+
+		for (int i = 0; i < size; i++) {
+
+			String arrx = reserveemulator.TriggerPromoMetaData(prop.get("datapower.production.cert").toString(), i);
+			// Map<String, String> mapnew = Helper.getPromotionDetails(arrx);
+
+			writer.write(arrx);
+			writer.newLine();
+
+			System.out.println(arrx); // System.out.println(mapnew.get("PromoId"));
+
+		} //
+
+		writer.close();
+
+		// System.out.println(arr);
 
 		/*
 		 * String promoPayload = reserveemulator.PromoCreationRequestPayload(datatable);
@@ -150,9 +157,7 @@ public class CreatePromotions extends BaseStep {
 		 * 
 		 * System.out.println(arrList.get(i)); }
 		 */
-		
-		
-		
+
 	}
 
 	@When("^POST the provided request$")

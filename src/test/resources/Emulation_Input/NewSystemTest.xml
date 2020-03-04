@@ -23,7 +23,7 @@
          <ns2:messageBody>
             <ns2:customerBasket>
                <ns2:basketID>4226</ns2:basketID>
-               <ns2:createTimestamp>2020-01-20T00:00:00</ns2:createTimestamp>
+               <ns2:createTimestamp>2020-01-31T00:00:00</ns2:createTimestamp>
                <ns2:customer>
                   <ns2:id>10142100980848121</ns2:id>
                </ns2:customer>
@@ -34,10 +34,10 @@
                         <ns2:amount>2</ns2:amount>
                      </ns2:quantity>
                      <ns2:productOffering>
-                        <ns2:id>4335</ns2:id>
+                        <ns2:id>565523</ns2:id>
                         <ns2:price>
                            <ns2:amount>
-                              <ns2:value>1000</ns2:value>
+                              <ns2:value>5000</ns2:value>
                            </ns2:amount>
                         </ns2:price>
                      </ns2:productOffering>

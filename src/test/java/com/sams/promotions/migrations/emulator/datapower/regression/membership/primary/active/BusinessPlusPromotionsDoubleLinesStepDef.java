@@ -72,7 +72,7 @@ public class BusinessPlusPromotionsDoubleLinesStepDef extends BaseStep {
 		int size = Integer.valueOf(getsize.get("SizeOfMetaData"));
 
 		i = 0;
-		size = 2;
+		size = 1;
 
 		while (i < size) {
 			
@@ -128,7 +128,7 @@ public class BusinessPlusPromotionsDoubleLinesStepDef extends BaseStep {
 	@When("^DataPower Endpoint POST request for Business Plus Primary Member$")
 	public void POST_the_request_for_Double_linesBusinessPlus() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when(); // header("Content-Type",
 																								// // "text/xml").

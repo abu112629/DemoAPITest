@@ -1,5 +1,6 @@
 Feature: Verify ACTIVE PRIMARY BUSINESS Plus Member Double Lines for all Promotions in the MetaData
 
+@Primaryactiveregression
   Scenario Outline: QuickSilver Promos for Regular Mix and Match Double Order Lines for Promo Items with ACTIVE PRIMARY Business Plus Member
     Given DataPower with <Channel>,<ClubId>,<ClubId2> and <ChannelCode> with <RetailPrice> and Single OrderLine <OrderLines> and Double Order Line <SecondOrderLine> in <Applied_Dates> to be Utilised to Get Offer for Business Plus Primary Member
     Given DataPower with Second Item and <ClubId>,<ClubId2> with <RetailPrice> and Second OrderLine <SecondOrderLine> in <Applied_Dates> to be Utilised to Get Offer for Business Plus Primary Member

@@ -1,5 +1,6 @@
 Feature: Verify ACTIVE PRIMARY BUSINESS Base Member for all Promotions in the MetaData
 
+@Primaryactiveregression
   Scenario Outline: QuickSilver Promos for Regular Mix and Match Single Order Lines for Promo Items in MetaData with ACTIVE BUSINESS PRIMARY Base Member
     Given Minimum required for DataPower with <Channel>,<ClubId>,<ClubId2> and <ChannelCode> with <RetailPrice> and Single OrderLine <OrderLines> in <Applied_Dates> to be Utilised to Get Offer for Business Base Primary Member
     When Post request to DataPower Endpoint for Business Base Primary Member

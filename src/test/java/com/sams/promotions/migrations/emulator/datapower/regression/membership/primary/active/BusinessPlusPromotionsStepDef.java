@@ -70,7 +70,7 @@ public class BusinessPlusPromotionsStepDef extends BaseStep {
 		int size = Integer.valueOf(getsize.get("SizeOfMetaData"));
 
 		i = 0;
-		size = 2;
+		size = 1;
 
 		while (i < size) {
 			
@@ -103,7 +103,7 @@ public class BusinessPlusPromotionsStepDef extends BaseStep {
 	@When("^Post request to DataPower Endpoint for Business Primary Plus Member$")
 	public void POST_the_requestBusinessPlus() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when();

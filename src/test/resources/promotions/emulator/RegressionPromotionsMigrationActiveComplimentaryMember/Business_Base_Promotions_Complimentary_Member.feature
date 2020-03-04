@@ -1,5 +1,6 @@
 Feature: Verify ACTIVE COMPLIMENTARY BUSINESS Base Member for all Promotions in the MetaData
 
+@Primarycomplimentaryregression
   Scenario Outline: QuickSilver Promos for Regular Mix and Match Single Order Lines for Promo Items in MetaData with ACTIVE BUSINESS COMPLIMENTARY Base Member
     Given Minimum required for DataPower with <Channel>,<ClubId>,<ClubId2> and <ChannelCode> with <RetailPrice> and Single OrderLine <OrderLines> in <Applied_Dates> to be Utilised to Get Offer for Business Base Complimentary Member
     When Post request to DataPower Endpoint for Business Base Complimentary Member

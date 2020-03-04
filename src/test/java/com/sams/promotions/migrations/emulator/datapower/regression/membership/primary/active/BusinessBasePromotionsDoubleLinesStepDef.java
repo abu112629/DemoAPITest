@@ -71,7 +71,7 @@ public class BusinessBasePromotionsDoubleLinesStepDef extends BaseStep {
 		int size = Integer.valueOf(getsize.get("SizeOfMetaData"));
 
 		i = 0;
-		size = 2;
+		size = 10;
 
 		while (i < size) {
 			
@@ -113,7 +113,7 @@ public class BusinessBasePromotionsDoubleLinesStepDef extends BaseStep {
 	public void UpdatetheRequesttoDoubleLinesBusinessBase(String ClubId, String ClubId2, int RetailPrice,
 			String lineNumber, String Applied_Dates) throws Exception {
 
-
+		
 		postDoubleRequestDetails=primaryrequest.getBusinessBasePostRequestDetails(disc, disc2, packagecode, 
 				packagecode2, ClubId, ClubId2, RetailPrice, lineNumber, Applied_Dates, OfferId, OfferId2, postdata, postdata2);
 
@@ -126,7 +126,7 @@ public class BusinessBasePromotionsDoubleLinesStepDef extends BaseStep {
 	@When("^DataPower Endpoint POST request for Business Base Primary Member$")
 	public void POST_the_request_for_Double_linesBusinessBase() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when(); // header("Content-Type",
 																								// // "text/xml").
@@ -136,7 +136,7 @@ public class BusinessBasePromotionsDoubleLinesStepDef extends BaseStep {
 	@When("^Post the request to Emulator Endpoint for Business Base Primary Member$")
 	public void POST_the_emulator_request_for_Double_linesBusinessBase() {
 
-		RestAssured.baseURI = prop.getProperty("mercury.quicksilver");
+		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")
@@ -154,7 +154,7 @@ public class BusinessBasePromotionsDoubleLinesStepDef extends BaseStep {
 	@When("^Response for Emulator and get the required discount for Business Base Primary Member$")
 	public void Getemulatorparameter_and_postOperation_for_Double_linesBusinessBase() {
 
-		response2 = thisRequestSpecification2.post(UrlConstants.RESERVE_EMULATION).then();
+		response2 = thisRequestSpecification2.post(UrlConstants.SERVICES_CHECKOUT).then();
 
 	}
 

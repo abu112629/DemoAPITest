@@ -73,7 +73,7 @@ public class BusinessPlusComplimentaryPromotionsStepDef extends BaseStep {
 		int size = Integer.valueOf(getsize.get("SizeOfMetaData"));
 
 		i = 0;
-		size = 2;
+		size = 1;
 
 		while (i < size) {
 			postRequestDetails=reserveemulator.getPostRequestDetails(i, complimentarymembershipNbr, channelName, ClubId, ClubId2, code,
@@ -106,7 +106,7 @@ public class BusinessPlusComplimentaryPromotionsStepDef extends BaseStep {
 	@When("^Post request to DataPower Endpoint for Business Complimentary Plus Member$")
 	public void POST_the_requestBusinessComplimentaryPlus() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when();

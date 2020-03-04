@@ -16,7 +16,7 @@ import cucumber.api.junit.Cucumber;
 							features= {"src/test/resources/promotions/emulator/RegressionPromotionsMigrationActiveComplimentaryMember/"},
 							glue= {"com/sams/promotions/migrations/emulator/datapower/regression/membership/complimentary/active/"},
 							
-							
+							tags= {"@Primarycomplimentaryregression"},
 							
 							plugin= {"pretty",
 									"html:target/cucumber-htmlreport",

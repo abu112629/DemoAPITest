@@ -72,11 +72,11 @@ public class AddOnPrimaryRequestHelper {
 
 		Map<String, String> map = helpermethod.getDatesDoubleLinesMetadata(arrx, arry);
 
-		Double Discount = Double.valueOf(promodetails.get("Discount"));
-		int disc = (int) Math.round(Discount) * 100;
+		Double Discount = Double.valueOf(promodetails.get("Discount"))*100;
+		int disc = (int) Math.abs(Discount);
 
-		Double Discount2 = Double.valueOf(promodetails2.get("Discount"));
-		int disc2 = (int) Math.round(Discount2) * 100;
+		Double Discount2 = Double.valueOf(promodetails2.get("Discount"))*100;
+		int disc2 = (int) Math.abs(Discount2);
 
 		Quantity = Integer.valueOf(promodetails.get("MinimumPurchaseQuantity"));
 
@@ -299,13 +299,13 @@ public class AddOnPrimaryRequestHelper {
 
 			else {
 
-				if (packagecode.contentEquals("96") || packagecode.contentEquals("97")
+				if (packagecode.contentEquals("97")
 						|| packagecode.contentEquals("91") || packagecode.contentEquals("99")
 						|| packagecode.contentEquals("90") || packagecode.contentEquals("98")||packagecode.contentEquals("95")||packagecode.contentEquals("93")) {
 					expected = new String[] { OfferId2, String.valueOf(disc2) };
 				}
 
-				else if (packagecode2.contentEquals("96") || packagecode2.contentEquals("97")
+				else if (packagecode2.contentEquals("97")
 						|| packagecode2.contentEquals("91") || packagecode2.contentEquals("99")
 						|| packagecode2.contentEquals("90") || packagecode2.contentEquals("98")||packagecode2.contentEquals("95")||packagecode2.contentEquals("93")) {
 
@@ -335,13 +335,13 @@ public class AddOnPrimaryRequestHelper {
 				expected = new String[] { OfferId, String.valueOf(abs_disc2) };
 			} else {
 
-				if (packagecode.contentEquals("96") || packagecode.contentEquals("97")
+				if (packagecode.contentEquals("97")
 						|| packagecode.contentEquals("91") || packagecode.contentEquals("99")
 						|| packagecode.contentEquals("90") || packagecode.contentEquals("98")||packagecode.contentEquals("95")||packagecode.contentEquals("93")) {
 					expected = new String[] { OfferId2, String.valueOf(SecondDiscountsecondline) };
 				}
 
-				else if (packagecode2.contentEquals("96") || packagecode2.contentEquals("97")
+				else if (packagecode2.contentEquals("97")
 						|| packagecode2.contentEquals("91") || packagecode2.contentEquals("99")
 						|| packagecode2.contentEquals("90") || packagecode2.contentEquals("98")||packagecode2.contentEquals("95")||packagecode2.contentEquals("93")) {
 
@@ -373,13 +373,13 @@ public class AddOnPrimaryRequestHelper {
 
 			} else {
 
-				if (packagecode.contentEquals("96") || packagecode.contentEquals("97")
+				if (packagecode.contentEquals("97")
 						|| packagecode.contentEquals("91") || packagecode.contentEquals("99")
 						|| packagecode.contentEquals("90") || packagecode.contentEquals("98")||packagecode.contentEquals("95")||packagecode.contentEquals("93")) {
 					expected = new String[] { OfferId2, String.valueOf(ThirdDiscountsecondline) };
 				}
 
-				else if (packagecode2.contentEquals("96") || packagecode2.contentEquals("97")
+				else if (packagecode2.contentEquals("97")
 						|| packagecode2.contentEquals("91") || packagecode2.contentEquals("99")
 						|| packagecode2.contentEquals("90") || packagecode2.contentEquals("98")||packagecode2.contentEquals("95")||packagecode2.contentEquals("93")) {
 
@@ -579,13 +579,13 @@ public class AddOnPrimaryRequestHelper {
 
 			else {
 
-				if (packagecode.contentEquals("96") || packagecode.contentEquals("97")
+				if (packagecode.contentEquals("97")
 						|| packagecode.contentEquals("99") || packagecode.contentEquals("98")
 						|| packagecode.contentEquals("94") || packagecode.contentEquals("95")||packagecode.contentEquals("92")||packagecode.contentEquals("93")) {
 					expected = new String[] { OfferId2, String.valueOf(disc2) };
 				}
 
-				else if (packagecode2.contentEquals("96") || packagecode2.contentEquals("97")
+				else if (packagecode2.contentEquals("97")
 						|| packagecode2.contentEquals("99") || packagecode2.contentEquals("98")
 						|| packagecode2.contentEquals("94") || packagecode2.contentEquals("95")||packagecode2.contentEquals("92")||packagecode2.contentEquals("93")) {
 
@@ -614,13 +614,13 @@ public class AddOnPrimaryRequestHelper {
 				expected = new String[] { OfferId, String.valueOf(abs_disc2) };
 			} else {
 
-				if (packagecode.contentEquals("96") || packagecode.contentEquals("97")
+				if (packagecode.contentEquals("97")
 						|| packagecode.contentEquals("99") || packagecode.contentEquals("98")
 						|| packagecode.contentEquals("94") || packagecode.contentEquals("95")||packagecode.contentEquals("92")||packagecode.contentEquals("93")) {
 					expected = new String[] { OfferId2, String.valueOf(SecondDiscountsecondline) };
 				}
 
-				else if (packagecode2.contentEquals("96") || packagecode2.contentEquals("97")
+				else if (packagecode2.contentEquals("97")
 						|| packagecode2.contentEquals("99") || packagecode2.contentEquals("98")
 						|| packagecode2.contentEquals("94") || packagecode2.contentEquals("95")||packagecode2.contentEquals("92")||packagecode2.contentEquals("93")) {
 
@@ -652,14 +652,14 @@ public class AddOnPrimaryRequestHelper {
 
 			} else {
 
-				if (packagecode.contentEquals("96") || packagecode.contentEquals("97")
+				if (packagecode.contentEquals("97")
 						|| packagecode.contentEquals("99") || packagecode.contentEquals("98")
 						|| packagecode.contentEquals("94") || packagecode.contentEquals("95")||packagecode.contentEquals("92")||packagecode.contentEquals("93")) {
 					
 					expected = new String[] { OfferId2, String.valueOf(ThirdDiscountsecondline) };
 				}
 
-				else if (packagecode2.contentEquals("96") || packagecode2.contentEquals("97")
+				else if (packagecode2.contentEquals("97")
 						|| packagecode2.contentEquals("99") || packagecode2.contentEquals("98")
 						|| packagecode2.contentEquals("94") || packagecode2.contentEquals("95")||packagecode2.contentEquals("92")||packagecode2.contentEquals("93")) {
 

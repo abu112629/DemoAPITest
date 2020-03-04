@@ -1,9 +1,13 @@
 package com.sams.promotions.emulation.test.helper;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 
 import org.assertj.core.api.SoftAssertions;
 import org.springframework.stereotype.Component;
+
+import com.sams.promotions.emulation.test.base.BaseStep;
 
 import groovy.util.logging.Slf4j;
 import io.restassured.response.Response;
@@ -12,23 +16,32 @@ import io.restassured.response.ValidatableResponse;
 @Slf4j
 @Component
 
-public class AssertHelper {
+public class AssertHelper extends BaseStep{
+
+	public AssertHelper() throws IOException {
+		super();
+	}
 
 	/*
 	 * Author : Abu Description : Helper Method Date : 2/13/2019
 	 * 
 	 */
 	private SoftAssertions softAssertions = new SoftAssertions();
-	Helper helper = new Helper();
+	
+	
 
 	public SoftAssertions BusinessBaseValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String OfferId, String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 		if (packagecode.contentEquals("91") || packagecode.contentEquals("99") || packagecode.contentEquals("90")
 				|| packagecode.contentEquals("98") || packagecode.contentEquals("94")
@@ -39,12 +52,14 @@ public class AssertHelper {
 
 			String[] invalidexpected = new String[] { "NO VALID OFFER PRESENT" };
 			System.out.println("Expected :" + Arrays.toString(invalidexpected));
+			
+			
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-			softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 		}
 
 		else {
@@ -54,13 +69,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 		}
 		return softAssertions;
 
@@ -68,12 +82,16 @@ public class AssertHelper {
 	
 	public SoftAssertions BusinessBaseDoubleLinesValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String packagecode2, String OfferId, String OfferId2,String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 		if (packagecode.contentEquals("91") || packagecode.contentEquals("99") || packagecode.contentEquals("90")
 				|| packagecode.contentEquals("98") || packagecode.contentEquals("94")
@@ -89,11 +107,11 @@ public class AssertHelper {
 				String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 				System.out.println("Expected :" + Arrays.toString(invalidexpected));
 
-				softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-				softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
+				//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-				softAssertions.fail(
-						"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 			}
 
@@ -106,13 +124,12 @@ public class AssertHelper {
 				System.out.println("Expected : " + expected);
 				
 
-				softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-				softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-				softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"
-						+ OfferId2);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+ OfferId2);
 
 			}
 
@@ -126,13 +143,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -143,13 +159,18 @@ public class AssertHelper {
 	public SoftAssertions BusinessPlusValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String OfferId, String expected) throws Exception {
 
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
-		if (packagecode.contentEquals("96") || packagecode.contentEquals("97") || packagecode.contentEquals("91")
+		if (packagecode.contentEquals("97") || packagecode.contentEquals("91")
 				|| packagecode.contentEquals("99") || packagecode.contentEquals("90")
 				|| packagecode.contentEquals("98")) {
 
@@ -158,12 +179,12 @@ public class AssertHelper {
 
 			String[] invalidexpected = new String[] { "NO VALID OFFER PRESENT" };
 			System.out.println("Expected :" + Arrays.toString(invalidexpected));
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-			softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 		}
 
 		else {
@@ -173,13 +194,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -189,18 +209,23 @@ public class AssertHelper {
 	
 	public SoftAssertions BusinessPlusDoubleLinesValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String packagecode2, String OfferId, String OfferId2,String expected) throws Exception {
-
+		
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
-		if (packagecode.contentEquals("96") || packagecode.contentEquals("97") || packagecode.contentEquals("91")
+		if (packagecode.contentEquals("97") || packagecode.contentEquals("91")
 				|| packagecode.contentEquals("99") || packagecode.contentEquals("90")
 				|| packagecode.contentEquals("98")) {
 
-			if (packagecode2.contentEquals("96") || packagecode2.contentEquals("97") || packagecode2.contentEquals("91")
+			if (packagecode2.contentEquals("97") || packagecode2.contentEquals("91")
 					|| packagecode2.contentEquals("99") || packagecode2.contentEquals("90")
 					|| packagecode2.contentEquals("98")) {
 
@@ -209,13 +234,12 @@ public class AssertHelper {
 
 				String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 				System.out.println("Expected :" + Arrays.toString(invalidexpected));
+				
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
+				//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-
-				softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-				softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
-
-				softAssertions.fail(
-						"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 			}
 
@@ -227,13 +251,12 @@ public class AssertHelper {
 
 				System.out.println("Expected : " + expected);
 
-				softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-				softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-				softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"
-						+ OfferId2);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+ OfferId2);
 
 			}
 
@@ -247,13 +270,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" +OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" +OfferId);
 
 		}
 
@@ -264,11 +286,16 @@ public class AssertHelper {
 	public SoftAssertions SavingsBaseValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String OfferId, String expected) throws Exception {
 
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 		if (packagecode.contentEquals("91") || packagecode.contentEquals("99")
 				|| packagecode.contentEquals("94") || packagecode.contentEquals("95")
@@ -279,12 +306,12 @@ public class AssertHelper {
 
 			String[] invalidexpected = new String[] { "NO VALID OFFER PRESENT" };
 			System.out.println("Expected :" + Arrays.toString(invalidexpected));
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-			softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 		}
 
 		else {
@@ -294,13 +321,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -309,12 +335,16 @@ public class AssertHelper {
 	}
 	public SoftAssertions SavingsBaseDoubleLinesValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String packagecode2, String OfferId, String OfferId2,String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 
 		if (packagecode.contentEquals("91") || packagecode.contentEquals("99") || packagecode.contentEquals("94")
@@ -330,13 +360,12 @@ public class AssertHelper {
 
 				String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 				System.out.println("Expected :" + Arrays.toString(invalidexpected));
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
+				//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-				softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-				softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
-
-				softAssertions.fail(
-						"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 			}
 
@@ -348,13 +377,12 @@ public class AssertHelper {
 
 				System.out.println("Expected : " + expected);
 
-				softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-				softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-				softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"
-						+ OfferId2);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+ OfferId2);
 
 			}
 
@@ -368,13 +396,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -385,13 +412,17 @@ public class AssertHelper {
 	public SoftAssertions SavingsPlusValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String OfferId, String expected) throws Exception {
 
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
-		if (packagecode.contentEquals("96") || packagecode.contentEquals("97") || packagecode.contentEquals("94")
+		if (packagecode.contentEquals("97") || packagecode.contentEquals("94")
 				|| packagecode.contentEquals("95") || packagecode.contentEquals("92")
 				|| packagecode.contentEquals("93")) {
 
@@ -400,12 +431,12 @@ public class AssertHelper {
 
 			String[] invalidexpected = new String[] { "NO VALID OFFER PRESENT" };
 			System.out.println("Expected :" + Arrays.toString(invalidexpected));
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-			softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 		}
 
 		else {
@@ -415,13 +446,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -431,19 +461,23 @@ public class AssertHelper {
 	
 	public SoftAssertions SavingsPlusDoubleLinesValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String packagecode2, String OfferId, String OfferId2,String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 
-		if (packagecode.contentEquals("96") || packagecode.contentEquals("97") || packagecode.contentEquals("94")
+		if (packagecode.contentEquals("97") || packagecode.contentEquals("94")
 				|| packagecode.contentEquals("95") || packagecode.contentEquals("92")
 				|| packagecode.contentEquals("93")) {
 
-			if (packagecode2.contentEquals("96") || packagecode2.contentEquals("97") || packagecode2.contentEquals("94")
+			if (packagecode2.contentEquals("97") || packagecode2.contentEquals("94")
 					|| packagecode2.contentEquals("95") || packagecode2.contentEquals("92")
 					|| packagecode2.contentEquals("93")) {
 
@@ -453,12 +487,12 @@ public class AssertHelper {
 				String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 				System.out.println("Expected :" + Arrays.toString(invalidexpected));
 
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-				softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-				softAssertions.fail(
-						"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 			}
 
@@ -470,13 +504,12 @@ public class AssertHelper {
 
 				System.out.println("Expected : " + expected);
 
-				softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-				softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 				
-				softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"
-						+ OfferId2);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+ OfferId2);
 
 			}
 
@@ -490,13 +523,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -506,12 +538,16 @@ public class AssertHelper {
 	
 	public SoftAssertions BusinessBaseAddOnValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String OfferId, String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 		
 		if (packagecode.contentEquals("91") || packagecode.contentEquals("99")
 				|| packagecode.contentEquals("90") || packagecode.contentEquals("98")
@@ -522,11 +558,12 @@ public class AssertHelper {
 			
 			String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 			System.out.println("Expected :" + Arrays.toString(invalidexpected));
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 			
-			softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-			softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 			
-			softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+OfferId);
 		}
 
 		else {
@@ -536,12 +573,12 @@ public class AssertHelper {
 			
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+OfferId);
 		}
 		return softAssertions;
 
@@ -550,13 +587,16 @@ public class AssertHelper {
 	
 	public SoftAssertions BusinessBaseAddOnDoubleLinesValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String packagecode2, String OfferId, String OfferId2,String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
 
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 		if (packagecode.contentEquals("91") || packagecode.contentEquals("99")
 				|| packagecode.contentEquals("90") || packagecode.contentEquals("98")
@@ -571,12 +611,12 @@ public class AssertHelper {
 
 				String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 				System.out.println("Expected :" + Arrays.toString(invalidexpected));
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-				softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-				softAssertions.fail(
-						"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 			}
 
@@ -588,13 +628,12 @@ public class AssertHelper {
 
 				System.out.println("Expected : " + expected);
 
-				softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-				softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-				softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"
-						+ OfferId2);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+ OfferId2);
 
 			}
 
@@ -608,13 +647,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -625,15 +663,18 @@ public class AssertHelper {
 
 	public SoftAssertions BusinessPlusAddOnValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String OfferId, String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
-
-		if (packagecode.contentEquals("96") || packagecode.contentEquals("97")
+		if (packagecode.contentEquals("97")
 				|| packagecode.contentEquals("91") || packagecode.contentEquals("99")
 				|| packagecode.contentEquals("90") || packagecode.contentEquals("98")||packagecode.contentEquals("95")||packagecode.contentEquals("93")) {
 
@@ -642,12 +683,12 @@ public class AssertHelper {
 
 			String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 			System.out.println("Expected :" + Arrays.toString(invalidexpected));
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-			softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 		}
 
 		else {
@@ -657,13 +698,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 			
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -674,19 +714,23 @@ public class AssertHelper {
 	
 	public SoftAssertions BusinessPlusAddOnDoubleLinesValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String packagecode2, String OfferId, String OfferId2,String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 
-		if (packagecode.contentEquals("96") || packagecode.contentEquals("97")
+		if (packagecode.contentEquals("97")
 				|| packagecode.contentEquals("91") || packagecode.contentEquals("99")
 				|| packagecode.contentEquals("90") || packagecode.contentEquals("98")||packagecode.contentEquals("95")||packagecode.contentEquals("93")) {
 
-			if (packagecode2.contentEquals("96") || packagecode2.contentEquals("97")
+			if (packagecode2.contentEquals("97")
 					|| packagecode2.contentEquals("91") || packagecode2.contentEquals("99")
 					|| packagecode2.contentEquals("90") || packagecode2.contentEquals("98")||packagecode2.contentEquals("95")||packagecode2.contentEquals("93")) {
 
@@ -696,12 +740,12 @@ public class AssertHelper {
 
 				String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 				System.out.println("Expected :" + Arrays.toString(invalidexpected));
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-				softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-				softAssertions.fail(
-						"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 			}
 
@@ -713,13 +757,12 @@ public class AssertHelper {
 
 				System.out.println("Expected : " + expected);
 
-				softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-				softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-				softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"
-						+ OfferId2);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+ OfferId2);
 
 			}
 
@@ -733,13 +776,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
-
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
+			
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -750,13 +792,16 @@ public class AssertHelper {
 	
 	public SoftAssertions SavingsBaseAddOnValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String OfferId, String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
 
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 		if (packagecode.contentEquals("97") || packagecode.contentEquals("91")
 				|| packagecode.contentEquals("99") || packagecode.contentEquals("98")
@@ -767,12 +812,12 @@ public class AssertHelper {
 
 			String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 			System.out.println("Expected :" + Arrays.toString(invalidexpected));
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-			softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 		}
 
 		else {
@@ -782,13 +827,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -798,13 +842,16 @@ public class AssertHelper {
 	
 	public SoftAssertions SavingsBaseAddOnDoubleLinesValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String packagecode2, String OfferId, String OfferId2,String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
 
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 		if (packagecode.contentEquals("97") || packagecode.contentEquals("91")
 				|| packagecode.contentEquals("99") || packagecode.contentEquals("98")
@@ -819,12 +866,12 @@ public class AssertHelper {
 
 				String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 				System.out.println("Expected :" + Arrays.toString(invalidexpected));
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-				softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-				softAssertions.fail(
-						"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 			}
 
@@ -836,13 +883,12 @@ public class AssertHelper {
 
 				System.out.println("Expected : " + expected);
 
-				softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-				softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-				softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"
-						+ OfferId2);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+ OfferId2);
 
 			}
 
@@ -856,13 +902,11 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
-
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -873,15 +917,18 @@ public class AssertHelper {
 	
 	public SoftAssertions SavingsPlusAddOnValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String OfferId, String expected) throws Exception {
-
+		
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
 
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
-		if (packagecode.contentEquals("96") || packagecode.contentEquals("97")
+		if (packagecode.contentEquals("97")
 				|| packagecode.contentEquals("99") || packagecode.contentEquals("98")
 				|| packagecode.contentEquals("94") || packagecode.contentEquals("95")||packagecode.contentEquals("92")||packagecode.contentEquals("93")) {
 
@@ -890,12 +937,12 @@ public class AssertHelper {
 
 			String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 			System.out.println("Expected :" + Arrays.toString(invalidexpected));
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-			softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+			//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 		}
 
 		else {
@@ -905,13 +952,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 
@@ -923,18 +969,22 @@ public class AssertHelper {
 	public SoftAssertions SavingsPlusAddOnDoubleLinesValidation(ValidatableResponse response, ValidatableResponse response2,
 			String packagecode, String packagecode2, String OfferId, String OfferId2,String expected) throws Exception {
 
+		helper = new Helper();
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 
 		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
 		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 
-		if (packagecode.contentEquals("96") || packagecode.contentEquals("97")
+		if (packagecode.contentEquals("97")
 				|| packagecode.contentEquals("99") || packagecode.contentEquals("98")
 				|| packagecode.contentEquals("94") || packagecode.contentEquals("95")||packagecode.contentEquals("92")||packagecode.contentEquals("93")) {
 
-			if (packagecode2.contentEquals("96") || packagecode2.contentEquals("97")
+			if (packagecode2.contentEquals("97")
 					|| packagecode2.contentEquals("99") || packagecode2.contentEquals("98")
 					|| packagecode2.contentEquals("94") || packagecode2.contentEquals("95")||packagecode2.contentEquals("92")||packagecode2.contentEquals("93")) {
 
@@ -943,12 +993,12 @@ public class AssertHelper {
 
 				String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
 				System.out.println("Expected :" + Arrays.toString(invalidexpected));
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.assertThat(actual).isEqualTo(invalidexpected);
-				softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
 
-				softAssertions.fail(
-						"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 			}
 
@@ -960,13 +1010,12 @@ public class AssertHelper {
 
 				System.out.println("Expected : " + expected);
 
-				softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-				softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-				softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-				softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"
-						+ OfferId2);
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+ OfferId2);
 
 			}
 
@@ -980,13 +1029,12 @@ public class AssertHelper {
 
 			System.out.println("Expected : " + expected);
 
-			softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
-			softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
 
-			softAssertions.assertThat(res.asString()).isEqualTo(res2.asString());
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
 
-			softAssertions.fail(
-					"Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
 
 		}
 

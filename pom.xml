@@ -13,45 +13,32 @@
 		<powermock.version>2.0.2</powermock.version>
 		<application.insights.version>2.5.1</application.insights.version>
 	</properties>
-
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.19.1</version>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M4</version>
 				<configuration>
+					<systemPropertyVariables>
+						<environment>${env}</environment>
+					</systemPropertyVariables>
 					<additionalClasspathElements>
 						<additionalClasspathElement>${basedir}/target/classes
 						</additionalClasspathElement>
 					</additionalClasspathElements>
 					<includes>
-						<include>*PromotionsTest.java</include>
+						<include>**/*Test.java</include>
 					</includes>
 				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
+				<!-- <executions> <execution> <goals> <goal>integration-test</goal> <goal>verify</goal> 
+					</goals> </execution> </executions> -->
 			</plugin>
 
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.3</version>
-				<configuration>
-					<includes>
-						<include>com/sams/promotions/platform/emulation/core/*</include>
-						<include>com/sams/promotions/platform/emulation/services/*
-						</include>
-					</includes>
-				</configuration>
-			</plugin>
+			<!-- <plugin> <groupId>org.jacoco</groupId> <artifactId>jacoco-maven-plugin</artifactId> 
+				<version>0.8.3</version> <configuration> <includes> <include>com/sams/promotions/platform/emulation/core/*</include> 
+				<include>com/sams/promotions/platform/emulation/services/* </include> </includes> 
+				</configuration> </plugin> -->
 
 			<plugin>
 
@@ -134,11 +121,8 @@
 			<version>2.27.0</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.walmart.sams.mercury.api</groupId>
-			<artifactId>mercury-dto</artifactId>
-			<version>${version.mercury-dto}</version>
-		</dependency>
+		<!-- <dependency> <groupId>com.walmart.sams.mercury.api</groupId> <artifactId>mercury-dto</artifactId> 
+			<version>${version.mercury-dto}</version> </dependency> -->
 
 		<dependency>
 			<groupId>com.microsoft.azure</groupId>
@@ -169,40 +153,22 @@
 			<groupId>com.sams.promotions.platform</groupId>
 			<artifactId>promotions-platform-common</artifactId>
 			<version>0.0.32-SNAPSHOT</version>
-
 		</dependency>
-
-		<!-- <dependency> <groupId>com.sams.promotions.platform</groupId> <artifactId>promotions-platform-models</artifactId> 
-			<version>0.0.35-SNAPSHOT</version> </dependency> -->
 		<dependency>
 			<groupId>com.sams.promotions.platform</groupId>
 			<artifactId>promotions-platform-dal</artifactId>
 			<version>0.0.32-SNAPSHOT</version>
-
 		</dependency>
-
 		<dependency>
 			<groupId>ibm.db2</groupId>
 			<artifactId>db2jcc4.jar</artifactId>
 			<version>4.21.29</version>
 		</dependency>
-
-
-		<!-- <dependency> <groupId>com.sams.promotions.platform</groupId> <artifactId>promotions-platform-emulation-app</artifactId> 
-			<version>0.0.26-SNAPSHOT</version> </dependency> -->
-
 		<dependency>
 			<groupId>com.sams.promotions.platform</groupId>
-
 			<artifactId>emulation-api</artifactId>
-
 			<version>0.0.36-SNAPSHOT</version>
-
 		</dependency>
-
-		<!-- <dependency> <groupId>com.sams.promotions.platform</groupId> <artifactId>promotions-platform</artifactId> 
-			<version>0.0.22-SNAPSHOT</version> </dependency> -->
-
 		<dependency>
 			<groupId>info.cukes</groupId>
 			<artifactId>cucumber-java</artifactId>
@@ -245,20 +211,14 @@
 			<version>3.0.6</version>
 		</dependency>
 
-	<!-- 	<dependency>
-			<groupId>com.relevantcodes</groupId>
-			<artifactId>extentreports</artifactId>
-			<version>2.40.2</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>com.relevantcodes</groupId> <artifactId>extentreports</artifactId> 
+			<version>2.40.2</version> </dependency> -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
 			<version>3.3.0</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- <dependency> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
-			<version>2.19.1</version> </dependency> -->
 
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
@@ -345,9 +305,4 @@
 			<version>1.0.5</version>
 		</dependency>
 	</dependencies>
-
-
-	<!-- <dependencyManagement> <dependencies> <dependency> <groupId>com.sams.promotions.platform</groupId> 
-		<artifactId> promotions-platform-emulation-app </artifactId> <version>0.0.22-SNAPSHOT</version> 
-		<scope>compile</scope> </dependency> </dependencies> </dependencyManagement> -->
 </project>
