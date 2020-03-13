@@ -1,6 +1,7 @@
 Feature: Verify ACTIVE PRIMARY BUSINESS Base Member Double Lines for all Promotions in the MetaData
 
 #mvn test -Denv=stage -Dcucumber.options="--tags @Primaryactiveregression"
+
 @Primaryactiveregression
   Scenario Outline: QuickSilver Promos for Regular Mix and Match Double Order Lines for Promo Items with ACTIVE PRIMARY Business Base Member
     Given DataPower with <Channel>,<ClubId>,<ClubId2> and <ChannelCode> with <RetailPrice> and Single OrderLine <OrderLines> and Double Order Line <SecondOrderLine> in <Applied_Dates> to be Utilised to Get Offer for Business Base Primary Member

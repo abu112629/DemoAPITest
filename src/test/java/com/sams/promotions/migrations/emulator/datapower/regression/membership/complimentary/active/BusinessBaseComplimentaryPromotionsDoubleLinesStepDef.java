@@ -68,13 +68,13 @@ public class BusinessBaseComplimentaryPromotionsDoubleLinesStepDef extends BaseS
 		complimentarymembershipNbr=membership.membershipComplimentary(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
 				membershipNbr);
 
-		String arrz = reserveemulator.PromoMetaData(prop.get("datapower.production.cert").toString(), 0);
+		String arrz = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), 0);
 		Map<String, String> getsize = Helper.getPromotionDetails(arrz);
 
 		int size = Integer.valueOf(getsize.get("SizeOfMetaData"));
 
 		i = 0;
-		size = 1;
+		size = 7;
 
 		while (i < size) {
 			
@@ -139,7 +139,7 @@ public class BusinessBaseComplimentaryPromotionsDoubleLinesStepDef extends BaseS
 	@When("^Post the request to Emulator Endpoint for Business Base Complimentary Member$")
 	public void POST_the_emulator_request_for_Double_linesBusinessComplimentaryBase() {
 
-		RestAssured.baseURI = prop.getProperty("mercury.quicksilver");
+		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")

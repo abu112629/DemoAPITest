@@ -1,5 +1,6 @@
 Feature: Verify ACTIVE ADDON Complimentary SAVINGS Plus Member for all Promotions in the MetaData
 
+@PrimaryAddOnComplimentaryregression
   Scenario Outline: QuickSilver Promos for Regular Mix and Match Single Order Lines for Promo Items in MetaData with ACTIVE SAVINGS ADDON Complimentary Plus Member
     Given Minimum required for DataPower with <Channel>,<ClubId>,<ClubId2> and <ChannelCode> with <RetailPrice> and Single OrderLine <OrderLines> in <Applied_Dates> to be Utilised to Get Offer for Savings AddOn Complimentary Plus Member
     When Post request to DataPower Endpoint for Savings AddOn Complimentary Plus Member

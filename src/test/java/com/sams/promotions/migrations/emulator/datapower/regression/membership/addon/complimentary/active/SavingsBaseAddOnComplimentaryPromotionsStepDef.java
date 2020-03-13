@@ -67,13 +67,13 @@ public class SavingsBaseAddOnComplimentaryPromotionsStepDef extends BaseStep {
 		add_On_Complimentary_membershipNbr=membership.membershipAddOnComplimentary(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
 				membershipNbr);
 		
-		String arrz = reserveemulator.PromoMetaData(prop.get("datapower.production.cert").toString(), 0);
+		String arrz = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), 0);
 		Map<String, String> getsize = Helper.getPromotionDetails(arrz);
 
 		int size = Integer.valueOf(getsize.get("SizeOfMetaData"));
 
 		i = 0;
-		size = 2;
+		size = 7;
 
 		while (i < size) {
 			
@@ -106,7 +106,7 @@ public class SavingsBaseAddOnComplimentaryPromotionsStepDef extends BaseStep {
 	@When("^Post request to DataPower Endpoint for AddOn Complimentary Savings Member$")
 	public void POST_the_requestAddOnComplimentary() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when();
@@ -116,7 +116,7 @@ public class SavingsBaseAddOnComplimentaryPromotionsStepDef extends BaseStep {
 	@When("^Post request to Emulator Endpoint for AddOn Complimentary Savings Member$")
 	public void POST_the_emulator_requestAddOnComplimentary() {
 
-		RestAssured.baseURI = prop.getProperty("mercury.quicksilver");
+		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")

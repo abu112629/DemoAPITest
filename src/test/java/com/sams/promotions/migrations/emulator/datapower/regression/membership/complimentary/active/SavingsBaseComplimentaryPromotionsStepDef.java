@@ -67,13 +67,13 @@ public class SavingsBaseComplimentaryPromotionsStepDef extends BaseStep {
 				membershipNbr);
 		
 		
-		String arrz = reserveemulator.PromoMetaData(prop.get("datapower.production.cert").toString(), 0);
+		String arrz = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), 0);
 		Map<String, String> getsize = Helper.getPromotionDetails(arrz);
 
 		int size = Integer.valueOf(getsize.get("SizeOfMetaData"));
 
 		i = 0;
-		size = 1;
+		size = 7;
 
 		while (i < size) {
 			
@@ -117,7 +117,7 @@ public class SavingsBaseComplimentaryPromotionsStepDef extends BaseStep {
 	@When("^Post request to Emulator Endpoint for Complimentary Savings Member$")
 	public void POST_the_emulator_requestComplimentary() {
 
-		RestAssured.baseURI = prop.getProperty("mercury.quicksilver");
+		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")

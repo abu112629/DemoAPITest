@@ -27,6 +27,8 @@
 						<additionalClasspathElement>${basedir}/target/classes
 						</additionalClasspathElement>
 					</additionalClasspathElements>
+					<parallel>classesAndMethods</parallel>
+        			<useUnlimitedThreads>true</useUnlimitedThreads>
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>

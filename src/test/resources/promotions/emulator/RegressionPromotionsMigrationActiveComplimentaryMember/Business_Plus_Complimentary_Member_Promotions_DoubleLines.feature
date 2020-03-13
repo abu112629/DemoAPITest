@@ -12,6 +12,6 @@ Feature: Verify ACTIVE COMPLIMENTARY BUSINESS Plus Member Double Lines for all P
 
     Examples: 
       | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | SecondOrderLine | Applied_Dates | ClubId2 |
-      #|           2 |        3000 |   4969 |          1 | POS     |               2 | FIRST_DATE    |    4702 |
-      #|           2 |        3500 |   4969 |          1 | POS     |               2 | MIDDLE_DATE   |    4702 |
+      |           2 |        3000 |   4969 |          1 | POS     |               2 | FIRST_DATE    |    4702 |
+      |           2 |        3500 |   4969 |          1 | POS     |               2 | MIDDLE_DATE   |    4702 |
       |           2 |        3500 |   4969 |          1 | POS     |               2 | LAST_DATE     |    4702 |

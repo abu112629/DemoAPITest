@@ -69,7 +69,6 @@ public class Helper extends BaseStep {
 
 	private String qs_response;
 	protected String[] actual;
-	protected int code;
 	protected String offerDes, disc, offerId, gtin, gs1Code, firstdate, midDate, lastdate;
 
 	public String GenerateStringFromResource(String path) throws IOException {
@@ -678,7 +677,7 @@ public class Helper extends BaseStep {
 		CheckoutCustomerBasketResponse res = soapUtil.unwrapSoap(xmlUnmarshaller, qs_response,
 				CheckoutCustomerBasketResponse.class);
 
-		code = res.getResponseMessage().getCode();
+		int code = res.getResponseMessage().getCode();
 		responseDescription = res.getResponseMessage().getDescription();
 		basketId = res.getCustomerBasket().getBasketID();
 

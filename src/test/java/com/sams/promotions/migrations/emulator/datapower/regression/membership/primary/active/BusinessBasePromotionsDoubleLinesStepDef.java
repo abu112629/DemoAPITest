@@ -65,13 +65,13 @@ public class BusinessBasePromotionsDoubleLinesStepDef extends BaseStep {
 		membershipResponse = membership.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_REQUEST_PATH);
 		membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
 
-		String arrz = reserveemulator.PromoMetaData(prop.get("datapower.production.cert").toString(), 0);
+		String arrz = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), 0);
 		Map<String, String> getsize = Helper.getPromotionDetails(arrz);
 
 		int size = Integer.valueOf(getsize.get("SizeOfMetaData"));
 
 		i = 0;
-		size = 10;
+		size = 7;
 
 		while (i < size) {
 			
@@ -154,7 +154,7 @@ public class BusinessBasePromotionsDoubleLinesStepDef extends BaseStep {
 	@When("^Response for Emulator and get the required discount for Business Base Primary Member$")
 	public void Getemulatorparameter_and_postOperation_for_Double_linesBusinessBase() {
 
-		response2 = thisRequestSpecification2.post(UrlConstants.SERVICES_CHECKOUT).then();
+		response2 = thisRequestSpecification2.post(UrlConstants.RESERVE_EMULATION).then();
 
 	}
 

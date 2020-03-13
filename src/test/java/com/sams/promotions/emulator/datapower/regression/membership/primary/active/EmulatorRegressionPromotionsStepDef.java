@@ -96,7 +96,7 @@ public class EmulatorRegressionPromotionsStepDef extends BaseStep {
 
 	}
 
-	@When("^Post request to Emulator Endpoint for Primary Member$")
+	@When("^Post request to the Emulator Endpoint for Primary Member$")
 	public void POST_request() {
 
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").header("Content-Type", "text/xml").body(postdata)
@@ -104,14 +104,14 @@ public class EmulatorRegressionPromotionsStepDef extends BaseStep {
 		//header("Content-Type", "text/xml").
 	}
 
-	@When("^Request posted to Emulator and get the required discount for Primary Member$")
+	@When("^Request posted to the Emulator and get the required discount for Primary Member$")
 	public void Getparameter_postOperation() {
 
 		response = thisRequestSpecification.post(UrlConstants.RESERVE_EMULATION).then();
 
 	}
 
-	@Then("^Assert required to Emulator and get attributes for Primary Member$")
+	@Then("^Assert required to the Emulator and get the attributes for Primary Member$")
 	public void CheckResults(DataTable dataTable) throws Exception {
 
 		String[] expected = helper.ExpectedDataTable(dataTable);

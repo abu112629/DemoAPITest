@@ -19,9 +19,10 @@ Feature: Verify System Integration End to End Test for All Services for Emulator
     Then Validate with CosmosDB with the generated OrderID
     Then Validate with VALUE_CPN_TXN_TMP DB2 tables if row inserted for CheckOutResponse 4702
     Then Assert and compare the values for ClubId 4702
+     	#| Expected          | Values                        |
+      #| Offer Description | test2020xxxnewItemNumberPromo |
+      #| GS1Code           |                          1111 |
+      #| Offer Id          |                         77080 |
+      #| Gtin              |                             0 |
     Then POST Redeem Request after reserve
-      | Expected          | Values                        |
-      | Offer Description | test2020xxxnewItemNumberPromo |
-      | GS1Code           |                          1111 |
-      | Offer Id          |                         77080 |
-      | Gtin              |                             0 |
+     

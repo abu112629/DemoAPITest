@@ -106,7 +106,7 @@ public class ClientConfigurationDatabase extends BaseStep {
 				.withConnectionPolicy(ConnectionPolicy.GetDefault()).withConsistencyLevel(ConsistencyLevel.Eventual)
 				.build();
 
-		sql = "SELECT * FROM coll s WHERE s.promotionId ='"+promoId+"'";
+		sql = "SELECT * FROM coll s WHERE s..values.is_promotion_number ='"+promoId+"'";
 	
 
 		ClientConfigurationDatabase connection = new ClientConfigurationDatabase();

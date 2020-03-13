@@ -92,23 +92,23 @@ public class DataPowerRegressionPromotionsStepDef extends BaseStep {
 
 	}
 
-	@When("^Post request to DataPower Endpoint for Primary Member$") 
-	public void POST_the_request() {
+	@When("^Post request to the DataPower Endpoint for Primary Member$") 
+	public void POST_THE_Datapower_request() {
   
 			thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when(); 
 			// header("Content-Type", "text/xml"). 
   
 	}
 
-	@When("^Request posted to DataPower and get the required discount for Primary Member$")
-	public void Getparameter_and_postOperation() {
+	@When("^Request posted to the DataPower and get the required discount for Primary Member$")
+	public void Getparameter_AND_posttheOperation() {
 
 		response = thisRequestSpecification.post(UrlConstants.SERVICES_CHECKOUT).then();
 
 	}
 
-	@Then("^Assert required to DataPower and get attributes for Primary Member$")
-	public void ChecktheResults(DataTable dataTable) throws Exception {
+	@Then("^Assert required to the DataPower and get the attributes for Primary Member$")
+	public void ChecktheAssertResults(DataTable dataTable) throws Exception {
 
 		String[] expected = helper.ExpectedDataTable(dataTable);
 

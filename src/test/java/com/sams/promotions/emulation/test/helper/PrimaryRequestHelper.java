@@ -38,8 +38,8 @@ public class PrimaryRequestHelper extends BaseStep {
 		helpermethod = new Helper();
 		reserveemulator = new ReserveEmulationHelper();
 
-		String arrx = reserveemulator.PromoMetaData(prop.get("datapower.production.cert").toString(), i);
-		String arry = reserveemulator.PromoMetaData(prop.get("datapower.production.cert").toString(), i + 1);
+		String arrx = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+		String arry = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i + 1);
 
 		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
 		Map<String, String> promodetails2 = Helper.getPromotionDetails(arry);

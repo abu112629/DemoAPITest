@@ -1,5 +1,5 @@
 Feature: Verify Emulation reserve JSON TO XML Conversion
-  @Regression  
+  @Sanity  
   Scenario: Verify JSON TO XML Conversion
     Given Post JSON Request
     When Convert Payload

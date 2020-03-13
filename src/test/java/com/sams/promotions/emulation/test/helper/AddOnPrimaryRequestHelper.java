@@ -1,29 +1,32 @@
 package com.sams.promotions.emulation.test.helper;
 
-import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.springframework.stereotype.Component;
 
-import com.sams.promotions.emulation.test.common.constants.UrlConstants;
+import com.sams.promotions.emulation.test.base.BaseStep;
 
 import groovy.util.logging.Slf4j;
 
 @Slf4j
 @Component
 
-public class AddOnPrimaryRequestHelper {
+public class AddOnPrimaryRequestHelper extends BaseStep{
 
 	/*
 	 * Author : Abu Description : Helper Method Date : 11/11/2019
 	 * 
 	 */
 
+	public AddOnPrimaryRequestHelper() throws IOException {
+		super();
+	}
+
 	protected String[] expected;
-	protected Properties prop;
+	//protected Properties prop;
 	protected Helper helpermethod;
 	protected String postdata,postdata2;
 	protected int ItemId,Quantity,ItemId2,Quantity2;
@@ -33,15 +36,16 @@ public class AddOnPrimaryRequestHelper {
 	public Map<String,String> getInitialDoubleLinesPostRequestDetails(int i,String membershipNumber,String channelName, String ClubId, String ClubId2, int code, int RetailPrice,
 			String lineNumber, String Applied_Dates, String OfferId,String OfferId2,String pathsingle) throws Exception {
 		
-		prop = new Properties();
-		FileInputStream fis = new FileInputStream(UrlConstants.PROPERTIES_FILE);
-		prop.load(fis);
+		/*
+		 * prop = new Properties(); FileInputStream fis = new
+		 * FileInputStream(UrlConstants.PROPERTIES_FILE); prop.load(fis);
+		 */
 		
 		helpermethod=new Helper();
 		reserveemulator=new ReserveEmulationHelper();
 		
-		String arrx = reserveemulator.PromoMetaData(prop.get("datapower.production.cert").toString(), i);
-		String arry = reserveemulator.PromoMetaData(prop.get("datapower.production.cert").toString(), i + 1);
+		String arrx = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+		String arry = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i + 1);
 
 		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
 		Map<String, String> promodetails2 = Helper.getPromotionDetails(arry);

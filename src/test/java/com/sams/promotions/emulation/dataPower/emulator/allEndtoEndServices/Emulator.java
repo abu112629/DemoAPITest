@@ -78,68 +78,74 @@ public class Emulator extends BaseStep {
 	@Then("^Validate with DB2 VAL_CPN_ITEM table for UUID$")
 	public void ValidateDB2() throws Exception {
 
-		xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketRequest.class);
-		soapUtil = new SOAPUtil();
-
-		CheckoutCustomerBasketRequest req = soapUtil.unwrapSoap(xmlUnmarshaller, postdata,
-				CheckoutCustomerBasketRequest.class);
-		PSN = req.getMessageBody().getCustomerBasket().getBusinessUnit().getNumber();
-		List<OrderLine> list = req.getMessageBody().getCustomerBasket().getOrderLines();
-
-		for (OrderLine line : list) {
-
-			IR = line.getProductOffering().getId();
-
-		}
-
-		XmlPath xp = helper.rawToXML(qs_response);
-		VCN = xp.getString("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer.id");
-
-		// System.out.println(IR+" "+VCN); 
-		connection = new ClientConfigurationDatabase();
-		rs = connection.connectValCpn(IR, VCN);
-
+		
+		  xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketRequest.class);
+		  soapUtil = new SOAPUtil();
+		  
+		  CheckoutCustomerBasketRequest req = soapUtil.unwrapSoap(xmlUnmarshaller,postdata, CheckoutCustomerBasketRequest.class); 
+		  PSN =req.getMessageBody().getCustomerBasket().getBusinessUnit().getNumber();
+		  
+		  List<OrderLine> list =
+		  req.getMessageBody().getCustomerBasket().getOrderLines();
+		  
+		  for (OrderLine line : list) {
+		  
+		  IR = line.getProductOffering().getId();
+		  
+		  }
+		  
+		  XmlPath xp = helper.rawToXML(qs_response); VCN = xp.getString(
+		  "Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer.id"
+		  );
+		  
+		  // System.out.println(IR+" "+VCN); 
+		  connection = new ClientConfigurationDatabase(); 
+		  rs = connection.connectValCpn(IR, VCN);
+		 
+		 
 	}
 
 	@Then("^Validate with CosmosDB with the generated OrderID$")
 	public void ValidateCosmosDB() throws Exception {
 
-		String ordernumber = reserveemulator.OrderNumber(UrlConstants.EMULATOR_CLUB);
-
-		System.out.println(ordernumber);
-
-		TimeUnit.SECONDS.sleep(2);
-		connection = new ClientConfigurationDatabase();
-		String result = connection.setClient(ordernumber);
-
-		assertNotNull(result);
-		System.out.println(result);
+		
+		  String ordernumber = reserveemulator.OrderNumber(UrlConstants.EMULATOR_CLUB);
+		  
+		  System.out.println(ordernumber);
+		  
+		  TimeUnit.SECONDS.sleep(2); connection = new ClientConfigurationDatabase();
+		  String result = connection.setClient(ordernumber);
+		  
+		  assertNotNull(result); System.out.println(result);
+		 
 	}
 
 	@Then("^Validate with VALUE_CPN_TXN_TMP DB2 tables if row inserted for CheckOutResponse 4702$")
 	public void ValidateValCPN() throws Exception {
 
-		connection = new ClientConfigurationDatabase();
-		rs = connection.ConnectDB2(IR, PSN, VCN);
+		
+		  connection = new ClientConfigurationDatabase(); rs =
+		  connection.ConnectDB2(IR, PSN, VCN);
+		 
 
 	}
 
 	@Then("^Assert and compare the values for ClubId 4702$")
 	public void Check(Map<String, String> Items) throws Exception {
 
-		this.Items = Items;
-
-		String[] actual = helper.Actual(qs_response);
-		System.out.println(Arrays.toString(actual));
-
-		String[] expected = helper.Expected(Items);
-
-		try {
-			Assert.assertArrayEquals(expected, actual);
-			System.out.println("Successfully Compared Values");
-		} catch (Exception e) {
-			System.out.println("Data not equal");
-		}
+		
+		
+		  this.Items = Items;
+		  
+		  String[] actual = helper.Actual(qs_response);
+		  System.out.println(Arrays.toString(actual));
+		  
+		  String[] expected = helper.Expected(Items);
+		  
+		  try { Assert.assertArrayEquals(expected, actual);
+		  System.out.println("Successfully Compared Values"); } catch (Exception e) {
+		  System.out.println("Data not equal"); }
+		 
 
 	}
 

@@ -1,5 +1,5 @@
 Feature: Integration Test
-@Regression
+@Sanity
   Scenario: Verify Integrated Test for DataPower Savings
     Given Request Sent for ClubId 4969
     When Get XML Response from DataPower EndPoint
@@ -13,7 +13,7 @@ Feature: Integration Test
    | Offer Id 				  | 76466																													|
    | Gtin            		| 980099526																											|
   
-  @Regression
+  @Sanity
   Scenario: Verify Integrated Test for Emulator Savings
     Given XML Request Conversion JSON
     When Request Sent for ClubId 4702

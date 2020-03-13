@@ -24,7 +24,13 @@ public class UrlConstants {
 		public static final String CHECKOUT_MUL_REQ="src/test/resources/Emulation_Input/CheckoutCustomerBasket_MultipleRequests.xml";
 		public static final String REDEEM_REQUEST="src/test/resources/Emulation_Input/RedeemRequest.xml";
 		public static final String METADATA_HEADER_PATH="src/test/resources/requestHeader/BroadReachOffers_MetaDataHeaders.txt";
-	
+		public static final String METADATA_PROMOTION_ANALYTIC="/rest/InstantSavings/MetaDataFile/Analytic";
+		public static final String METADATA_PROMOTION_PACKAGE="/rest/InstantSavings/MetaDataFile/Package";
+		public static final String QSPROMO_HEADER_PATH="src/test/resources/requestHeader/QSPromo.txt";
+		public static final String EMULATION_METADATA_ANALYTIC="/emulate/metadata/analytic";
+		public static final String EMULATION_METADATA_TRIGGERS="/emulate/metadata/trigger";
+		public static final String EMULATION_METADATA_PACKAGE="/emulate/metadata/package";
+		public static final String EMULATION_METADATA_BROADREACH="/emulate/metadata/broadreach";
 		
 	
 

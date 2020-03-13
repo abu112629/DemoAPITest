@@ -11,18 +11,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sams.promotions.emulation.test.base.BaseStep;
-import com.sams.promotions.emulation.test.common.constants.MembershipConstants;
+import com.sams.promotions.emulation.test.common.constants.UrlConstants;
 import com.sams.promotions.emulation.test.helper.Helper;
 import com.sams.promotions.emulation.test.helper.ReserveEmulationHelper;
 import com.sams.promotions.emulation.test.membershipCreate.Membership;
 import com.sams.promotions.emulation.test.steps.util.HeaderMapper;
+import com.sams.promotions.emulator.datapower.regression.membership.allPromotions.Membership_Types;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import io.restassured.response.Response;
 
 @SpringBootTest
 
@@ -37,6 +37,7 @@ public class CreatePromotions extends BaseStep {
 	protected float Discount;
 	protected String StartDate, EndDate, arr[];
 	protected int pro1, pro2;
+	Membership_Types member;
 
 	public CreatePromotions() throws IOException {
 		super();
@@ -50,39 +51,34 @@ public class CreatePromotions extends BaseStep {
 		helper = new Helper();
 		membership = new Membership();
 		reserveemulator = new ReserveEmulationHelper();
+		member=new Membership_Types();
 	}
 
 	@Given("^Utilize URL and post data$")
 	public void POST_Operation(DataTable datatable) throws Exception {
 		
-
-		Response membershipResponse = membership.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_REQUEST_PATH);
-		membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
-		
-		System.out.println(membershipNbr);
-		
+		 System.out.println("Business Primary : "+ member.getMembershipType("primary", "savings", "Club"));
+		 
 		BufferedWriter writer = new BufferedWriter(new FileWriter("src/test/resources/Emulation_Input/Promotions.txt"));
+		//String xyz=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").toString());
+		
+		//System.out.println(xyz);
+		
+		String arrpackage = reserveemulator.PackagePromoMetaData(prop.get("datapower.production.cert").toString(), 
+				UrlConstants.METADATA_PROMOTION_PACKAGE,1);
 
-		String arr = reserveemulator.TriggerPromoMetaData(prop.get("datapower.production.cert").toString(), 1);
+		Map<String, String> map = Helper.getPromotionDetails(arrpackage);
+		
 
-		String arrxyz = reserveemulator.PromoMetaData(prop.get("datapower.production.cert").toString(), 5);
-
-		Map<String, String> map = Helper.getPromotionDetails(arr);
-		Map<String, String> mapx = Helper.getPromotionDetails(arrxyz);
-
-		int size = Integer.valueOf(map.get("SizeOfMetaData"));
-
-		System.out.println(map.get("SizeOfMetaData"));
-
+		int size=Integer.valueOf(map.get("SizeOfMetaData"));
 		int MaxRedemptionCount = Integer.valueOf(map.get("MaxRedemptionCount"));
 		System.out.println(MaxRedemptionCount);
 
-		int MaxRedemptionCountX = Integer.valueOf(mapx.get("MaxRedemptionCount"));
-		System.out.println(MaxRedemptionCountX);
 
 		for (int i = 0; i < size; i++) {
 
-			String arrx = reserveemulator.TriggerPromoMetaData(prop.get("datapower.production.cert").toString(), i);
+			String arrx = reserveemulator.PackagePromoMetaData(prop.get("datapower.production.cert").toString(), 
+					UrlConstants.METADATA_PROMOTION_PACKAGE,i);
 			// Map<String, String> mapnew = Helper.getPromotionDetails(arrx);
 
 			writer.write(arrx);
@@ -112,50 +108,6 @@ public class CreatePromotions extends BaseStep {
 		 * helper.deletePromotion(prop.get("mercury.quicksilver").toString(),
 		 * UrlConstants.PROMO_CREATION, "a6070b42-0c1c-483a-abe5-b152caed2366");
 		 * System.out.println(ressss.asString());
-		 */
-
-		/*
-		 * Map<String, Object> header =
-		 * headerMapper.mapHeaders(UrlConstants.METADATA_HEADER_PATH);
-		 * 
-		 * Response res =
-		 * helper.sendGetRequest(prop.get("datapower.production.cert").toString(),
-		 * UrlConstants.METADATA_PROMOTION, header); String metadataJson =
-		 * res.asString();
-		 * 
-		 * ObjectMapper objectmapper = new ObjectMapper(); MetaDataResponse metadata =
-		 * objectmapper.readValue(metadataJson, MetaDataResponse.class);
-		 * List<BroadReachOffer> list = metadata.getBroadReachOffers();
-		 * 
-		 * for (BroadReachOffer line : list) {
-		 * 
-		 * PromoNumber = line.getCouponNumber(); Discount = line.getCouponValue();
-		 * StartDate = line.getStartDate(); EndDate = line.getEndDate();
-		 * 
-		 * String ite = null; String mpq = null;
-		 * 
-		 * if (line.getMerchandiseDetails().getItemDetails() != null) { List<ItemDetail>
-		 * item = line.getMerchandiseDetails().getItemDetails(); for (ItemDetail linenew
-		 * : item) {
-		 * 
-		 * Itemnumber = linenew.getItemNumber(); Mpq =
-		 * linenew.getMinimumPurchaseQuantity(); ite = String.valueOf(Itemnumber); mpq =
-		 * String.valueOf(Mpq); arr = new String[] { PromoNumber + " " + Discount + " "
-		 * + StartDate + " " + EndDate + " " + ite + " " + mpq };
-		 * arrList.add(arr[0].toString());
-		 * 
-		 * } }
-		 * 
-		 * else { arr = new String[] { PromoNumber + " " + Discount + " " + StartDate +
-		 * " " + EndDate + " " + ite + " " + mpq }; arrList.add(arr[0].toString());
-		 * 
-		 * }
-		 * 
-		 * }
-		 * 
-		 * for(int i=0;i<arrList.size();i++) {
-		 * 
-		 * System.out.println(arrList.get(i)); }
 		 */
 
 	}
