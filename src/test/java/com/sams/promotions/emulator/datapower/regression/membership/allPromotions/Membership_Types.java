@@ -16,6 +16,8 @@ import io.restassured.response.Response;
 public class Membership_Types extends BaseStep{
 
 	private Response membershipResponse;
+	private static String BusinessmembershipNbrClub,BusinessmembershipNbrPlus,SavingsmembershipNbrClub,SavingsmembershipNbrPlus;
+	
 	
 	public Membership_Types() throws IOException {
 		super();
@@ -30,7 +32,6 @@ public class Membership_Types extends BaseStep{
 		membership = new Membership();
 
 		
-		String membershipNbr;
 		
 		String requiredMembership="";
 		
@@ -48,14 +49,17 @@ public class Membership_Types extends BaseStep{
 								
 								membershipResponse = membership
 								.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_REQUEST_PATH);
-								requiredMembership = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+								BusinessmembershipNbrClub = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+								requiredMembership=BusinessmembershipNbrClub;
+								
 								break;
 						
 							case "Plus":
 								
 								membershipResponse = membership
 								.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_PLUS_REQUEST_PATH);
-								requiredMembership = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+								BusinessmembershipNbrPlus = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+								requiredMembership=BusinessmembershipNbrPlus;
 								break;
 						
 						
@@ -71,7 +75,8 @@ public class Membership_Types extends BaseStep{
 									
 									membershipResponse = membership
 									.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH);
-									requiredMembership = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+									SavingsmembershipNbrClub = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+									requiredMembership=SavingsmembershipNbrClub;
 
 									break;
 									
@@ -81,7 +86,8 @@ public class Membership_Types extends BaseStep{
 
 									membershipResponse = membership
 											.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_SAVINGS_PLUS_REQUEST_PATH);
-									requiredMembership = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+									SavingsmembershipNbrPlus = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+									requiredMembership=SavingsmembershipNbrPlus;
 
 									
 									break;
@@ -104,20 +110,28 @@ public class Membership_Types extends BaseStep{
 						
 							case "Club":
 								
-								membershipResponse = membership.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_REQUEST_PATH);
-								membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+					/*
+					 * membershipResponse = membership.createPRIMARYMembership(MembershipConstants.
+					 * MEMBERSHIP_BUSINESS_REQUEST_PATH); membershipNbr =
+					 * helper.getResponseValue(membershipResponse,
+					 * MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+					 */
 								
 								requiredMembership=membership.membershipComplimentary(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
-										membershipNbr);
+										BusinessmembershipNbrClub);
 								break;
 						
 							case "Plus":
 								
-								membershipResponse = membership.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_PLUS_REQUEST_PATH);
-								membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+					/*
+					 * membershipResponse = membership.createPRIMARYMembership(MembershipConstants.
+					 * MEMBERSHIP_BUSINESS_PLUS_REQUEST_PATH); membershipNbr =
+					 * helper.getResponseValue(membershipResponse,
+					 * MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+					 */
 								
 								requiredMembership=membership.membershipComplimentary(MembershipConstants.MEMBERSHIP_SAVINGS_PLUS_REQUEST_PATH,
-										membershipNbr);
+										BusinessmembershipNbrPlus);
 								break;
 						
 						
@@ -131,19 +145,27 @@ public class Membership_Types extends BaseStep{
 						
 								case "Club":
 									
-									membershipResponse = membership.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH);
-									membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+					/*
+					 * membershipResponse = membership.createPRIMARYMembership(MembershipConstants.
+					 * MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH); membershipNbr =
+					 * helper.getResponseValue(membershipResponse,
+					 * MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+					 */
 									
 									requiredMembership=membership.membershipComplimentary(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
-											membershipNbr);	break;
+											SavingsmembershipNbrClub);	break;
 							
 								case "Plus":
 									
-									membershipResponse = membership.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_SAVINGS_PLUS_REQUEST_PATH);
-									membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+					/*
+					 * membershipResponse = membership.createPRIMARYMembership(MembershipConstants.
+					 * MEMBERSHIP_SAVINGS_PLUS_REQUEST_PATH); membershipNbr =
+					 * helper.getResponseValue(membershipResponse,
+					 * MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+					 */
 									
 									requiredMembership=membership.membershipComplimentary(MembershipConstants.MEMBERSHIP_SAVINGS_PLUS_REQUEST_PATH,
-											membershipNbr);
+											SavingsmembershipNbrPlus);
 									break;
 								
 						
@@ -164,21 +186,25 @@ public class Membership_Types extends BaseStep{
 							
 								case "Club":
 									
-									membershipResponse = membership
-									.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_REQUEST_PATH);
-									membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+					/*
+					 * membershipResponse = membership
+					 * .createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_REQUEST_PATH
+					 * ); membershipNbr = helper.getResponseValue(membershipResponse,
+					 * MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+					 */
 							
 									requiredMembership=membership.membershipAddOnComplimentary(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
-									membershipNbr);
+											BusinessmembershipNbrClub);
+									
 									break;
 							
 								case "Plus":
 									
-									membershipResponse = membership
+									/*membershipResponse = membership
 									.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_PLUS_REQUEST_PATH);
-									membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+									membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);*/
 									requiredMembership=membership.membershipAddOnComplimentary(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
-									membershipNbr);
+											BusinessmembershipNbrPlus);
 							
 									break;
 							
@@ -193,21 +219,21 @@ public class Membership_Types extends BaseStep{
 							
 									case "Club":
 										
-										membershipResponse = membership
+										/*membershipResponse = membership
 										.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH);
-										membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+										membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);*/
 								
 										requiredMembership=membership.membershipAddOnComplimentary(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
-										membershipNbr);
+												SavingsmembershipNbrClub);
 										break;
 								
 									case "Plus":
 										
-										membershipResponse = membership
+										/*membershipResponse = membership
 										.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_SAVINGS_PLUS_REQUEST_PATH);
-										membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);	
+										membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);	*/
 										requiredMembership=membership.membershipAddOnComplimentary(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
-										membershipNbr);
+												SavingsmembershipNbrPlus);
 										break;
 									
 							
@@ -229,22 +255,22 @@ public class Membership_Types extends BaseStep{
 							
 								case "Club":
 									
-									membershipResponse = membership
+									/*membershipResponse = membership
 									.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_REQUEST_PATH);
-									membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+									membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);*/
 						
 									requiredMembership=membership.membershipAddOn(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
-									membershipNbr);
+											BusinessmembershipNbrClub);
 									break;
 							
 								case "Plus":
 									
-									membershipResponse = membership
+									/*membershipResponse = membership
 									.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_BUSINESS_PLUS_REQUEST_PATH);
-									membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+									membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);*/
 						
 									requiredMembership=membership.membershipAddOn(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
-									membershipNbr);
+											BusinessmembershipNbrPlus);
 									break;
 							
 							
@@ -258,24 +284,24 @@ public class Membership_Types extends BaseStep{
 							
 									case "Club":
 										
-										membershipResponse = membership
+										/*membershipResponse = membership
 										.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH);
-										membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+										membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);*/
 								
 										requiredMembership=membership.membershipAddOn(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
-										membershipNbr);
+												SavingsmembershipNbrClub);
 
 										break;
 								
 									case "Plus":
 										
 									
-										membershipResponse = membership
+										/*membershipResponse = membership
 										.createPRIMARYMembership(MembershipConstants.MEMBERSHIP_SAVINGS_PLUS_REQUEST_PATH);
-										membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);
+										membershipNbr = helper.getResponseValue(membershipResponse, MembershipConstants.MEMBERSHIP_MEMBERSHIPCARD_PATH);*/
 								
 										requiredMembership=membership.membershipAddOn(MembershipConstants.MEMBERSHIP_SAVINGS_BASE_REQUEST_PATH,
-										membershipNbr);
+												SavingsmembershipNbrPlus);
 
 										break;
 									

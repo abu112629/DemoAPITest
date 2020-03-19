@@ -1043,5 +1043,82 @@ public class AssertHelper extends BaseStep{
 
 	}
 
+	/***Alternate***/
+	
+	public SoftAssertions ValidationsAll(ValidatableResponse response, ValidatableResponse response2,
+			String packagecode, String packagecode2, String OfferId, String OfferId2,String expected) throws Exception {
+		
+		helper = new Helper();
+		Response res = response.assertThat().statusCode(200).and().extract().response();
+		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
+
+		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
+		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
+
+
+		if (packagecode.contentEquals("91") || packagecode.contentEquals("99") || packagecode.contentEquals("94")
+				|| packagecode.contentEquals("95") || packagecode.contentEquals("92")
+				|| packagecode.contentEquals("93")) {
+
+			if (packagecode2.contentEquals("91") || packagecode2.contentEquals("99") || packagecode2.contentEquals("94")
+					|| packagecode2.contentEquals("95") || packagecode2.contentEquals("92")
+					|| packagecode2.contentEquals("93")) {
+
+				System.out.println("DataPower Actual : " + Arrays.toString(actual));
+				System.out.println("Emulator Actual : " + Arrays.toString(actual2));
+
+				//String []invalidexpected =new String [] {"NO VALID OFFER PRESENT"};
+				//System.out.println("Expected :" + Arrays.toString(invalidexpected));
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
+
+				//softAssertions.assertThat(actual).isEqualTo(invalidexpected);
+				//softAssertions.assertThat(actual2).isEqualTo(invalidexpected);
+
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+
+			}
+
+			else {
+
+				System.out.println("DataPower Actual : " + Arrays.toString(actual));
+
+				System.out.println("Emulator Actual : " + Arrays.toString(actual2));
+
+				//System.out.println("Expected : " + expected);
+
+				//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+				//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
+
+				//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :"+ OfferId2);
+
+			}
+
+		}
+
+		else {
+
+			System.out.println("DataPower Actual : " + Arrays.toString(actual));
+
+			System.out.println("Emulator Actual : " + Arrays.toString(actual2));
+
+			//System.out.println("Expected : " + expected);
+
+			//softAssertions.assertThat(Arrays.toString(actual)).isEqualTo(expected);
+			//softAssertions.assertThat(Arrays.toString(actual2)).isEqualTo(expected);
+
+			softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
+
+			//softAssertions.fail("Expected Promotion Discount not equal to Actual Promo Discount.Failed Promotion :" + OfferId);
+
+		}
+
+		return softAssertions;
+
+	}
 
 }

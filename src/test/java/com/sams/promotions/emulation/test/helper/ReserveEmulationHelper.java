@@ -36,6 +36,7 @@ import com.sams.promotions.emulation.packageOffers.PackageOffer;
 import com.sams.promotions.emulation.packageOffers.PackageOffers;
 import com.sams.promotions.emulation.promoCreation.Action;
 import com.sams.promotions.emulation.promoCreation.PromoCreationRequest;
+import com.sams.promotions.emulation.quicksilverPromos.Item;
 import com.sams.promotions.emulation.quicksilverPromos.QSPromos;
 import com.sams.promotions.emulation.test.base.BaseStep;
 import com.sams.promotions.emulation.test.common.constants.UrlConstants;
@@ -267,6 +268,60 @@ public class ReserveEmulationHelper extends BaseStep {
 		CheckoutCustomerBasketRequest req = soapUtil.unwrapSoap(xmlUnmarshaller, xml,
 				CheckoutCustomerBasketRequest.class);
 
+		req.getMessageBody().getCustomerBasket().getBusinessUnit().setNumber(BusinessUnit);
+		req.getMessageBody().getCustomerBasket().getChannel().setCode(code);
+		req.getMessageBody().getCustomerBasket().getChannel().setName(channelName);
+		req.getMessageBody().getCustomerBasket().getCustomer().setId(Custid);
+		req.getMessageBody().getCustomerBasket().setCreateTimestamp(createTimestamp);
+
+		List<OrderLine> list = req.getMessageBody().getCustomerBasket().getOrderLines();
+
+		for (OrderLine line : list) {
+
+			line.setLineNumber(lineNumber);
+			line.getQuantity().setAmount(b1);
+			line.getProductOffering().setId(b2);
+			line.getProductOffering().getPrice().getAmount().setValue(b3);
+
+		}
+
+		String req1 = soapUtil.wrapSoap(req);
+		HashMap<String, String> customData = new HashMap<String, String>();
+		customData.put("<soapenv:Header/>", " <soapenv:Header>\r\n"
+				+ "      <wsse:Security xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\r\n"
+				+ "         <wsse:UsernameToken>\r\n"
+				+ "            <wsse:Username>SVCSamsInstantSaving</wsse:Username>\r\n"
+				+ "            <wsse:Password>qtayWn-wW7+%*NAbs1W1</wsse:Password>\r\n"
+				+ "         </wsse:UsernameToken>\r\n" + "      </wsse:Security>\r\n" + "   </soapenv:Header>");
+		String req2 = helpermethod.updateRequest(customData, req1);
+		System.out.println(Helper.getPrettyString(req2));
+
+		return req2;
+
+	}
+	
+	
+	public String ReserveRequestUpdater(int number, int ItemId, int RetailPrice, String BusinessUnit, String lineNumber,
+			int code, String channelName, String Custid, String createTimestamp,String BasketId,String terminalID,
+
+			String path) throws Exception {
+
+		helpermethod = new Helper();
+
+		BigInteger b1 = BigInteger.valueOf(number);
+		String b2 = String.valueOf(ItemId);
+		BigInteger b3 = BigInteger.valueOf(RetailPrice);
+
+		xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketRequest.class);
+
+		String xml = helpermethod.GenerateStringFromResource(path);
+
+		soapUtil = new SOAPUtil();
+
+		CheckoutCustomerBasketRequest req = soapUtil.unwrapSoap(xmlUnmarshaller, xml,
+				CheckoutCustomerBasketRequest.class);
+		req.getMessageBody().getCustomerBasket().setBasketID(BasketId);
+		req.getMessageBody().getCustomerBasket().getTerminal().setTerminalID(terminalID);
 		req.getMessageBody().getCustomerBasket().getBusinessUnit().setNumber(BusinessUnit);
 		req.getMessageBody().getCustomerBasket().getChannel().setCode(code);
 		req.getMessageBody().getCustomerBasket().getChannel().setName(channelName);
@@ -662,11 +717,16 @@ public class ReserveEmulationHelper extends BaseStep {
 
 	}
 	
-	public String QSPromoMetaData(String Uri) throws JsonParseException, JsonMappingException, IOException {
+	public String QSPromoMetaData(String Uri,int index) throws JsonParseException, JsonMappingException, IOException {
 
 		headerMapper = new HeaderMapper();
 		helpermethod = new Helper();
-
+		
+		ArrayList<String> arrList = new ArrayList<String>();
+		String arr[]=null;
+		
+		Long QSOfferId=null;
+		
 		Map<String, Object> header = headerMapper.mapHeaders(UrlConstants.QSPROMO_HEADER_PATH);
 
 		Response res = helpermethod.sendGetRequest(Uri, UrlConstants.PROMO_CREATION, header);
@@ -674,10 +734,22 @@ public class ReserveEmulationHelper extends BaseStep {
 
 		ObjectMapper objectmapper = new ObjectMapper();
 		QSPromos metadata = objectmapper.readValue(metadataJson, QSPromos.class);
+		List<Item> list=metadata.getPayload().getItems();
 		
-		String Total = String.valueOf(metadata.getPayload().getTotal());
+		for(Item line : list) {
+			
+			QSOfferId=line.getPromotionNumber();
+			
+			String Total = String.valueOf(metadata.getPayload().getTotal());
+			arr = new String[] {QSOfferId+ "||" + Total}; 
+			arrList.add(arr[0].toString());
+			
+		}
+		
+		
+		
 
-		return Total;
+		return arrList.get(index);
 
 	}
 	
@@ -765,6 +837,89 @@ public class ReserveEmulationHelper extends BaseStep {
 	}
 	
 	
+	/*alternate*/
 	
+	public Map<String, String> getReserveRequestDetails(int i, String membershipNumber, String channelName, String ClubId,
+			String ClubId2, int code, int RetailPrice, String lineNumber, String Applied_Dates, String OfferId,String BasketId,String terminalID,
+			String pathsingle) throws Exception {
+
+
+		String arrx = BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+
+		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
+
+		if (promodetails.get("ItemId").contentEquals("null")) {
+
+			ItemId = 772543;
+
+		}
+
+		else {
+			ItemId = Integer.valueOf(promodetails.get("ItemId"));
+		}
+
+		Map<String, String> map = Helper.getDatesMetadata(arrx);
+
+		String packagecode = promodetails.get("PackageCode");
+
+		Double Discount = Double.valueOf(promodetails.get("Discount"))*100;
+		int disc = (int) Math.abs(Discount);
+		OfferId = promodetails.get("PromoId");
+
+		Quantity = Integer.valueOf(promodetails.get("MinimumPurchaseQuantity"));
+
+		switch (Applied_Dates) {
+		
+		case "FIRST_DATE":
+			postdata = ReserveRequestUpdater(Quantity, ItemId, RetailPrice, ClubId, lineNumber, code, channelName,
+					membershipNumber, map.get("firstdate"),BasketId, terminalID,pathsingle);
+			postdata2 = ReserveRequestUpdater(Quantity, ItemId, RetailPrice, ClubId2, lineNumber, code, channelName,
+					membershipNumber, map.get("firstdate"), BasketId,terminalID,pathsingle);
+			
+			expected = new String[] { OfferId, String.valueOf(disc) };
+			
+
+			break;
+		case "MIDDLE_DATE":
+
+			postdata = ReserveRequestUpdater(Quantity * 2, ItemId, RetailPrice, ClubId, lineNumber, code, channelName,
+					membershipNumber, map.get("midDate"), BasketId, terminalID,pathsingle);
+
+			postdata2 = ReserveRequestUpdater(Quantity * 2, ItemId, RetailPrice, ClubId2, lineNumber, code, channelName,
+					membershipNumber, map.get("midDate"), BasketId, terminalID,pathsingle);
+
+			int SecondDiscountfirstline = disc * 2;
+			String discount2 = String.valueOf(SecondDiscountfirstline);
+
+			expected = new String[] { OfferId, discount2 };
+
+			break;
+		case "LAST_DATE":
+			postdata = ReserveRequestUpdater(Quantity * 3, ItemId, RetailPrice, ClubId, lineNumber, code, channelName,
+					membershipNumber, map.get("lastdate"), BasketId, terminalID,pathsingle);
+
+			postdata2 = ReserveRequestUpdater(Quantity * 3, ItemId, RetailPrice, ClubId2, lineNumber, code, channelName,
+					membershipNumber, map.get("lastdate"),BasketId, terminalID, pathsingle);
+
+			int ThirdDiscountfirstline = disc * 3;
+			String discount3 = String.valueOf(ThirdDiscountfirstline);
+
+			expected = new String[] { OfferId, discount3 };
+
+			break;
+
+		}
+
+		Map<String, String> postrequestDetails = new HashMap<String, String>();
+
+		postrequestDetails.put("DataPowerRequest", postdata);
+		postrequestDetails.put("EmulatorRequest", postdata2);
+		postrequestDetails.put("PackageCode", packagecode);
+		postrequestDetails.put("OfferId", OfferId);
+		postrequestDetails.put("expected", Arrays.toString(expected));
+
+		return postrequestDetails;
+
+	}
 
 }

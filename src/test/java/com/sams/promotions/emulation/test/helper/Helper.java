@@ -98,7 +98,7 @@ public class Helper extends BaseStep {
 		cal.add(Calendar.DATE, days); // minus number would decrement the days
 		return cal.getTime();
 	}
-
+	
 	public static Map<String, String> getDates(String requiredDates) throws java.text.ParseException {
 
 		Map<String, String> ReqDates = new HashMap<String, String>();
@@ -235,6 +235,17 @@ public class Helper extends BaseStep {
 
 	}
 
+	public static Map<String, String> getQSPromotionDetails(String promotion) throws java.text.ParseException {
+
+		Map<String, String> promotionDetails = new HashMap<String, String>();
+		String[] abc = promotion.split(Pattern.quote("||"));
+
+		promotionDetails.put("QSOfferId", abc[0]);
+		promotionDetails.put("Total", abc[1]);
+		
+		return promotionDetails;
+
+	}
 	public static String getPrettyString(String xmlData) throws Exception {
 
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

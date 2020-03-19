@@ -49,8 +49,8 @@ public class MetaDataPromotions extends BaseStep{
 		
 		String arrtrigger=reserveemulator.TriggerPromoMetaData(prop.get("metadata.prod.rest").toString(), 1);
 		
-		String arrxyz1234=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").toString());
-		System.out.println("Mercury Quick Silver Promotions count :"+arrxyz1234);
+		String arrxyz1234=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").toString(),0);
+		
 		
 		
 		Map<String, String> map = Helper.getPromotionDetails(arrpackage);
@@ -59,10 +59,16 @@ public class MetaDataPromotions extends BaseStep{
 		Map<String, String> mapz = Helper.getPromotionDetails(arrtrigger);
 		Map<String, String> mapzyx = Helper.getPromotionDetails(emmpackage);
 		
+		Map<String, String> mapqs = Helper.getQSPromotionDetails(arrxyz1234);
+		
 		System.out.println("Datapower Production Package count :"+map.get("SizeOfMetaData"));
 		System.out.println("Datapower Production BroadReach count :"+mapx.get("SizeOfMetaData"));
 		System.out.println("Datapower Production Analytic count :"+mapy.get("SizeOfMetaData"));
 		System.out.println("Datapower Production Trigger count :"+mapz.get("SizeOfMetaData"));
+		
+		System.out.println("QS Promotion Count :"+mapqs.get("Total"));
+		
+		
 		
 		int TotalPromotions=Integer.valueOf(map.get("SizeOfMetaData"))+
 				Integer.valueOf(mapx.get("SizeOfMetaData"))+Integer.valueOf(mapy.get("SizeOfMetaData"))

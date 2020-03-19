@@ -38,8 +38,13 @@ public class PrimaryRequestHelper extends BaseStep {
 		helpermethod = new Helper();
 		reserveemulator = new ReserveEmulationHelper();
 
-		String arrx = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
-		String arry = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i + 1);
+		
+		  String arrx =
+		  reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").
+		  toString(), i); String arry =
+		  reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").
+		  toString(), i + 1);
+		 
 
 		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
 		Map<String, String> promodetails2 = Helper.getPromotionDetails(arry);
@@ -698,6 +703,173 @@ public class PrimaryRequestHelper extends BaseStep {
 			break;
 
 		}
+		Map<String, String> postrequestDetails = new HashMap<String, String>();
+
+		postrequestDetails.put("DataPowerRequest", postdata);
+		postrequestDetails.put("EmulatorRequest", postdata2);
+		postrequestDetails.put("FirstItemDiscount", String.valueOf(disc));
+		postrequestDetails.put("SecondItemDiscount", String.valueOf(disc2));
+		postrequestDetails.put("PackageCode", packagecode);
+		postrequestDetails.put("PackageCode2", packagecode2);
+		postrequestDetails.put("OfferId", OfferId);
+		postrequestDetails.put("OfferId2", OfferId2);
+
+		postrequestDetails.put("expected", Arrays.toString(expected));
+
+		return postrequestDetails;
+
+	}
+	
+	/***alternate***/
+	
+	
+	public Map<String, String> getInitialReserveDoubleLinesPostRequestDetails(int i, String membershipNumber,
+			String channelName, String ClubId, String ClubId2, int code, int RetailPrice, String lineNumber,
+			String Applied_Dates, String OfferId, String OfferId2, String RegistrationNumber,String TransactionId,String arrx,String arry,String pathsingle) throws Exception {
+
+		helpermethod = new Helper();
+		reserveemulator = new ReserveEmulationHelper();
+
+		
+		/*
+		 * String arrx =
+		 * reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").
+		 * toString(), i); String arry =
+		 * reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").
+		 * toString(), i + 1);
+		 */
+		 
+
+		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
+		Map<String, String> promodetails2 = Helper.getPromotionDetails(arry);
+
+		String packagecode = promodetails.get("PackageCode");
+		String packagecode2 = promodetails2.get("PackageCode");
+
+		OfferId = promodetails.get("PromoId");
+		OfferId2 = promodetails2.get("PromoId");
+
+		if (promodetails.get("ItemId").contentEquals("null")) {
+
+			ItemId = 725443;
+
+		} else {
+			ItemId = Integer.valueOf(promodetails.get("ItemId"));
+
+		}
+
+		if (promodetails2.get("ItemId").contentEquals("null")) {
+
+			ItemId2 = 725443;
+
+		} else {
+
+			ItemId2 = Integer.valueOf(promodetails2.get("ItemId"));
+		}
+
+		Map<String, String> map = helpermethod.getDatesDoubleLinesMetadata(arrx, arry);
+
+		Double Discount = Double.valueOf(promodetails.get("Discount")) * 100;
+		int disc = (int) Math.abs(Discount);
+
+		Double Discount2 = Double.valueOf(promodetails2.get("Discount")) * 100;
+		int disc2 = (int) Math.abs(Discount2);
+
+		Quantity = Integer.valueOf(promodetails.get("MinimumPurchaseQuantity"));
+		Maxdemcnt = Integer.valueOf(promodetails.get("MaxRedemptionCount"));
+		offerTypeDescription = promodetails.get("offerTypeDescription");
+
+		Quantity2 = Integer.valueOf(promodetails2.get("MinimumPurchaseQuantity"));
+		Maxdemcnt2 = Integer.valueOf(promodetails2.get("MaxRedemptionCount"));
+		offerTypeDescription2 = promodetails2.get("offerTypeDescription");
+
+		switch (Applied_Dates) {
+		case "FIRST_DATE":
+			postdata = reserveemulator.ReserveRequestUpdater(Quantity, ItemId, RetailPrice, ClubId, lineNumber, code,
+					channelName, membershipNumber, map.get("firstdate"),RegistrationNumber,TransactionId, pathsingle);
+
+			postdata2 = reserveemulator.ReserveRequestUpdater(Quantity, ItemId, RetailPrice, ClubId2, lineNumber, code,
+					channelName, membershipNumber, map.get("firstdate"), RegistrationNumber,TransactionId,pathsingle);
+
+			break;
+		case "MIDDLE_DATE":
+
+			postdata = reserveemulator.ReserveRequestUpdater(Quantity * 2, ItemId, RetailPrice, ClubId, lineNumber, code,
+					channelName, membershipNumber, map.get("midDate"),RegistrationNumber,TransactionId, pathsingle);
+
+			postdata2 = reserveemulator.ReserveRequestUpdater(Quantity * 2, ItemId, RetailPrice, ClubId2, lineNumber, code,
+					channelName, membershipNumber, map.get("midDate"),RegistrationNumber,TransactionId, pathsingle);
+
+			break;
+		case "LAST_DATE":
+
+			postdata = reserveemulator.ReserveRequestUpdater(Quantity * 3, ItemId, RetailPrice, ClubId, lineNumber, code,
+					channelName, membershipNumber, map.get("lastdate"),RegistrationNumber,TransactionId, pathsingle);
+
+			postdata2 = reserveemulator.ReserveRequestUpdater(Quantity * 3, ItemId, RetailPrice, ClubId2, lineNumber, code,
+					channelName, membershipNumber, map.get("lastdate"),RegistrationNumber,TransactionId, pathsingle);
+
+			break;
+
+		}
+
+		Map<String, String> postrequestDetails = new HashMap<String, String>();
+
+		postrequestDetails.put("DataPowerRequest", postdata);
+		postrequestDetails.put("EmulatorRequest", postdata2);
+		postrequestDetails.put("FirstItemDiscount", String.valueOf(disc));
+		postrequestDetails.put("SecondItemDiscount", String.valueOf(disc2));
+		postrequestDetails.put("PackageCode", packagecode);
+		postrequestDetails.put("PackageCode2", packagecode2);
+		postrequestDetails.put("OfferId", OfferId);
+		postrequestDetails.put("OfferId2", OfferId2);
+
+		return postrequestDetails;
+
+	}
+	
+	
+	public Map<String, String> getDoubleLinesRequest(int disc, int disc2, String packagecode,
+			String packagecode2, String ClubId, String ClubId2, int RetailPrice, String lineNumber,
+			String Applied_Dates, String OfferId, String OfferId2, String postdata, String postdata2) throws Exception {
+
+		reserveemulator = new ReserveEmulationHelper();
+
+		switch (Applied_Dates) {
+		case "FIRST_DATE":
+
+			postdata = reserveemulator.XMLRequestUpdaternew(Quantity2, ItemId2, RetailPrice, ClubId, lineNumber,
+					postdata);
+
+			postdata2 = reserveemulator.XMLRequestUpdaternew(Quantity2, ItemId2, RetailPrice, ClubId2, lineNumber,
+					postdata2);
+			
+
+			break;
+			
+		case "MIDDLE_DATE":
+
+			postdata = reserveemulator.XMLRequestUpdaternew(Quantity2 * 2, ItemId2, RetailPrice, ClubId, lineNumber,
+					postdata);
+
+			postdata2 = reserveemulator.XMLRequestUpdaternew(Quantity2 * 2, ItemId2, RetailPrice, ClubId2, lineNumber,
+					postdata2);
+
+
+			break;
+		case "LAST_DATE":
+
+			postdata = reserveemulator.XMLRequestUpdaternew(Quantity2 * 3, ItemId2, RetailPrice, ClubId, lineNumber,
+					postdata);
+
+			postdata2 = reserveemulator.XMLRequestUpdaternew(Quantity2 * 3, ItemId2, RetailPrice, ClubId2, lineNumber,
+					postdata2);
+
+
+			break;
+
+		}
+
 		Map<String, String> postrequestDetails = new HashMap<String, String>();
 
 		postrequestDetails.put("DataPowerRequest", postdata);

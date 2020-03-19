@@ -11,6 +11,7 @@ import cucumber.api.junit.Cucumber;
 @CucumberOptions(
 
 		monochrome = true, // dryRun=true,
+		//tags= {"regressionall"},
 
 		features = { "src/test/resources/promotions/emulator/allPromotionsMembers/" }, 
 		glue = {"com/sams/promotions/emulator/datapower/regression/membership/allPromotions/" },

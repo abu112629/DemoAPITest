@@ -57,7 +57,12 @@ public class CreatePromotions extends BaseStep {
 	@Given("^Utilize URL and post data$")
 	public void POST_Operation(DataTable datatable) throws Exception {
 		
-		 System.out.println("Business Primary : "+ member.getMembershipType("primary", "savings", "Club"));
+		 //System.out.println("Savings Primary : "+ member.getMembershipType("primary", "savings", "Club"));
+		 
+		 membershipNbr = member.getMembershipType("primary", "savings", "Club");
+		 System.out.println(membershipNbr);
+		 
+		 
 		 
 		BufferedWriter writer = new BufferedWriter(new FileWriter("src/test/resources/Emulation_Input/Promotions.txt"));
 		//String xyz=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").toString());
