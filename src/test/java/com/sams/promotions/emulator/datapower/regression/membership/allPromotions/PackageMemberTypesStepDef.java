@@ -17,8 +17,8 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import io.restassured.RestAssured;
 
-public class BroadreachMemberTypesStepDef extends BaseStep {
-
+public class PackageMemberTypesStepDef extends BaseStep{
+	
 	protected String postdata, postdata2, arrx, arry, packagecode, packagecode2;
 	protected String pathsingle, OfferId, OfferId2;
 	protected String membershipNbr;
@@ -29,7 +29,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	private SoftAssertions softAssertions;
 
-	public BroadreachMemberTypesStepDef() throws IOException {
+	public PackageMemberTypesStepDef() throws IOException {
 		super();
 	}
 
@@ -47,8 +47,8 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	}
 
-	@Given("DataPower with a (.*), (.*), (.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with Code (\\d+) and Price (\\d+) and Single OrderLine (\\d+), Second Order Line (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) to be Utilised to Get BroadReach Offer$")
-	public void createtheInitialLinerequestforAllMembers(String membershipBase, String type, String Tier,
+	@Given("DataPower with a (.*), (.*), (.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with Code (\\d+) and Price (\\d+) and Single OrderLine (\\d+), Second Order Line (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) to be Utilised to Get Package Offer$")
+	public void createtheInitialLinerequestforAllMembersPackage(String membershipBase, String type, String Tier,
 			String channelName, String ClubId, String ClubId2, int code, int RetailPrice, String lineNumber,
 			String lineNumber2, String Applied_Dates, String RegistrationNumber, String TransactionId)
 			throws Exception {
@@ -75,9 +75,9 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 		while (i < 1) {
 
-			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+			String arrbr = reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(),UrlConstants.METADATA_PROMOTION_PACKAGE ,i);
 
-			String arrbry = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i + 1);
+			String arrbry = reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(),UrlConstants.METADATA_PROMOTION_PACKAGE ,i+1);
 
 			postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
 					channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates, OfferId, OfferId2,
@@ -94,15 +94,15 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 			OfferId = postRequestDetails.get("OfferId");
 			OfferId2 = postRequestDetails.get("OfferId2");
 
-			UpdatetheRequesttoDoubleLinesBroadReach(ClubId, ClubId2, RetailPrice, lineNumber2, Applied_Dates);
+			UpdatetheRequesttoDoubleLinesPackage(ClubId, ClubId2, RetailPrice, lineNumber2, Applied_Dates);
 
-			POST_the_request_for_DoubleLines_BroadReach();
-			Getparameter_and_postOperation_for_DoubleLines_BroadReach();
+			POST_the_request_for_DoubleLines_Package();
+			Getparameter_and_postOperation_for_DoubleLines_Package();
 
-			POST_the_emulator_request_for_Doublelines_BroadReach();
-			Getemulatorparameter_and_postOperation_for_Doublelines_BroadReach();
+			POST_the_emulator_request_for_Doublelines_Package();
+			Getemulatorparameter_and_postOperation_for_Doublelines_Package();
 
-			ChecktheResultsdoubleLinesBroadReach();
+			ChecktheResultsdoubleLinesPackage();
 
 			i++;
 
@@ -112,9 +112,9 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	}
 
-	@Given("^DataPower with a (.*),(.*),(.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with code (\\d+) and Price (\\d+) and Single OrderLine (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) to be Utilised to Get BroadReach Offer$")
+	@Given("^DataPower with a (.*),(.*),(.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with code (\\d+) and Price (\\d+) and Single OrderLine (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) to be Utilised to Get Package Offer$")
 
-	public void createtheSingleLineRequest(String membershipBase,String type,String Tier,
+	public void createtheSingleLineRequestPackage(String membershipBase,String type,String Tier,
 			String channelName, String ClubId, String ClubId2, int code, int RetailPrice, String lineNumber,
 			String Applied_Dates, String RegistrationNumber, String TransactionId) throws Exception {
 		    
@@ -142,7 +142,9 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 		i = 0;
 
 		while (i < 1) {
-			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+			
+			String arrbr = reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(),UrlConstants.METADATA_PROMOTION_PACKAGE ,i);
+
 
 			postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,
 					ClubId2, code, RetailPrice, lineNumber, Applied_Dates, OfferId, RegistrationNumber, TransactionId,arrbr,
@@ -155,13 +157,13 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 			OfferId = postRequestDetails.get("OfferId");
 			expected = postRequestDetails.get("expected");
 
-			POST_the_request_for_DoubleLines_BroadReach();
-			Getparameter_and_postOperation_for_DoubleLines_BroadReach();
+			POST_the_request_for_DoubleLines_Package();
+			Getparameter_and_postOperation_for_DoubleLines_Package();
 
-			POST_the_emulator_request_for_Doublelines_BroadReach();
-			Getemulatorparameter_and_postOperation_for_Doublelines_BroadReach();
+			POST_the_emulator_request_for_Doublelines_Package();
+			Getemulatorparameter_and_postOperation_for_Doublelines_Package();
 
-			ChecktheResultsdoubleLinesBroadReach();
+			ChecktheResultsdoubleLinesPackage();
 
 			i++;
 
@@ -171,7 +173,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 	}
 
 
-	public void UpdatetheRequesttoDoubleLinesBroadReach(String ClubId, String ClubId2, int RetailPrice,
+	public void UpdatetheRequesttoDoubleLinesPackage(String ClubId, String ClubId2, int RetailPrice,
 			String lineNumber, String Applied_Dates) throws Exception {
 
 		postDoubleRequestDetails = primaryrequest.getDoubleLinesRequest(disc, disc2, packagecode, packagecode2, ClubId,
@@ -184,7 +186,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	}
 
-	public void POST_the_request_for_DoubleLines_BroadReach() {
+	public void POST_the_request_for_DoubleLines_Package() {
 
 		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
 		thisRequestSpecification = RestAssured.with();
@@ -193,7 +195,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	}
 
-	public void POST_the_emulator_request_for_Doublelines_BroadReach() {
+	public void POST_the_emulator_request_for_Doublelines_Package() {
 
 		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
 		thisRequestSpecification2 = RestAssured.with();
@@ -203,19 +205,19 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	}
 
-	public void Getparameter_and_postOperation_for_DoubleLines_BroadReach() {
+	public void Getparameter_and_postOperation_for_DoubleLines_Package() {
 
 		response = thisRequestSpecification.post(UrlConstants.SERVICES_CHECKOUT).then();
 
 	}
 
-	public void Getemulatorparameter_and_postOperation_for_Doublelines_BroadReach() {
+	public void Getemulatorparameter_and_postOperation_for_Doublelines_Package() {
 
 		response2 = thisRequestSpecification2.post(UrlConstants.RESERVE_EMULATION).then();
 
 	}
 
-	public void ChecktheResultsdoubleLinesBroadReach() throws Exception {
+	public void ChecktheResultsdoubleLinesPackage() throws Exception {
 
 		softAssertions = asserthelper.ValidationsAll(response, response2, packagecode, packagecode2, OfferId, OfferId2,
 				expected);

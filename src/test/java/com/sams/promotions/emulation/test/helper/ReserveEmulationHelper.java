@@ -840,11 +840,11 @@ public class ReserveEmulationHelper extends BaseStep {
 	/*alternate*/
 	
 	public Map<String, String> getReserveRequestDetails(int i, String membershipNumber, String channelName, String ClubId,
-			String ClubId2, int code, int RetailPrice, String lineNumber, String Applied_Dates, String OfferId,String BasketId,String terminalID,
+			String ClubId2, int code, int RetailPrice, String lineNumber, String Applied_Dates, String OfferId,String BasketId,String terminalID,String arrx,
 			String pathsingle) throws Exception {
 
 
-		String arrx = BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+		//String arrx = BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 
 		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
 

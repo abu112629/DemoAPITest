@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.assertj.core.api.SoftAssertions;
+import org.junit.Assert;
 import org.springframework.stereotype.Component;
 
 import com.sams.promotions.emulation.test.base.BaseStep;
@@ -1120,5 +1121,30 @@ public class AssertHelper extends BaseStep{
 		return softAssertions;
 
 	}
+	
+	
+	public boolean ValidationResponse(ValidatableResponse response, ValidatableResponse response2) throws Exception {
+		
+		helper = new Helper();
+		Response res = response.assertThat().statusCode(200).and().extract().response();
+		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
+
+		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
+		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+		
+		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
+
+
+				System.out.println("DataPower Actual : " + Arrays.toString(actual));
+				System.out.println("Emulator Actual : " + Arrays.toString(actual2));
+
+				Assert.assertEquals(dataPowerValues,emulatorValues);
+				
+				return true;
+		
+
+	}
+
 
 }

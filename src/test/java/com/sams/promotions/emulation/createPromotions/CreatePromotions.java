@@ -59,7 +59,7 @@ public class CreatePromotions extends BaseStep {
 		
 		 //System.out.println("Savings Primary : "+ member.getMembershipType("primary", "savings", "Club"));
 		 
-		 membershipNbr = member.getMembershipType("primary", "savings", "Club");
+		 membershipNbr = member.getMembershipType("primary", "savings", "Plus");
 		 System.out.println(membershipNbr);
 		 
 		 
@@ -69,7 +69,7 @@ public class CreatePromotions extends BaseStep {
 		
 		//System.out.println(xyz);
 		
-		String arrpackage = reserveemulator.PackagePromoMetaData(prop.get("datapower.production.cert").toString(), 
+		String arrpackage = reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(), 
 				UrlConstants.METADATA_PROMOTION_PACKAGE,1);
 
 		Map<String, String> map = Helper.getPromotionDetails(arrpackage);
@@ -82,7 +82,7 @@ public class CreatePromotions extends BaseStep {
 
 		for (int i = 0; i < size; i++) {
 
-			String arrx = reserveemulator.PackagePromoMetaData(prop.get("datapower.production.cert").toString(), 
+			String arrx = reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(), 
 					UrlConstants.METADATA_PROMOTION_PACKAGE,i);
 			// Map<String, String> mapnew = Helper.getPromotionDetails(arrx);
 
