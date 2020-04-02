@@ -1,5 +1,5 @@
 
-package com.sams.promotions.emulator.regression.metaData;
+package com.sams.promotions.emulator.regression.emulatedMetaData.instantsavingMetaDataTest;
 
 import org.junit.runner.RunWith;
 
@@ -16,7 +16,7 @@ import cucumber.api.junit.Cucumber;
 				"com/sams/promotions/emulator/regression/metaData/" },
 
 		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport3.html" }
+				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport3.html" }
 
 )
 

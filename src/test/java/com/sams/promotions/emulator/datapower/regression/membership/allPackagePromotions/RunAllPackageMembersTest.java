@@ -1,5 +1,5 @@
 
-package com.sams.promotions.emulator.datapower.regression.membership.allPromotions;
+package com.sams.promotions.emulator.datapower.regression.membership.allPackagePromotions;
 
 import org.junit.runner.RunWith;
 
@@ -11,16 +11,16 @@ import cucumber.api.junit.Cucumber;
 @CucumberOptions(
 
 		monochrome = true, // dryRun=true,
-		//tags= {"regressionall"},
+		//tags= {"regressionPackage"},
 
 		features = { "src/test/resources/promotions/emulator/allPromotionsMembers/" }, 
-		glue = {"com/sams/promotions/emulator/datapower/regression/membership/allPromotions/" },
+		glue = {"com/sams/promotions/emulator/datapower/regression/membership/allPackagePromotions/" },
 
 		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport6.html" }
+				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReportTest.html" }
 
 )
 
-public class RunAllPromoMembersTest {
+public class RunAllPackageMembersTest {
 
 }

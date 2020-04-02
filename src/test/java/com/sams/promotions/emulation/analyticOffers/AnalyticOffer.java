@@ -48,7 +48,7 @@ private Long offerTypeCode;
 @JsonProperty("offerTypeDescription")
 private String offerTypeDescription;
 @JsonProperty("couponValue")
-private Long couponValue;
+private float couponValue;
 @JsonProperty("maxRedemptionCount")
 private Long maxRedemptionCount;
 @JsonProperty("minimumBasketAmount")
@@ -165,12 +165,12 @@ this.offerTypeDescription = offerTypeDescription;
 }
 
 @JsonProperty("couponValue")
-public Long getCouponValue() {
+public float getCouponValue() {
 return couponValue;
 }
 
 @JsonProperty("couponValue")
-public void setCouponValue(Long couponValue) {
+public void setCouponValue(float couponValue) {
 this.couponValue = couponValue;
 }
 

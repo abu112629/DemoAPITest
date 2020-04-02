@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -98,7 +99,7 @@ public class Helper extends BaseStep {
 		cal.add(Calendar.DATE, days); // minus number would decrement the days
 		return cal.getTime();
 	}
-	
+
 	public static Map<String, String> getDates(String requiredDates) throws java.text.ParseException {
 
 		Map<String, String> ReqDates = new HashMap<String, String>();
@@ -152,6 +153,36 @@ public class Helper extends BaseStep {
 		ReqDates.put("lastdate", lastdate);
 
 		return ReqDates;
+
+	}
+
+	public Map<String, String> getRetailPrice(String arrx) throws java.text.ParseException {
+
+		String SameRetailPrice, LessRetailPrice, MoreRetailPrice;
+
+		Map<String, String> RetailPrices = new HashMap<String, String>();
+
+		Map<String, String> mapx = Helper.getPromotionDetails(arrx);
+		String retailPx = mapx.get("Discount");
+
+		DecimalFormat format = new DecimalFormat("0.#");
+
+		float retpx = Float.valueOf(retailPx) * 100;
+		float SameRetailPx = retpx;
+		float LessRetailPx = retpx - 100;
+		float MoreRetailPx = retpx + 100;
+
+		SameRetailPrice = format.format(SameRetailPx);
+
+		LessRetailPrice = format.format(LessRetailPx);
+
+		MoreRetailPrice = format.format(MoreRetailPx);
+
+		RetailPrices.put("SameRetailPrice", SameRetailPrice);
+		RetailPrices.put("LessRetailPrice", LessRetailPrice);
+		RetailPrices.put("MoreRetailPrice", MoreRetailPrice);
+
+		return RetailPrices;
 
 	}
 
@@ -215,6 +246,65 @@ public class Helper extends BaseStep {
 
 	}
 
+	public Map<String, String> getRetailPriceMetadata(String arrx, String arry) throws java.text.ParseException {
+
+		String SameRetailPrice, LessRetailPrice, MoreRetailPrice;
+
+		Map<String, String> RetailPrices = new HashMap<String, String>();
+
+		Map<String, String> mapx = Helper.getPromotionDetails(arrx);
+		String retailPx = mapx.get("Discount");
+
+		Map<String, String> mapy = Helper.getPromotionDetails(arry);
+		String retailPy = mapy.get("Discount");
+
+		DecimalFormat format = new DecimalFormat("0.#");
+
+		float retpx = Float.valueOf(retailPx) * 100;
+		float retpy = Float.valueOf(retailPy) * 100;
+
+		float SameRetailPx = retpx;
+		float LessRetailPx = retpx - 100;
+		float MoreRetailPx = retpx + 100;
+
+		float SameRetaily = retpy;
+		float LessRetailPy = retpy - 100;
+		float MoreRetailPy = retpy + 100;
+
+		if (Float.compare(SameRetailPx, SameRetaily) < 0) {
+			SameRetailPrice = format.format(SameRetaily);
+		}
+
+		else {
+			SameRetailPrice = format.format(SameRetailPx);
+
+		}
+
+		if (Float.compare(LessRetailPx, LessRetailPy) < 0) {
+
+			LessRetailPrice = format.format(LessRetailPx);
+		}
+
+		else {
+
+			LessRetailPrice = format.format(LessRetailPy);
+		}
+
+		if (Float.compare(MoreRetailPx, MoreRetailPy) < 0) {
+
+			MoreRetailPrice = format.format(MoreRetailPy);
+		} else {
+			MoreRetailPrice = format.format(MoreRetailPx);
+		}
+
+		RetailPrices.put("SameRetailPrice", SameRetailPrice);
+		RetailPrices.put("LessRetailPrice", LessRetailPrice);
+		RetailPrices.put("MoreRetailPrice", MoreRetailPrice);
+
+		return RetailPrices;
+
+	}
+
 	public static Map<String, String> getPromotionDetails(String promotion) throws java.text.ParseException {
 
 		Map<String, String> promotionDetails = new HashMap<String, String>();
@@ -242,10 +332,11 @@ public class Helper extends BaseStep {
 
 		promotionDetails.put("QSOfferId", abc[0]);
 		promotionDetails.put("Total", abc[1]);
-		
+
 		return promotionDetails;
 
 	}
+
 	public static String getPrettyString(String xmlData) throws Exception {
 
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -638,7 +729,7 @@ public class Helper extends BaseStep {
 	}
 
 	public static String getEnvironment() {
-		
+
 		String environment = "";
 		try {
 			// environment = System.getenv("env");
@@ -666,21 +757,17 @@ public class Helper extends BaseStep {
 	public Map<String, String> getAssertValues(String qs_response) throws Exception {
 
 		String basketId, responseDescription, FirstLineOfferId, FirstLineOfferDescription, FirstLinetype,
-		FirstLinegs1Code, FirstLinefeaturedText, FirstLineserialNumber, FirstLinesettlementId, FirstLinegtin,
-		FirstLineTotalDiscount, FirstLineQuanity, FirstLineItemId, FirstLineEachItemDiscount;
-		
-		 String SecondLineOfferId, SecondLineOfferDescription, SecondLinetype, SecondLinegs1Code,
-			SecondLinefeaturedText, SecondLineserialNumber, SecondLinesettlementId, SecondLinegtin,
-			SecondLineTotalDiscount, SecondLineQuanity, SecondLineItemId, SecondLineEachItemDiscount;
-		 
-		 basketId=responseDescription=FirstLineOfferId=FirstLineOfferDescription=FirstLinetype=
-			FirstLinegs1Code=FirstLinefeaturedText=FirstLineserialNumber=FirstLinesettlementId=FirstLinegtin=
-			FirstLineTotalDiscount=FirstLineQuanity=FirstLineItemId=FirstLineEachItemDiscount="";
-		 
-		 SecondLineOfferId=SecondLineOfferDescription=SecondLinetype=SecondLinegs1Code=
-			SecondLinefeaturedText=SecondLineserialNumber=SecondLinesettlementId=SecondLinegtin=
-			SecondLineTotalDiscount=SecondLineQuanity=SecondLineItemId=SecondLineEachItemDiscount="";
-		
+				FirstLinegs1Code, FirstLinefeaturedText, FirstLineserialNumber, FirstLinesettlementId, FirstLinegtin,
+				FirstLineTotalDiscount, FirstLineQuanity, FirstLineItemId, FirstLineEachItemDiscount;
+
+		String SecondLineOfferId, SecondLineOfferDescription, SecondLinetype, SecondLinegs1Code, SecondLinefeaturedText,
+				SecondLineserialNumber, SecondLinesettlementId, SecondLinegtin, SecondLineTotalDiscount,
+				SecondLineQuanity, SecondLineItemId, SecondLineEachItemDiscount;
+
+		basketId = responseDescription = FirstLineOfferId = FirstLineOfferDescription = FirstLinetype = FirstLinegs1Code = FirstLinefeaturedText = FirstLineserialNumber = FirstLinesettlementId = FirstLinegtin = FirstLineTotalDiscount = FirstLineQuanity = FirstLineItemId = FirstLineEachItemDiscount = "";
+
+		SecondLineOfferId = SecondLineOfferDescription = SecondLinetype = SecondLinegs1Code = SecondLinefeaturedText = SecondLineserialNumber = SecondLinesettlementId = SecondLinegtin = SecondLineTotalDiscount = SecondLineQuanity = SecondLineItemId = SecondLineEachItemDiscount = "";
+
 		Unmarshaller xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketResponse.class);
 
 		SOAPUtil soapUtil = new SOAPUtil();

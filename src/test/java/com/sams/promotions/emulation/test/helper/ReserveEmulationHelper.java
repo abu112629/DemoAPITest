@@ -455,6 +455,7 @@ public class ReserveEmulationHelper extends BaseStep {
 
 		for (BroadReachOffer line : list) {
 
+			
 			PromoNumber = line.getCouponNumber();
 			Discount = line.getCouponValue();
 			StartDate = line.getStartDate();
@@ -585,7 +586,7 @@ public class ReserveEmulationHelper extends BaseStep {
 		for (AnalyticOffer line : list) {
 			
 			long PromoNumber = line.getCouponNumber();
-			long Discount = line.getCouponValue();
+			float Discount = line.getCouponValue();
 			String StartDate = line.getStartDate();
 			String EndDate = line.getEndDate();
 			long PackageCode = line.getPackageCode();
@@ -655,31 +656,29 @@ public class ReserveEmulationHelper extends BaseStep {
 			float Discount = line.getCouponValue();
 			String StartDate = line.getStartDate();
 			String EndDate = line.getEndDate();
-			long PackageCode= 0;
-			if (line.getPackageCode()!=null) {
-				
-				PackageCode=line.getPackageCode();
-			}
-			else {
-				
-				PackageCode=0;
-			}
-			long maxRedemptionCount=0;
-			String maxredcnt=null;
-			
-			if (line.getPackageCode()!=null) {
-				
-				maxredcnt=String.valueOf(maxRedemptionCount);
-			}
-			else {
-				
-				maxredcnt=null;
-			}
+			long PackageCode=line.getPackageCode();
+			/*
+			 * if (line.getPackageCode()!=null) {
+			 * 
+			 * PackageCode=line.getPackageCode(); } else {
+			 * 
+			 * PackageCode=0; }
+			 */
+			long maxRedemptionCount=line.getMaxRedemptionCount();
+			/*
+			 * String maxredcnt;
+			 * 
+			 * if (line.getPackageCode()!=null) {
+			 * 
+			 * maxredcnt=String.valueOf(maxRedemptionCount); } else {
+			 * 
+			 * maxredcnt=null; }
+			 */
 			
 			
 			String offerTypeDescription=line.getOfferTypeDescription();
 			
-			maxredcnt=String.valueOf(maxRedemptionCount);
+			String maxredcnt=String.valueOf(maxRedemptionCount);
 			String ite = null;
 			String mpq = null;
 
@@ -840,11 +839,12 @@ public class ReserveEmulationHelper extends BaseStep {
 	/*alternate*/
 	
 	public Map<String, String> getReserveRequestDetails(int i, String membershipNumber, String channelName, String ClubId,
-			String ClubId2, int code, int RetailPrice, String lineNumber, String Applied_Dates, String OfferId,String BasketId,String terminalID,String arrx,
+			String ClubId2, int code, String RetailPrice, String lineNumber, String Applied_Dates,String BasketId,String terminalID,String arrx,
 			String pathsingle) throws Exception {
 
 
 		//String arrx = BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+		helpermethod = new Helper();
 
 		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
 
@@ -859,64 +859,130 @@ public class ReserveEmulationHelper extends BaseStep {
 		}
 
 		Map<String, String> map = Helper.getDatesMetadata(arrx);
-
-		String packagecode = promodetails.get("PackageCode");
-
-		Double Discount = Double.valueOf(promodetails.get("Discount"))*100;
-		int disc = (int) Math.abs(Discount);
-		OfferId = promodetails.get("PromoId");
+		Map<String, String> maprx = helpermethod.getRetailPrice(arrx);
 
 		Quantity = Integer.valueOf(promodetails.get("MinimumPurchaseQuantity"));
+		
 
+		switch (RetailPrice) {
+		
+		case "SAME_PRICE":
+			
 		switch (Applied_Dates) {
 		
 		case "FIRST_DATE":
-			postdata = ReserveRequestUpdater(Quantity, ItemId, RetailPrice, ClubId, lineNumber, code, channelName,
+			postdata = ReserveRequestUpdater(Quantity, ItemId, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId, lineNumber, code, channelName,
 					membershipNumber, map.get("firstdate"),BasketId, terminalID,pathsingle);
-			postdata2 = ReserveRequestUpdater(Quantity, ItemId, RetailPrice, ClubId2, lineNumber, code, channelName,
+			postdata2 = ReserveRequestUpdater(Quantity, ItemId, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId2, lineNumber, code, channelName,
 					membershipNumber, map.get("firstdate"), BasketId,terminalID,pathsingle);
 			
-			expected = new String[] { OfferId, String.valueOf(disc) };
-			
 
 			break;
+			
 		case "MIDDLE_DATE":
 
-			postdata = ReserveRequestUpdater(Quantity * 2, ItemId, RetailPrice, ClubId, lineNumber, code, channelName,
+			postdata = ReserveRequestUpdater(Quantity * 2, ItemId, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId, lineNumber, code, channelName,
 					membershipNumber, map.get("midDate"), BasketId, terminalID,pathsingle);
 
-			postdata2 = ReserveRequestUpdater(Quantity * 2, ItemId, RetailPrice, ClubId2, lineNumber, code, channelName,
+			postdata2 = ReserveRequestUpdater(Quantity * 2, ItemId, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId2, lineNumber, code, channelName,
 					membershipNumber, map.get("midDate"), BasketId, terminalID,pathsingle);
 
-			int SecondDiscountfirstline = disc * 2;
-			String discount2 = String.valueOf(SecondDiscountfirstline);
-
-			expected = new String[] { OfferId, discount2 };
 
 			break;
+			
 		case "LAST_DATE":
-			postdata = ReserveRequestUpdater(Quantity * 3, ItemId, RetailPrice, ClubId, lineNumber, code, channelName,
+			postdata = ReserveRequestUpdater(Quantity * 3, ItemId, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId, lineNumber, code, channelName,
 					membershipNumber, map.get("lastdate"), BasketId, terminalID,pathsingle);
 
-			postdata2 = ReserveRequestUpdater(Quantity * 3, ItemId, RetailPrice, ClubId2, lineNumber, code, channelName,
+			postdata2 = ReserveRequestUpdater(Quantity * 3, ItemId, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId2, lineNumber, code, channelName,
 					membershipNumber, map.get("lastdate"),BasketId, terminalID, pathsingle);
 
-			int ThirdDiscountfirstline = disc * 3;
-			String discount3 = String.valueOf(ThirdDiscountfirstline);
-
-			expected = new String[] { OfferId, discount3 };
 
 			break;
 
 		}
+		break;
+		
+		case "LESS_PRICE":
+			switch (Applied_Dates) {
+			
+			case "FIRST_DATE":
+				postdata = ReserveRequestUpdater(Quantity, ItemId, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId, lineNumber, code, channelName,
+						membershipNumber, map.get("firstdate"),BasketId, terminalID,pathsingle);
+				postdata2 = ReserveRequestUpdater(Quantity, ItemId, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId2, lineNumber, code, channelName,
+						membershipNumber, map.get("firstdate"), BasketId,terminalID,pathsingle);
+				
 
+				break;
+				
+			case "MIDDLE_DATE":
+
+				postdata = ReserveRequestUpdater(Quantity * 2, ItemId, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId, lineNumber, code, channelName,
+						membershipNumber, map.get("midDate"), BasketId, terminalID,pathsingle);
+
+				postdata2 = ReserveRequestUpdater(Quantity * 2, ItemId, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId2, lineNumber, code, channelName,
+						membershipNumber, map.get("midDate"), BasketId, terminalID,pathsingle);
+
+
+				break;
+				
+			case "LAST_DATE":
+				postdata = ReserveRequestUpdater(Quantity * 3, ItemId, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId, lineNumber, code, channelName,
+						membershipNumber, map.get("lastdate"), BasketId, terminalID,pathsingle);
+
+				postdata2 = ReserveRequestUpdater(Quantity * 3, ItemId, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId2, lineNumber, code, channelName,
+						membershipNumber, map.get("lastdate"),BasketId, terminalID, pathsingle);
+
+
+				break;
+
+			}
+			break;
+			
+		case "MORE_PRICE":
+			
+			switch (Applied_Dates) {
+			
+			case "FIRST_DATE":
+				postdata = ReserveRequestUpdater(Quantity, ItemId, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId, lineNumber, code, channelName,
+						membershipNumber, map.get("firstdate"),BasketId, terminalID,pathsingle);
+				postdata2 = ReserveRequestUpdater(Quantity, ItemId, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId2, lineNumber, code, channelName,
+						membershipNumber, map.get("firstdate"), BasketId,terminalID,pathsingle);
+				
+
+				break;
+				
+			case "MIDDLE_DATE":
+
+				postdata = ReserveRequestUpdater(Quantity * 2, ItemId, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId, lineNumber, code, channelName,
+						membershipNumber, map.get("midDate"), BasketId, terminalID,pathsingle);
+
+				postdata2 = ReserveRequestUpdater(Quantity * 2, ItemId, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId2, lineNumber, code, channelName,
+						membershipNumber, map.get("midDate"), BasketId, terminalID,pathsingle);
+
+
+				break;
+				
+			case "LAST_DATE":
+				postdata = ReserveRequestUpdater(Quantity * 3, ItemId, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId, lineNumber, code, channelName,
+						membershipNumber, map.get("lastdate"), BasketId, terminalID,pathsingle);
+
+				postdata2 = ReserveRequestUpdater(Quantity * 3, ItemId, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId2, lineNumber, code, channelName,
+						membershipNumber, map.get("lastdate"),BasketId, terminalID, pathsingle);
+
+
+				break;
+
+			}
+			break;
+			
+			
+		
+		}
 		Map<String, String> postrequestDetails = new HashMap<String, String>();
 
 		postrequestDetails.put("DataPowerRequest", postdata);
 		postrequestDetails.put("EmulatorRequest", postdata2);
-		postrequestDetails.put("PackageCode", packagecode);
-		postrequestDetails.put("OfferId", OfferId);
-		postrequestDetails.put("expected", Arrays.toString(expected));
 
 		return postrequestDetails;
 

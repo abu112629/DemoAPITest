@@ -27,8 +27,13 @@
 						<additionalClasspathElement>${basedir}/target/classes
 						</additionalClasspathElement>
 					</additionalClasspathElements>
-					<parallel>classesAndMethods</parallel>
-        			<useUnlimitedThreads>true</useUnlimitedThreads>
+					<parallel>both</parallel>
+					<useUnlimitedThreads>true</useUnlimitedThreads>
+					<!-- <threadCount>10</threadCount> -->
+					<forkCount>3</forkCount>
+					<reuseForks>false</reuseForks>
+					<!-- <argLine>-Xmx2048M -XX:MaxPermSize=2048M</argLine> -->
+
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
@@ -36,11 +41,6 @@
 				<!-- <executions> <execution> <goals> <goal>integration-test</goal> <goal>verify</goal> 
 					</goals> </execution> </executions> -->
 			</plugin>
-
-			<!-- <plugin> <groupId>org.jacoco</groupId> <artifactId>jacoco-maven-plugin</artifactId> 
-				<version>0.8.3</version> <configuration> <includes> <include>com/sams/promotions/platform/emulation/core/*</include> 
-				<include>com/sams/promotions/platform/emulation/services/* </include> </includes> 
-				</configuration> </plugin> -->
 
 			<plugin>
 
@@ -64,33 +64,14 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>net.masterthought</groupId>
-				<artifactId>cucumber-sandwich</artifactId>
-				<version>5.0.2</version>
-				<executions>
-					<execution>
-						<id>execution</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<projectName>Promotions Automation Test Report</projectName>
-							<outputDirectory>${basedir}/site/cucumber-reports
-							</outputDirectory>
-							<cucumberOutput>${basedir}/cucumber.json</cucumberOutput>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
-					<source>1.8</source>
+					<!-- <forkCount>3</forkCount> <reuseForks>true</reuseForks> -->
 					<target>1.8</target>
 				</configuration>
 			</plugin>
@@ -101,7 +82,6 @@
 	</build>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>net.sf.saxon</groupId>
 			<artifactId>Saxon-HE</artifactId>
@@ -204,17 +184,15 @@
 		<dependency>
 			<groupId>com.vimalselvam</groupId>
 			<artifactId>cucumber-extentsreport</artifactId>
-			<version>3.0.2</version>
+			<version>3.1.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.aventstack</groupId>
 			<artifactId>extentreports</artifactId>
-			<version>3.0.6</version>
+			<version>3.1.1</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>com.relevantcodes</groupId> <artifactId>extentreports</artifactId> 
-			<version>2.40.2</version> </dependency> -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>

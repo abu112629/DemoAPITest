@@ -26,5 +26,5 @@ Feature: Verify All Clubs , ACTIVE PRIMARY Member , MPQ - 1, Unlimited Redemptio
       | <Offer Description> | <GS1Code> | <Offer Id> | <Gtin> | <Discount> |
 
     Examples: 
-      | membership | type    | Tier | Quantity | ItemId    | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | SecondOrderLine | ItemId2   | Quantity2 | Offer Description | GS1Code       | Offer Id | Gtin   | Discount | Applied_Dates |  |
-      | business   | primary | Club |        1 | 980143632 |           2 |        3000 |   4969 |          1 | POS     |               2 | 980071770 |         1 | IS Item$Dis       | 0000000001111 |    84179 | 779240 |      400 | FIRST_DATE    |  |
+      | membership | type    | Tier | Quantity | ItemId    | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | SecondOrderLine | ItemId2   | Quantity2 | Offer Description | GS1Code       | Offer Id | Gtin   | Discount | Applied_Dates |  
+      | business   | primary | Club |        1 | 980143632 |           2 |        3000 |   4969 |          1 | POS     |               2 | 980071770 |         1 | IS Item$Dis       | 0000000001111 |    84179 | 779240 |      400 | FIRST_DATE    |

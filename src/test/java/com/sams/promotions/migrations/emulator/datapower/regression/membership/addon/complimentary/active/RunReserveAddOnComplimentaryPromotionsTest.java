@@ -17,7 +17,7 @@ import cucumber.api.junit.Cucumber;
 						"com/sams/promotions/migrations/emulator/datapower/regression/membership/addon/complimentary/active/" },
 
 		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport4.html" }
+				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport4.html" }
 
 )
 

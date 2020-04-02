@@ -97,6 +97,7 @@ public class ClientConfigurationDatabase extends BaseStep {
 				
 			}
 	
+		client.close();
 		return result;
 
 	}
@@ -143,6 +144,7 @@ public class ClientConfigurationDatabase extends BaseStep {
 				
 			}
 	
+		client.close();	
 		return result;
 
 	}
@@ -187,6 +189,7 @@ public class ClientConfigurationDatabase extends BaseStep {
 				//}
 			}
 
+			con.close();
 		}
 
 		catch (Exception e) {
@@ -234,7 +237,7 @@ public class ClientConfigurationDatabase extends BaseStep {
 				//}
 			}
 
-
+			con.close();
 			
 		}
 
@@ -289,7 +292,8 @@ public class ClientConfigurationDatabase extends BaseStep {
 
 				//}
 			}
-
+			
+			con.close();
 		}
 
 		catch (Exception e) {

@@ -14,7 +14,6 @@ import com.sams.promotions.emulation.test.helper.Helper;
 import com.sams.promotions.emulation.test.helper.ReserveEmulationHelper;
 import com.sams.promotions.emulation.test.membershipCreate.Membership;
 import com.sams.promotions.emulation.test.steps.util.ClientConfigurationDatabase;
-import com.sams.promotions.emulator.datapower.regression.membership.allPromotions.Membership_Types;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.Before;

@@ -1,4 +1,4 @@
-package com.sams.promotions.emulator.datapower.regression.membership.allPromotions;
+package com.sams.promotions.emulation.createMembers;
 
 import java.io.IOException;
 

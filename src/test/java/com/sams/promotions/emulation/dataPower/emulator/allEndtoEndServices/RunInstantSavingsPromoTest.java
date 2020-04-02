@@ -19,7 +19,7 @@ import cucumber.api.junit.Cucumber;
 				"com/sams/promotions/emulation/dataPower/emulator/allEndtoEndServices" },
 
 		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport3.html" }
+				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport3.html" }
 
 )
 

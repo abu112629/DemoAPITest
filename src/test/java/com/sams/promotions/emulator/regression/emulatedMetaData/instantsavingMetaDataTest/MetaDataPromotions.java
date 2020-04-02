@@ -1,4 +1,4 @@
-package com.sams.promotions.emulator.regression.metaData;
+package com.sams.promotions.emulator.regression.emulatedMetaData.instantsavingMetaDataTest;
 
 import java.io.IOException;
 import java.util.Map;
