@@ -11,7 +11,7 @@ public class MemberSelect {
 	
 	public String memberRequest(String memberRequest,String type,String tier) throws IOException {
 		
-		try(Stream<String> stream =Files.lines(Paths.get("src/test/resources/Emulation_Input/Promotions.txt"))){
+		try(Stream<String> stream =Files.lines(Paths.get("src/test/resources/Emulation_Input/Members.txt"))){
 			
 			String requiredMembership="";
 			

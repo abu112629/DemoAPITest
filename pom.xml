@@ -123,12 +123,12 @@
 		<dependency>
 			<groupId>com.sams.promotions.platform</groupId>
 			<artifactId>promotions-platform-common</artifactId>
-			<version>0.0.32-SNAPSHOT</version>
+			<version>0.0.45-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sams.promotions.platform</groupId>
 			<artifactId>promotions-platform-dal</artifactId>
-			<version>0.0.32-SNAPSHOT</version>
+			<version>0.0.30-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>ibm.db2</groupId>
@@ -138,7 +138,7 @@
 		<dependency>
 			<groupId>com.sams.promotions.platform</groupId>
 			<artifactId>emulation-api</artifactId>
-			<version>0.0.36-SNAPSHOT</version>
+			<version>0.0.56-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>info.cukes</groupId>

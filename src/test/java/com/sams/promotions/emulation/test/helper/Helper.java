@@ -776,7 +776,7 @@ public class Helper extends BaseStep {
 
 		int code = res.getResponseMessage().getCode();
 		responseDescription = res.getResponseMessage().getDescription();
-		basketId = res.getCustomerBasket().getBasketID();
+		basketId = Long.toString(res.getCustomerBasket().getBasketID());
 
 		List<Offer> offerid = res.getCustomerBasket().getOffers();
 
@@ -786,14 +786,14 @@ public class Helper extends BaseStep {
 			// line.getOrderLinesInOfferSummary().getOrderLines();
 
 			List<OrderLine> orderLines = line.getOrderLinesInOfferSummary().getOrderLines().stream()
-					.sorted((ol1, ol2) -> ol1.getLineNumber().compareTo(ol2.getLineNumber()))
+					.sorted((ol1, ol2) -> Integer.toString(ol1.getLineNumber()).compareTo(Integer.toString(ol2.getLineNumber())))
 					.collect(Collectors.toList());
 
 			for (OrderLine ol : orderLines) {
 
-				if (ol.getLineNumber().contentEquals("1")) {
+				if (Integer.toString(ol.getLineNumber()).contentEquals("1")) {
 
-					FirstLineOfferId = line.getId();
+					FirstLineOfferId = Long.toString(line.getId());
 					FirstLineOfferDescription = line.getDescription();
 					FirstLinetype = line.getType();
 					FirstLinegs1Code = line.getGs1Code();
@@ -803,15 +803,15 @@ public class Helper extends BaseStep {
 					FirstLinegtin = line.getOfferGlobalTradeItem().getGtin();
 
 					FirstLineTotalDiscount = line.getDiscount().getAmount().getValue().toString();
-					FirstLineQuanity = ol.getQuantity().getAmount().toString();
-					FirstLineItemId = ol.getProductOffering().getId();
+					FirstLineQuanity = Long.toString(ol.getQuantity().getAmount());
+					FirstLineItemId = Long.toString(ol.getProductOffering().getId());
 					FirstLineEachItemDiscount = ol.getProductOffering().getPrice().getAmount().getValue().toString();
 
 				}
 
-				else if (ol.getLineNumber().contentEquals("2")) {
+				else if (Integer.toString(ol.getLineNumber()).contentEquals("2")) {
 
-					SecondLineOfferId = line.getId();
+					SecondLineOfferId = Long.toString(line.getId());
 					SecondLineOfferDescription = line.getDescription();
 					SecondLinetype = line.getType();
 					SecondLinegs1Code = line.getGs1Code();
@@ -821,8 +821,8 @@ public class Helper extends BaseStep {
 					SecondLinegtin = line.getOfferGlobalTradeItem().getGtin();
 
 					SecondLineTotalDiscount = line.getDiscount().getAmount().getValue().toString();
-					SecondLineQuanity = ol.getQuantity().getAmount().toString();
-					SecondLineItemId = ol.getProductOffering().getId();
+					SecondLineQuanity = Long.toString(ol.getQuantity().getAmount());
+					SecondLineItemId = Long.toString(ol.getProductOffering().getId());
 					SecondLineEachItemDiscount = ol.getProductOffering().getPrice().getAmount().getValue().toString();
 				}
 

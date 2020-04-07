@@ -1,10 +1,11 @@
 package com.sams.promotions.emulation.test.helper;
 
 import static com.sams.promotions.emulation.test.steps.util.UnitTestUtil.loadResourceAsString;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -130,7 +131,7 @@ public class ReserveEmulationHelper extends BaseStep {
 		MockitoAnnotations.initMocks(this);
 
 		Mockito.doReturn(CurrencyUnitEnum.USD).when(currencyUnitMapper).mapCurrencyUnit(Mockito.nullable(String.class));
-		Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldLookup(anyInt());
+		Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
 
 		MutableMessage<OrderApplyRequestWrapper> test = xmlToJsonHelperReserve.fromSOAP(inputreserve);
 
@@ -151,7 +152,7 @@ public class ReserveEmulationHelper extends BaseStep {
 		MockitoAnnotations.initMocks(this);
 
 		Mockito.doReturn(CurrencyUnitEnum.USD).when(currencyUnitMapper).mapCurrencyUnit(Mockito.nullable(String.class));
-		Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldLookup(anyInt());
+		Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
 
 		dUtil = new DateUtil();
 		TransactionKeyAttributes body = xmlToJsonHelperReserve.fromSOAP(inputreserve).getBody().getPayload()
@@ -205,7 +206,7 @@ public class ReserveEmulationHelper extends BaseStep {
 
 		List<OrderLine> list = request.getMessageBody().getCustomerBasket().getOrderLines();
 		
-		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 		String redeemxml = helpermethod.GenerateStringFromResource(Redeempath);
 
 		xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(RedeemOffersRequest.class);
@@ -213,7 +214,7 @@ public class ReserveEmulationHelper extends BaseStep {
 		RedeemOffersRequest req = soapUtil.unwrapSoap(xmlUnmarshaller, redeemxml, RedeemOffersRequest.class);
 		req.getMessageBody().getChannel().setCode(code);
 		req.getMessageBody().getCustomerOrder().getCustomer().setId(id);
-		req.getMessageBody().getCustomerOrder().getSalesTransaction().setTxTime(txTime);
+		req.getMessageBody().getCustomerOrder().getSalesTransaction().setTxTime(LocalDateTime.parse(txTime, formatter));
 		req.getMessageBody().getCustomerOrder().getSalesTransaction().getBusinessUnit().getBusinessUnitType()
 				.getTerminal().setTerminalID(terminalID);
 		req.getMessageBody().getCustomerOrder().getSalesTransaction().getBusinessUnit().setNumber(number);

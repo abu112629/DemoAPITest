@@ -446,7 +446,7 @@ Feature: Verify BroadReach Promotions in the MetaData for Active Members with Si
   @regressionBroadReach
   Scenario Outline: QuickSilver Promos for BroadReach Regular Mix and Match Single Order Lines for Promo Items with ACTIVE <type> <membership> <Tier> Member
     Given DataPower with a <membership>,<type>,<Tier>, and <Channel> with <ClubId> for InstantSavings and <ClubId2> for QuickSilver with code <ChannelCode> and Price <RetailPrice> and Single OrderLine <OrderLines> in <Applied_Dates> with Registration Number <RegistrationNumber> and TransactionId <TransactionId> to be Utilised to Get BroadReach Offer
-
+		
     Examples: 
       | membership | type                | Tier | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | Applied_Dates | ClubId2 | RegistrationNumber | TransactionId |
       | business   | primary             | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4226 |            83 |

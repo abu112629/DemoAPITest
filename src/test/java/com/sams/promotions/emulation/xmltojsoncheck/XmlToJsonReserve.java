@@ -1,7 +1,6 @@
 package com.sams.promotions.emulation.xmltojsoncheck;
 
 import static com.sams.promotions.emulation.test.steps.util.UnitTestUtil.loadResourceAsString;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -62,7 +61,7 @@ public class XmlToJsonReserve {
 		MockitoAnnotations.initMocks(this);
 
 		Mockito.doReturn(CurrencyUnitEnum.USD).when(currencyUnitMapper).mapCurrencyUnit(Mockito.nullable(String.class));
-		Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldLookup(anyInt());
+		Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
 
 		MutableMessage<OrderApplyRequestWrapper> test = xmlToJsonHelperReserve.fromSOAP(inputreserve);
 

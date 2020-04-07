@@ -1,7 +1,8 @@
 package com.sams.promotions.emulation.test.helper;
 
-import com.sams.promotions.platform.models.RefundResponse;
+
 import com.sams.promotions.platform.models.emulation.refund.reserve.api.request.RefundReserveRequest;
+import com.sams.promotions.platform.models.emulation.refund.reserve.api.response.RefundResponse;
 import com.sams.promotions.platform.models.emulation.refund.reserve.request.CheckoutRefundReserveRequest;
 import com.sams.promotions.platform.emulation.core.constants.MappingConstants;
 import com.sams.promotions.platform.emulation.model.MutableMessage;
