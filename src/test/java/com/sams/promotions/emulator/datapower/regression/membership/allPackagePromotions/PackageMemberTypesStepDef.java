@@ -78,25 +78,43 @@ public class PackageMemberTypesStepDef extends BaseStep {
 
 			String arrbry = reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(),
 					UrlConstants.METADATA_PROMOTION_PACKAGE, i + 1);
+			
 
-			postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
-					channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates,
-					RegistrationNumber, TransactionId, arrbr, arrbry, pathsingle);
+			  Map<String, String> mapr =Helper.getPromotionDetails(arrbr); String
+			  promoIdr=mapr.get("PromoId");
+			  
+			  Map<String, String> mapry =Helper.getPromotionDetails(arrbry); String
+			  promoIdry=mapry.get("PromoId");
+			  
+			  if(promoIdr.contentEquals(promoIdry)) {
+				  
+				  postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
+							channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates,
+							RegistrationNumber, TransactionId, arrbr, arrbry, pathsingle);
 
-			postdata = postRequestDetails.get("DataPowerRequest");
-			postdata2 = postRequestDetails.get("EmulatorRequest");
+					postdata = postRequestDetails.get("DataPowerRequest");
+					postdata2 = postRequestDetails.get("EmulatorRequest");
 
-			UpdatetheRequesttoDoubleLinesPackage(ClubId, ClubId2, RetailPrice, lineNumber2, Applied_Dates,arrbr, arrbry);
+					UpdatetheRequesttoDoubleLinesPackage(ClubId, ClubId2, RetailPrice, lineNumber2, Applied_Dates,arrbr, arrbry);
 
-			POST_the_request_for_DoubleLines_Package();
-			Getparameter_and_postOperation_for_DoubleLines_Package();
+					POST_the_request_for_DoubleLines_Package();
+					Getparameter_and_postOperation_for_DoubleLines_Package();
 
-			POST_the_emulator_request_for_Doublelines_Package();
-			Getemulatorparameter_and_postOperation_for_Doublelines_Package();
+					POST_the_emulator_request_for_Doublelines_Package();
+					Getemulatorparameter_and_postOperation_for_Doublelines_Package();
 
-			ChecktheResultsdoubleLinesPackage();
+					ChecktheResultsdoubleLinesPackage();
 
-			i++;
+					i++;
+			 
+			  }
+			  
+			  else {
+				  
+				  i++;
+			  }
+
+			
 
 		}
 
@@ -124,14 +142,14 @@ public class PackageMemberTypesStepDef extends BaseStep {
 		int i = 0;
 		
 		Map<String, String> mapqs = Helper.getPromotionDetails(
-				reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(),
+				reserveemulator.PackageSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(),
 						UrlConstants.METADATA_PROMOTION_PACKAGE, i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
 
 		while (i < size) {
 
-			String arrbr = reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(),
+			String arrbr = reserveemulator.PackageSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(),
 					UrlConstants.METADATA_PROMOTION_PACKAGE, i);
 
 			postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,

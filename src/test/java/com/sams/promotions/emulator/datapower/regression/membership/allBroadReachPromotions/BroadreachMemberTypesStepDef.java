@@ -65,41 +65,51 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 		}
 
 		int i = 0;
-		
-		  Map<String, String> mapqs =
-		  Helper.getPromotionDetails(reserveemulator.BroadReachPromoMetaData(prop.get(
-		  "metadata.prod.rest").toString(), i)); 
-		  int size =
-		  Integer.valueOf(mapqs.get("SizeOfMetaData"));
-		 
 
-		
+		Map<String, String> mapqs = Helper.getPromotionDetails(
+				reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i));
+		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < size-1) {
+		while (i < size - 1) {
 
 			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 
 			String arrbry = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i + 1);
 
-			postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
-					channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates,
-					RegistrationNumber, TransactionId, arrbr, arrbry, pathsingle);
+			Map<String, String> mapr = Helper.getPromotionDetails(arrbr);
+			String promoIdr = mapr.get("PromoId");
 
-			postdata = postRequestDetails.get("DataPowerRequest");
-			postdata2 = postRequestDetails.get("EmulatorRequest");
+			Map<String, String> mapry = Helper.getPromotionDetails(arrbry);
+			String promoIdry = mapry.get("PromoId");
 
+			if (promoIdr.contentEquals(promoIdry)) {
 
-			UpdatetheRequesttoDoubleLinesBroadReach(ClubId, ClubId2, RetailPrice, lineNumber2, Applied_Dates,arrbr,arrbry);
+				postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
+						channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber,
+						TransactionId, arrbr, arrbry, pathsingle);
 
-			POST_the_request_for_DoubleLines_BroadReach();
-			Getparameter_and_postOperation_for_DoubleLines_BroadReach();
+				postdata = postRequestDetails.get("DataPowerRequest");
+				postdata2 = postRequestDetails.get("EmulatorRequest");
 
-			POST_the_emulator_request_for_Doublelines_BroadReach();
-			Getemulatorparameter_and_postOperation_for_Doublelines_BroadReach();
+				UpdatetheRequesttoDoubleLinesBroadReach(ClubId, ClubId2, RetailPrice, lineNumber2, Applied_Dates, arrbr,
+						arrbry);
 
-			ChecktheResultsdoubleLinesBroadReach();
+				POST_the_request_for_DoubleLines_BroadReach();
+				Getparameter_and_postOperation_for_DoubleLines_BroadReach();
 
-			i++;
+				POST_the_emulator_request_for_Doublelines_BroadReach();
+				Getemulatorparameter_and_postOperation_for_Doublelines_BroadReach();
+
+				ChecktheResultsdoubleLinesBroadReach();
+
+				i++;
+
+			}
+
+			else {
+
+				i++;
+			}
 
 		}
 
@@ -109,12 +119,11 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	@Given("^DataPower with a (.*),(.*),(.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with code (\\d+) and Price (.*) and Single OrderLine (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) to be Utilised to Get BroadReach Offer$")
 
-	public void createtheSingleLineRequest(String membershipBase,String type,String Tier,
-			String channelName, String ClubId, String ClubId2, int code, String RetailPrice, String lineNumber,
-			String Applied_Dates, String RegistrationNumber, String TransactionId) throws Exception {
-		    
-		
-		membershipNbr = member.memberRequest(type,membershipBase,Tier);
+	public void createtheSingleLineRequest(String membershipBase, String type, String Tier, String channelName,
+			String ClubId, String ClubId2, int code, String RetailPrice, String lineNumber, String Applied_Dates,
+			String RegistrationNumber, String TransactionId) throws Exception {
+
+		membershipNbr = member.memberRequest(type, membershipBase, Tier);
 
 		if (code == 1) {
 
@@ -126,23 +135,20 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 		}
 
 		int i = 0;
-		
-		Map<String, String> mapqs =
-				  Helper.getPromotionDetails(reserveemulator.BroadReachPromoMetaData(prop.get(
-				  "metadata.prod.rest").toString(), i)); 
-				  int size =
-				  Integer.valueOf(mapqs.get("SizeOfMetaData"));
+
+		Map<String, String> mapqs = Helper.getPromotionDetails(
+				reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i));
+		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
 		while (i < size) {
-			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+			String arrbr = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 
 			postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,
-					ClubId2, code, RetailPrice, lineNumber, Applied_Dates,RegistrationNumber, TransactionId,arrbr,
+					ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber, TransactionId, arrbr,
 					pathsingle);
 
 			postdata = postRequestDetails.get("DataPowerRequest");
 			postdata2 = postRequestDetails.get("EmulatorRequest");
-
 
 			POST_the_request_for_DoubleLines_BroadReach();
 			Getparameter_and_postOperation_for_DoubleLines_BroadReach();
@@ -159,12 +165,11 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 		softAssertions.assertAll();
 	}
 
-
 	public void UpdatetheRequesttoDoubleLinesBroadReach(String ClubId, String ClubId2, String RetailPrice,
-			String lineNumber, String Applied_Dates,String arrx,String arry) throws Exception {
+			String lineNumber, String Applied_Dates, String arrx, String arry) throws Exception {
 
-		postDoubleRequestDetails = primaryrequest.getDoubleLinesRequest(ClubId,
-				ClubId2, RetailPrice, lineNumber, Applied_Dates,postdata, postdata2,arrx,arry);
+		postDoubleRequestDetails = primaryrequest.getDoubleLinesRequest(ClubId, ClubId2, RetailPrice, lineNumber,
+				Applied_Dates, postdata, postdata2, arrx, arry);
 
 		postdata = postDoubleRequestDetails.get("DataPowerRequest");
 		postdata2 = postDoubleRequestDetails.get("EmulatorRequest");
@@ -206,7 +211,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 		softAssertions = asserthelper.ValidationsAll(response, response2);
 
-		//membership.deleteMembership(membershipNbr);
+		// membership.deleteMembership(membershipNbr);
 
 	}
 

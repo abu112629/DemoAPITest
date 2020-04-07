@@ -10,7 +10,7 @@ Feature: Verify Analytic Promotions in the MetaData for Active Members with Sing
      	| membership | type                | Tier | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | SecondOrderLine | Applied_Dates | ClubId2 | RegistrationNumber | TransactionId |
       | business   | primary             | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     |               2 | FIRST_DATE    |    4702 |               4226 |            83 |
       | business   | complimentary       | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     |               2 | FIRST_DATE    |    4702 |               4227 |            84 |
-      | business   | addon               | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     |               2 | FIRST_DATE    |    4702 |               4228 |            85 |
+    	| business   | addon               | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     |               2 | FIRST_DATE    |    4702 |               4228 |            85 |
       | business   | addon complimentary | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     |               2 | FIRST_DATE    |    4702 |               4229 |            86 |
       | business   | primary             | Plus |           1 | SAME_PRICE  |   4969 |          1 | POS     |               2 | FIRST_DATE    |    4702 |               4230 |            87 |
       | business   | complimentary       | Plus |           1 | SAME_PRICE  |   4969 |          1 | POS     |               2 | FIRST_DATE    |    4702 |               4231 |            88 |
@@ -440,6 +440,8 @@ Feature: Verify Analytic Promotions in the MetaData for Active Members with Sing
       | savings    | complimentary       | Plus |           3 | LESS_PRICE  |   4969 |          1 | POS     |               2 | LAST_DATE     |    4702 |               4271 |           129 |
       | savings    | addon               | Plus |           3 | LESS_PRICE  |   4969 |          1 | POS     |               2 | LAST_DATE     |    4702 |               4272 |           130 |
       | savings    | addon complimentary | Plus |           3 | LESS_PRICE  |   4969 |          1 | POS     |               2 | LAST_DATE     |    4702 |               4273 |           131 |
+      
+      
  
   @regressionAnalytic
   Scenario Outline: QuickSilver Promos for Analytic Regular Mix and Match Single Order Lines for Promo Items with ACTIVE <type> <membership> <Tier> Member
@@ -447,8 +449,8 @@ Feature: Verify Analytic Promotions in the MetaData for Active Members with Sing
 
     Examples: 
       | membership | type                | Tier | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | Applied_Dates | ClubId2 | RegistrationNumber | TransactionId |
-     	| business   | primary             | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4226 |            83 |
-      | business   | complimentary       | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4227 |            84 |
+	    | business   | primary             | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4226 |            83 |
+   	 	| business   | complimentary       | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4227 |            84 |
       | business   | addon               | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4228 |            85 |
       | business   | addon complimentary | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4229 |            86 |
       | business   | primary             | Plus |           1 | SAME_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4230 |            87 |
@@ -621,7 +623,7 @@ Feature: Verify Analytic Promotions in the MetaData for Active Members with Sing
       | savings    | addon complimentary | Club |           1 | MORE_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4253 |           111 |
       | savings    | primary             | Plus |           1 | MORE_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4254 |           112 |
       | savings    | complimentary       | Plus |           1 | MORE_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4255 |           113 |
-      | savings    | addon               | Plus |           1 | MORE_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4256 |           114 |
+			| savings    | addon               | Plus |           1 | MORE_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4256 |           114 |
       | savings    | addon complimentary | Plus |           1 | MORE_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4257 |           115 |
       | savings    | primary             | Club |           1 | MORE_PRICE  |   4969 |          1 | POS     | MIDDLE_DATE   |    4702 |               4258 |           116 |
       | savings    | complimentary       | Club |           1 | MORE_PRICE  |   4969 |          1 | POS     | MIDDLE_DATE   |    4702 |               4259 |           117 |
@@ -879,3 +881,4 @@ Feature: Verify Analytic Promotions in the MetaData for Active Members with Sing
       | savings    | complimentary       | Plus |           3 | LESS_PRICE  |   4969 |          1 | POS     | LAST_DATE     |    4702 |               4271 |           129 |
       | savings    | addon               | Plus |           3 | LESS_PRICE  |   4969 |          1 | POS     | LAST_DATE     |    4702 |               4272 |           130 |
       | savings    | addon complimentary | Plus |           3 | LESS_PRICE  |   4969 |          1 | POS     | LAST_DATE     |    4702 |               4273 |           131 |
+	 

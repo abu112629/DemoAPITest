@@ -72,7 +72,7 @@ public class CreateMembers extends BaseStep {
 		  
 		  
 		  BufferedWriter writer = new BufferedWriter(new
-		  FileWriter("src/test/resources/Emulation_Input/Promotions.txt"));
+		  FileWriter("src/test/resources/Emulation_Input/Members.txt"));
 		  
 		  writer.write(primarysavingsPlusmembershipNbr);
 		  writer.newLine();

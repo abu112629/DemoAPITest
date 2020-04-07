@@ -54,7 +54,7 @@ public class IntegrationTestDataPower extends BaseStep {
 	@When("^Get XML Response from DataPower EndPoint$")
 	public void POST_Operation() throws Exception {
 		
-		qs_response = helper.POSTXMLResponse("datapower.instantsavings", body, UrlConstants.SERVICES_CHECKOUT);
+		qs_response = helper.POSTXMLResponse("datapower.instantsavings", body, UrlConstants.SERVICES_CHECKOUT).asString();
 		
 
 	}

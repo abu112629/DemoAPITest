@@ -728,8 +728,9 @@ public class PrimaryRequestHelper extends BaseStep {
 			String Applied_Dates,String RegistrationNumber,String TransactionId,String arrx,String arry,String pathsingle) throws Exception {
 
 		helpermethod = new Helper();
-		reserveemulator = new ReserveEmulationHelper();		 
+		reserveemulator = new ReserveEmulationHelper();	
 
+		String postdata="",postdata2="";
 		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
 		Map<String, String> promodetails2 = Helper.getPromotionDetails(arry);
 

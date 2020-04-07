@@ -1049,6 +1049,7 @@ public class AssertHelper extends BaseStep{
 	public SoftAssertions ValidationsAll(ValidatableResponse response, ValidatableResponse response2) throws Exception {
 		
 		helper = new Helper();
+		System.out.println("Response Thread "+Thread.currentThread());
 		Response res = response.assertThat().statusCode(200).and().extract().response();
 		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
 

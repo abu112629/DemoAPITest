@@ -422,7 +422,7 @@ public class Helper extends BaseStep {
 
 	}
 
-	public String POSTXMLResponse(String HOST, String body, String requestType) throws Exception {
+	public Response POSTXMLResponse(String HOST, String body, String requestType) throws Exception {
 
 		RestAssured.baseURI = prop.getProperty(HOST);
 
@@ -432,8 +432,7 @@ public class Helper extends BaseStep {
 		Response response = thisRequestSpecification.post(requestType).then().assertThat().statusCode(200).and()
 				.contentType(ContentType.XML).extract().response();
 
-		qs_response = response.prettyPrint().toString();
-		return qs_response;
+		return response;
 
 	}
 

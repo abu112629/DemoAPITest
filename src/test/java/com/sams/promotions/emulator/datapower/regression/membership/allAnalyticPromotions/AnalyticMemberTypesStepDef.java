@@ -75,11 +75,23 @@ public class AnalyticMemberTypesStepDef extends BaseStep{
 		
 
 		while (i < size-1) {
+			
+				
 
 			String arrbr = reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(),i);
-
 			String arrbry = reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(),i+1);
-
+			
+			
+			  Map<String, String> mapr =Helper.getPromotionDetails(arrbr); String
+			  promoIdr=mapr.get("PromoId");
+			  
+			  Map<String, String> mapry =Helper.getPromotionDetails(arrbry); String
+			  promoIdry=mapry.get("PromoId");
+			  
+			  if(promoIdr.contentEquals(promoIdry)) {
+			 
+				
+			
 			postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
 					channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates,
 					RegistrationNumber, TransactionId, arrbr, arrbry, pathsingle);
@@ -97,8 +109,17 @@ public class AnalyticMemberTypesStepDef extends BaseStep{
 			Getemulatorparameter_and_postOperation_for_Doublelines_Analytic();
 
 			ChecktheResultsdoubleLinesAnalytic();
-
 			i++;
+			
+			
+			  }
+			  else {
+				  
+				  i++;
+			  }
+			
+			
+			
 
 		}
 
@@ -126,14 +147,14 @@ public class AnalyticMemberTypesStepDef extends BaseStep{
 
 		int i = 0;
 		
-		  Map<String, String> mapqs =Helper.getPromotionDetails(reserveemulator.AnalyticPromoMetaData(prop.get(
+		  Map<String, String> mapqs =Helper.getPromotionDetails(reserveemulator.AnalyticSingleLinePromoMetaData(prop.get(
 				  "metadata.prod.rest").toString(), i)); 
 				  int size =
 				  Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
 		while (i < size) {
 			
-			String arrbr = reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(),i);
+			String arrbr = reserveemulator.AnalyticSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(),i);
 
 			postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,
 					ClubId2, code, RetailPrice, lineNumber, Applied_Dates,RegistrationNumber, TransactionId,arrbr,
@@ -176,7 +197,8 @@ public class AnalyticMemberTypesStepDef extends BaseStep{
 		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when(); // header("Content-Type",
-																								// // "text/xml").
+																								// // "text/xml").	
+		
 
 	}
 

@@ -1,7 +1,10 @@
 package com.sams.promotions.emulation.createPromotions;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,40 +58,28 @@ public class CreatePromotions extends BaseStep {
 		
 		 
 		
-		/*
-		 * String arrx =
-		 * reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString
-		 * (),1);
-		 * 
-		 * String arry =
-		 * reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString
-		 * (),2);
-		 * 
-		 * Map<String, String> maptest = helper.getRetailPriceMetadata(arrx, arry);
-		 * 
-		 * System.out.println(maptest.get("SameRetailPrice"));
-		 * System.out.println(maptest.get("LessRetailPrice"));
-		 * System.out.println(maptest.get("MoreRetailPrice"));
-		 * 
-		 * 
-		 * Map<String, String> maptestsst= Helper.getPromotionDetails(arrx); int
-		 * size=Integer.valueOf(maptestsst.get("SizeOfMetaData"));
-		 * 
-		 * for (int i = 0; i < size; i++) {
-		 * 
-		 * String arrzte1
-		 * =reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").
-		 * toString(),i); //Map<String, String> mapnew=
-		 * Helper.getPromotionDetails(arrzte1);
-		 * 
-		 * writer.write(arrzte1); writer.newLine();
-		 * 
-		 * System.out.println(arrzte1); // System.out.println(mapnew.get("PromoId"));
-		 * 
-		 * } //
-		 * 
-		 * writer.close();
-		 */
+		
+		Map<String, String> mapqs =Helper.getPromotionDetails(reserveemulator.AnalyticPromoMetaData(prop.get(
+				  "metadata.prod.rest").toString(), 0)); 
+				  int size =
+				  Integer.valueOf(mapqs.get("SizeOfMetaData"));
+		  
+				  BufferedWriter writer = new BufferedWriter(new
+						  FileWriter("src/test/resources/Emulation_Input/Promotions.txt"));
+		  
+		  for (int i = 0; i < size; i++) {
+		  
+		  String arrzte1=reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(),i); 
+		  
+		  writer.write(arrzte1); 
+		  writer.newLine();
+		  
+		  System.out.println(arrzte1); // System.out.println(mapnew.get("PromoId"));
+		  
+		  } //
+		  
+		  writer.close();
+		 
 
 		// System.out.println(arr);
 
