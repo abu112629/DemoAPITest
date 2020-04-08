@@ -26,4 +26,4 @@ if [[ -z ${__tags__} ]]; then
     exit 1
 fi
 
-mvn -X test -Denv=stage -Dcucumber.options="--tags ${__tags__}" ${MAVEN_OPTS}
+mvn test -Denv=stage -Dcucumber.options="--tags ${__tags__}" ${MAVEN_OPTS}
