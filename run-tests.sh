@@ -26,4 +26,13 @@ if [[ -z ${__tags__} ]]; then
     exit 1
 fi
 
+if [[ -z ${JAVA_TOOL_OPTIONS} ]]; then
+    export JAVA_TOOL_OPTIONS="-XX:+UseSerialGC \
+        -XX:+UnlockExperimentalVMOptions \
+        -XX:+UseCGroupMemoryLimitForHeap \
+        -XX:MinHeapFreeRatio=20 \
+        -XX:MaxHeapFreeRatio=40 \
+        -XX:AdaptiveSizePolicyWeight=90 \
+        -XX:MaxRAMFraction=1"
+fi
 mvn test -Denv=stage -Dcucumber.options="--tags ${__tags__}" ${MAVEN_OPTS}
