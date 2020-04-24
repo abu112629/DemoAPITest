@@ -86,6 +86,7 @@ public class PackageMemberTypesStepDef extends BaseStep {
 			  Map<String, String> mapry =Helper.getPromotionDetails(arrbry); String
 			  promoIdry=mapry.get("PromoId");
 			  
+			  
 			  if(promoIdr.contentEquals(promoIdry)) {
 				  
 				  postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,

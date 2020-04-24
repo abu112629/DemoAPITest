@@ -1,4 +1,4 @@
-package com.sams.promotions.emulator.datapower.regression.membership.allPackagePromotions;
+package com.sams.promotions.emulator.datapower.regression.membership.allTriggerPromotions;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -212,6 +212,7 @@ public class MemberSelect {
 				break;
 			}
 			
+			stream.close();
 			
 			return requiredMembership;
 			

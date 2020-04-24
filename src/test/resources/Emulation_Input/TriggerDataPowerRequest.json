@@ -1,0 +1,12 @@
+{
+"MembershipNbr": 10142100863234050,
+"CardholderNbr": 10,
+"RequestTs": "2020-02-12T15:23:58.398",
+"ClubNbr": 4969,
+"ActionInfo": {
+"ActionCodeInfo": {
+"ActionCode": 30,
+"ActionDesc": "QRCode - Test Hotdog"
+}
+}
+}

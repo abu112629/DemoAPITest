@@ -3,6 +3,8 @@ package com.sams.promotions.emulator.regression.emulatedMetaData.instantsavingMe
 import java.io.IOException;
 import java.util.Map;
 
+import org.junit.Assert;
+
 import com.sams.promotions.emulation.test.base.BaseStep;
 import com.sams.promotions.emulation.test.common.constants.UrlConstants;
 import com.sams.promotions.emulation.test.helper.Helper;
@@ -19,8 +21,9 @@ public class MetaDataPromotions extends BaseStep{
 	public MetaDataPromotions() throws IOException {
 		super();
 	}
-
+	MetaDataHelper metadatahelper;
 	HeaderMapper headerMapper;
+	protected Map<String, String> promotionDetails;
 	
 	@Before
 	public void beforeSetup() throws IOException {
@@ -29,6 +32,7 @@ public class MetaDataPromotions extends BaseStep{
 		helper = new Helper();
 		membership = new Membership();
 		reserveemulator = new ReserveEmulationHelper();
+		metadatahelper=new MetaDataHelper();
 	}
 	
 	
@@ -36,67 +40,60 @@ public class MetaDataPromotions extends BaseStep{
 	public void Check_Promotion_Count() throws Exception
 	{
 		
-		String arrpackage = reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(),
-				UrlConstants.METADATA_PROMOTION_PACKAGE,1);
-		
-		String emmpackage = reserveemulator.PackagePromoMetaData(prop.get("metadata.rest").toString(),
-				UrlConstants.EMULATION_METADATA_PACKAGE,1);
+
 		
 			
-		String arrbroad = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(),1);
-		
-		String arranalytic=reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(), 1);
-		
-		String arrtrigger=reserveemulator.TriggerPromoMetaData(prop.get("metadata.prod.rest").toString(), 1);
-		
-		String arrxyz1234=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").toString(),0);
-		
-		
-		
-		Map<String, String> map = Helper.getPromotionDetails(arrpackage);
+		String arrbroad = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(),1);
+		String arrpackage = reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(),1);
+		//String arrbroademu=metadatahelper.BroadReachPromoMetaData(prop.get("metadata.rest").toString(),UrlConstants.EMULATION_METADATA_BROADREACH,1);	
 		Map<String, String> mapx = Helper.getPromotionDetails(arrbroad);
-		Map<String, String> mapy = Helper.getPromotionDetails(arranalytic);
-		Map<String, String> mapz = Helper.getPromotionDetails(arrtrigger);
-		Map<String, String> mapzyx = Helper.getPromotionDetails(emmpackage);
+		//Map<String, String> mapemu = Helper.getPromotionDetails(arrbroademu);
+		Map<String, String> mapemu = Helper.getPromotionDetails(arrpackage);
 		
-		Map<String, String> mapqs = Helper.getQSPromotionDetails(arrxyz1234);
+		int sizepro=Integer.valueOf(mapx.get("SizeOfMetaData"));
+		//int sizeemu=Integer.valueOf(mapemu.get("SizeOfMetaData"));
+		int sizeemu=Integer.valueOf(mapemu.get("SizeOfMetaData"));
 		
-		System.out.println("Datapower Production Package count :"+map.get("SizeOfMetaData"));
-		System.out.println("Datapower Production BroadReach count :"+mapx.get("SizeOfMetaData"));
-		System.out.println("Datapower Production Analytic count :"+mapy.get("SizeOfMetaData"));
-		System.out.println("Datapower Production Trigger count :"+mapz.get("SizeOfMetaData"));
-		
-		System.out.println("QS Promotion Count :"+mapqs.get("Total"));
-		
-		
-		
-		int TotalPromotions=Integer.valueOf(map.get("SizeOfMetaData"))+
-				Integer.valueOf(mapx.get("SizeOfMetaData"))+Integer.valueOf(mapy.get("SizeOfMetaData"))
-				+Integer.valueOf(mapz.get("SizeOfMetaData"));
-		System.out.println(TotalPromotions);
-		
-		int sizepro=Integer.valueOf(map.get("SizeOfMetaData"));
-		int sizeemu=Integer.valueOf(mapzyx.get("SizeOfMetaData"));
 		
 		for(int i=0;i<sizepro;i++) {
 			
-			for(int j=0;j<sizeemu;) {
-				
-				String emmpack = reserveemulator.PackagePromoMetaData(prop.get("metadata.rest").toString(),
-						UrlConstants.EMULATION_METADATA_PACKAGE,j);
-				Map<String, String> mapemmpack = Helper.getPromotionDetails(emmpack);
-				
-				if(map.get("PromoId").contentEquals(mapemmpack.get("PromoId"))) {
-					
-					System.out.println("PromoIds are present in both apis :"+map.get("PromoId"));
-					break;
-				}
-				else {
-					
-					j++;
-				}
-				
-			}
+			String promodetails=metadatahelper.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), UrlConstants.METADATA_PROMOTION_BROADREACH, i);
+			Map<String, String> mapprod =MetaDataHelper.getmetaDataPromotionDetails(promodetails);
+			//System.out.println("PromoID : "+mapprod.get("PromoId"));
+			
+			
+			  for(int j=0;j<sizeemu;) {
+			  
+				/*
+				 * String
+				 * emmpack=metadatahelper.BroadReachPromoMetaData(prop.get("metadata.rest").
+				 * toString(),UrlConstants.EMULATION_METADATA_BROADREACH,j); Map<String, String>
+				 * mapemmpack=Helper.getPromotionDetails(emmpack);
+				 */
+				  String emmpack=reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(),j); 
+				  Map<String, String> mapemmpack=Helper.getPromotionDetails(emmpack);
+				    
+			  if(mapprod.get("PromoId").contentEquals(mapemmpack.get("PromoId"))) {
+			  
+				  try {
+					  Assert.assertEquals(mapprod,mapemmpack);
+				  }
+				  catch (AssertionError e) {
+					    System.out.println("Promotion Details are not equal in the MetaData");
+					    throw e;
+					}
+				  System.out.println("Promotion Details are equal in the MetaData");
+			  break;
+			  
+			  } else {
+			  
+			  j++; }
+			  
+			
+			  
+			  }
+			 
+			 
 			
 		}
 

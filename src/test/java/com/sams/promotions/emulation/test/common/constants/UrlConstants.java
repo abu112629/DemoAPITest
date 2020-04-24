@@ -5,7 +5,9 @@ import com.sams.promotions.emulation.test.helper.Helper;
 public class UrlConstants {
 
 		Helper helper;
-		public static final String RESERVE_EMULATION = "/emulate/reserve";
+		//public static final String RESERVE_EMULATION = "/emulate/reserve";
+		public static final String COUPON_REDEMPTION_FILE="src/test/resources/Emulation_Input/PackageRedeemDataPower.xml";
+		public static final String RESERVE_EMULATION = "/Services/CheckoutCustomerBasket";
 		public static final String REDEEM_EMULATION = "/emulate/redeem";
 		public static final String SERVICES_CHECKOUT = "/Services/CheckoutCustomerBasket";
 		public static final String PROMO_CREATION = "/promotions";
@@ -24,6 +26,8 @@ public class UrlConstants {
 		public static final String CHECKOUT_MUL_REQ="src/test/resources/Emulation_Input/CheckoutCustomerBasket_MultipleRequests.xml";
 		public static final String REDEEM_REQUEST="src/test/resources/Emulation_Input/RedeemRequest.xml";
 		public static final String METADATA_HEADER_PATH="src/test/resources/requestHeader/BroadReachOffers_MetaDataHeaders.txt";
+		public static final String TRIGGER_CERT_HEADER_PATH="src/test/resources/requestHeader/TriggerCertHeader.txt";
+		public static final String TRIGGER_QS_HEADER_PATH="src/test/resources/requestHeader/TriggerQSHeader.txt";
 		public static final String METADATA_PROMOTION_ANALYTIC="/rest/InstantSavings/MetaDataFile/Analytic";
 		public static final String METADATA_PROMOTION_PACKAGE="/rest/InstantSavings/MetaDataFile/Package";
 		public static final String QSPROMO_HEADER_PATH="src/test/resources/requestHeader/QSPromo.txt";
@@ -31,6 +35,10 @@ public class UrlConstants {
 		public static final String EMULATION_METADATA_TRIGGERS="/emulate/metadata/trigger";
 		public static final String EMULATION_METADATA_PACKAGE="/emulate/metadata/package";
 		public static final String EMULATION_METADATA_BROADREACH="/emulate/metadata/broadreach";
+		public static final String CHECKOUT_TRIGGERS_CERT="/rest/InstantSavings/CheckOutTriggers";
+		public static final String CHECKOUT_TRIGGERS_QS="/promotions/event";
+		public static final String TRIGGER_JSON_CERT_REQUEST="src/test/resources/Emulation_Input/TriggerDataPowerRequest.json";
+		public static final String TRIGGER_JSON_EMULATOR_REQUEST="src/test/resources/Emulation_Input/TriggerJsonRequest.json";
 		
 	
 

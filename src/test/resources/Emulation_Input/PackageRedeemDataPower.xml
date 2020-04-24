@@ -1,0 +1,43 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" >
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:AddMbrCouponRequest xmlns:ns="http://www.xmlns.walmartstores.com/membership/bsl/messages/ManageMbrCoupon/1.0.0/" xmlns:ns1="http://www.xmlns.walmartstores.com/membership/Header/datatypes/MessageHeader/1.0/" xmlns:ns2="http://www.xmlns.walmartstores.com/membership/Header/datatypes/MembershipHeader/1.0/" xmlns:ns3="http://www.xmlns.walmartstores.com/membership/bsl/datatypes/ManageMbrCoupon/1.0.0/">
+         <ns:MessageHeader>
+            <ns1:CountryCode>US</ns1:CountryCode>
+            <ns1:PrefLanguage>101</ns1:PrefLanguage>
+            <ns1:SrcSysId>POS</ns1:SrcSysId>
+         </ns:MessageHeader>
+         <ns:MembershipHeader>
+            <ns2:CountryCode>US</ns2:CountryCode>
+            <ns2:ClubNbr>4969</ns2:ClubNbr>
+         </ns:MembershipHeader>
+         <ns:AddMbrCouponRequestBody>
+            <ns3:MembershipInfo>
+               <ns3:MembershipNbr>126585082</ns3:MembershipNbr>
+               <ns3:CardholderNbr>10</ns3:CardholderNbr>
+            </ns3:MembershipInfo>
+            <!--1 to 999 repetitions:-->
+            <ns3:CouponInfo>
+               <ns3:ValueCouponNbr>63336</ns3:ValueCouponNbr>
+               <!--Optional:-->
+               <ns3:DurationInfo>
+                  <ns3:StartDate>2016-07-01</ns3:StartDate>
+                  <ns3:EndDate>2016-10-01</ns3:EndDate>
+                  <ns3:StartTime>09:00:00</ns3:StartTime>
+                  <ns3:EndTime>09:00:00</ns3:EndTime>
+               </ns3:DurationInfo>
+               <!--Optional:-->
+               <ns3:PackageDurationInfo>
+                  <ns3:PkgDurationCode>1</ns3:PkgDurationCode>
+                  <ns3:PkgDurationDesc>TEXT PKG</ns3:PkgDurationDesc>
+               </ns3:PackageDurationInfo>
+               <!--Optional:-->
+               <ns3:RedemptionInfo>
+                  <ns3:RedeemptionLeft>10</ns3:RedeemptionLeft>
+                  <ns3:DateRedeemed>2016-09-15</ns3:DateRedeemed>
+               </ns3:RedemptionInfo>
+            </ns3:CouponInfo>
+         </ns:AddMbrCouponRequestBody>
+      </ns:AddMbrCouponRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

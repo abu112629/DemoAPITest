@@ -1,0 +1,11 @@
+WM-SrcSysId:1
+WM-SrcSubSysId:1
+WMT-SVC-CountryCode:US
+WMT-SVC-PrefLanguage:101
+WMT-SVC-StoreNumber:6279
+WMT-SVC-Version:1.0
+Content-Type:application/json
+Authorization:Basic U1ZDU2Ftc0luc3RhbnRTYXZpbmc6cXRheVduLXdXNyslKk5BYnMxVzE=
+WMT-SVC-UserId:POS
+WMT-SVC-ConsumerId:C[B@7bdd7bdd
+WMT-SVC-SubscriberId:S[B@16541654

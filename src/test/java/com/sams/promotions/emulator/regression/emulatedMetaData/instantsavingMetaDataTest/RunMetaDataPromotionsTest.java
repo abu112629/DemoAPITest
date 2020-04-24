@@ -13,8 +13,8 @@ import cucumber.api.junit.Cucumber;
 		monochrome = true, // dryRun=true,
 
 		features = { "src/test/resources/promotions/emulator/MetadataPromotions/" }, glue = {
-				"com/sams/promotions/emulator/regression/metaData/" },
-
+				"com/sams/promotions/emulator/regression/emulatedMetaData/instantsavingMetaDataTest/" },
+				
 		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
 				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport3.html" }
 

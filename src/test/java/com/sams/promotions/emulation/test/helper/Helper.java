@@ -325,6 +325,27 @@ public class Helper extends BaseStep {
 
 	}
 
+	public static Map<String, String> getTriggerPromotionDetails(String promotion) throws java.text.ParseException {
+
+		Map<String, String> promotionDetails = new HashMap<String, String>();
+		String[] abc = promotion.split(Pattern.quote("||"));
+
+		promotionDetails.put("PromoId", abc[0]);
+		promotionDetails.put("Discount", abc[1]);
+		promotionDetails.put("StartDate", abc[2]);
+		promotionDetails.put("EndDate", abc[3]);
+		promotionDetails.put("ItemId", abc[4]);
+		promotionDetails.put("MinimumPurchaseQuantity", abc[5]);
+		promotionDetails.put("PackageCode", abc[6]);
+		promotionDetails.put("MaxRedemptionCount", abc[7]);
+		promotionDetails.put("offerTypeDescription", abc[8]);
+		promotionDetails.put("actioncode", abc[9]);
+		promotionDetails.put("actionDescription", abc[10]);
+		promotionDetails.put("SizeOfMetaData", abc[11]);
+
+		return promotionDetails;
+
+	}
 	public static Map<String, String> getQSPromotionDetails(String promotion) throws java.text.ParseException {
 
 		Map<String, String> promotionDetails = new HashMap<String, String>();
@@ -604,7 +625,7 @@ public class Helper extends BaseStep {
 
 		try {
 			RestAssured.baseURI = baseURI.toString();
-			RequestSpecification request = RestAssured.given();
+			RequestSpecification request = RestAssured.given().relaxedHTTPSValidation("TLS");
 			request.headers(header);
 
 			if (requestPath.contains(".json")) {
@@ -618,7 +639,7 @@ public class Helper extends BaseStep {
 			 * request.log().uri(); ; request.log().body();request.log().headers();
 			 */
 
-			response = request.post(pathParams);
+			response =request.post(pathParams);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -627,6 +648,7 @@ public class Helper extends BaseStep {
 		return response;
 
 	}
+	
 
 	public Response sendGetRequest(String baseURI, String pathParams, Map<String, Object> header) {
 
@@ -754,18 +776,19 @@ public class Helper extends BaseStep {
 	}
 
 	public Map<String, String> getAssertValues(String qs_response) throws Exception {
-
-		String basketId, responseDescription, FirstLineOfferId, FirstLineOfferDescription, FirstLinetype,
+	//FirstLineOfferDescription,SecondLineOfferDescription
+		
+		String basketId, responseDescription, FirstLineOfferId,FirstLinetype,
 				FirstLinegs1Code, FirstLinefeaturedText, FirstLineserialNumber, FirstLinesettlementId, FirstLinegtin,
 				FirstLineTotalDiscount, FirstLineQuanity, FirstLineItemId, FirstLineEachItemDiscount;
 
-		String SecondLineOfferId, SecondLineOfferDescription, SecondLinetype, SecondLinegs1Code, SecondLinefeaturedText,
+		String SecondLineOfferId,SecondLinetype, SecondLinegs1Code, SecondLinefeaturedText,
 				SecondLineserialNumber, SecondLinesettlementId, SecondLinegtin, SecondLineTotalDiscount,
 				SecondLineQuanity, SecondLineItemId, SecondLineEachItemDiscount;
 
-		basketId = responseDescription = FirstLineOfferId = FirstLineOfferDescription = FirstLinetype = FirstLinegs1Code = FirstLinefeaturedText = FirstLineserialNumber = FirstLinesettlementId = FirstLinegtin = FirstLineTotalDiscount = FirstLineQuanity = FirstLineItemId = FirstLineEachItemDiscount = "";
+		basketId = responseDescription = FirstLineOfferId = FirstLinetype = FirstLinegs1Code = FirstLinefeaturedText = FirstLineserialNumber = FirstLinesettlementId = FirstLinegtin = FirstLineTotalDiscount = FirstLineQuanity = FirstLineItemId = FirstLineEachItemDiscount = "";
 
-		SecondLineOfferId = SecondLineOfferDescription = SecondLinetype = SecondLinegs1Code = SecondLinefeaturedText = SecondLineserialNumber = SecondLinesettlementId = SecondLinegtin = SecondLineTotalDiscount = SecondLineQuanity = SecondLineItemId = SecondLineEachItemDiscount = "";
+		SecondLineOfferId = SecondLinetype = SecondLinegs1Code = SecondLinefeaturedText = SecondLineserialNumber = SecondLinesettlementId = SecondLinegtin = SecondLineTotalDiscount = SecondLineQuanity = SecondLineItemId = SecondLineEachItemDiscount = "";
 
 		Unmarshaller xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketResponse.class);
 
@@ -794,7 +817,7 @@ public class Helper extends BaseStep {
 				if (Integer.toString(ol.getLineNumber()).contentEquals("1")) {
 
 					FirstLineOfferId = Long.toString(line.getId());
-					FirstLineOfferDescription = line.getDescription();
+					//FirstLineOfferDescription = line.getDescription();
 					FirstLinetype = line.getType();
 					FirstLinegs1Code = line.getGs1Code();
 					FirstLinefeaturedText = line.getFeaturedText();
@@ -812,7 +835,7 @@ public class Helper extends BaseStep {
 				else if (Integer.toString(ol.getLineNumber()).contentEquals("2")) {
 
 					SecondLineOfferId = Long.toString(line.getId());
-					SecondLineOfferDescription = line.getDescription();
+					//SecondLineOfferDescription = line.getDescription();
 					SecondLinetype = line.getType();
 					SecondLinegs1Code = line.getGs1Code();
 					SecondLinefeaturedText = line.getFeaturedText();
@@ -836,7 +859,7 @@ public class Helper extends BaseStep {
 		getAssertValues.put("responseDescription", responseDescription);
 		getAssertValues.put("basketId", basketId);
 		getAssertValues.put("FirstLineOfferId", FirstLineOfferId);
-		getAssertValues.put("FirstLineOfferDescription", FirstLineOfferDescription);
+		//getAssertValues.put("FirstLineOfferDescription", FirstLineOfferDescription);
 		getAssertValues.put("FirstLinetype", FirstLinetype);
 		getAssertValues.put("FirstLinegs1Code", FirstLinegs1Code);
 		getAssertValues.put("FirstLinefeaturedText", FirstLinefeaturedText);
@@ -848,7 +871,7 @@ public class Helper extends BaseStep {
 		getAssertValues.put("FirstLineItemId", FirstLineItemId);
 		getAssertValues.put("FirstLineEachItemDiscount", FirstLineEachItemDiscount);
 		getAssertValues.put("SecondLineOfferId", SecondLineOfferId);
-		getAssertValues.put("SecondLineOfferDescription", SecondLineOfferDescription);
+		//getAssertValues.put("SecondLineOfferDescription", SecondLineOfferDescription);
 		getAssertValues.put("SecondLinetype", SecondLinetype);
 		getAssertValues.put("SecondLinegs1Code", SecondLinegs1Code);
 		getAssertValues.put("SecondLinefeaturedText", SecondLinefeaturedText);

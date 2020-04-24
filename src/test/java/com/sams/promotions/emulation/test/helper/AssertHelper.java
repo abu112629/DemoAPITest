@@ -1062,11 +1062,50 @@ public class AssertHelper extends BaseStep{
 
 				System.out.println("DataPower Actual : " + Arrays.toString(actual));
 				System.out.println("Emulator Actual : " + Arrays.toString(actual2));
-
-				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);
-
-
-
+				
+				
+				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);    	  
+		/*
+		 * softAssertions.assertThat(dataPowerValues.containsKey("code")).isEqualTo(
+		 * emulatorValues.containsKey("code"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("responseDescription"))
+		 * .isEqualTo(emulatorValues.containsKey("responseDescription"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("basketId")).isEqualTo(
+		 * emulatorValues.containsKey("basketId"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("FirstLineOfferId")).
+		 * isEqualTo(emulatorValues.containsKey("FirstLineOfferId"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("FirstLinegs1Code")).
+		 * isEqualTo(emulatorValues.containsKey("FirstLinegs1Code"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("FirstLinegtin")).
+		 * isEqualTo(emulatorValues.containsKey("FirstLinegtin"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey(
+		 * "FirstLineTotalDiscount")).isEqualTo(emulatorValues.containsKey(
+		 * "FirstLineTotalDiscount"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("FirstLineItemId")).
+		 * isEqualTo(emulatorValues.containsKey("FirstLineItemId"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey(
+		 * "FirstLineEachItemDiscount")).isEqualTo(emulatorValues.containsKey(
+		 * "FirstLineEachItemDiscount"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("SecondLineOfferId")).
+		 * isEqualTo(emulatorValues.containsKey("SecondLineOfferId"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("SecondLinegs1Code")).
+		 * isEqualTo(emulatorValues.containsKey("SecondLinegs1Code"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("SecondLinegtin")).
+		 * isEqualTo(emulatorValues.containsKey("SecondLinegtin"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey(
+		 * "SecondLineTotalDiscount")).isEqualTo(emulatorValues.containsKey(
+		 * "SecondLineTotalDiscount"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("SecondLineQuanity")).
+		 * isEqualTo(emulatorValues.containsKey("SecondLineQuanity"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey(
+		 * "SecondLineEachItemDiscount")).isEqualTo(emulatorValues.containsKey(
+		 * "SecondLineEachItemDiscount"));
+		 * softAssertions.assertThat(dataPowerValues.containsKey("SecondLineItemId")).
+		 * isEqualTo(emulatorValues.containsKey("SecondLineItemId"));
+		 */
+				
+				
+		
 		return softAssertions;
 
 	}

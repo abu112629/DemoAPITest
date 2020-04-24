@@ -1,0 +1,12 @@
+{
+        "payload": {
+            "eventId": "1",
+            "deviceType": "POS",
+            "requestTimestamp": "2020-04-15T19:57:36",
+            "evaluateInstantSavings": "true",
+            "eventAttributes": {
+                "membershipId": "10142100984899922",
+                "clubId": "4969"
+            }
+        }
+    }

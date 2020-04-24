@@ -39,18 +39,17 @@ public class ClientConfigurationDatabase extends BaseStep {
 		super();
 	}
 
-	private static ExecutorService executorService;
-	@SuppressWarnings("unused")
-	private static Scheduler scheduler;
-	private AsyncDocumentClient client;
+	protected ExecutorService executorService;
+	protected Scheduler scheduler;
+	protected AsyncDocumentClient client;
 	public String databaseName = "promo";
 	public String collectionId = "reserve";
-	private String collectionId2="promotion";
-	private String query;
-	private String sql;
-	private static String result;
-	private Statement stmt;
-	private ResultSet rs;
+	protected String collectionId2="promotion";
+	protected String query;
+	protected String sql;
+	protected String result;
+	protected Statement stmt;
+	protected ResultSet rs;
 
 	Connection con;
 

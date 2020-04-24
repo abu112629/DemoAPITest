@@ -17,7 +17,7 @@ import cucumber.api.junit.Cucumber;
 				"com/sams/promotions/emulation/valueCouponTables/" },
 
 		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport7.html" }
+				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport7.html" }
 
 )
 

@@ -16,7 +16,7 @@ import io.restassured.response.Response;
 public class Membership_Types extends BaseStep{
 
 	private Response membershipResponse;
-	private static String BusinessmembershipNbrClub,BusinessmembershipNbrPlus,SavingsmembershipNbrClub,SavingsmembershipNbrPlus;
+	protected String BusinessmembershipNbrClub,BusinessmembershipNbrPlus,SavingsmembershipNbrClub,SavingsmembershipNbrPlus;
 	
 	
 	public Membership_Types() throws IOException {

@@ -9,8 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BusinessUnit {
-	
-	private String number;
-	private Country country;
+public class Country {
+
+	private String code;
 }

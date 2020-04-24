@@ -59,7 +59,7 @@ private Float minimumBasketAmount;
 @JsonProperty("maxDiscountAmount")
 private Float maxDiscountAmount;
 @JsonProperty("minimumCorePurchaseQuantity")
-private Long minimumCorePurchaseQuantity;
+private Float minimumCorePurchaseQuantity;
 @JsonProperty("merchandiseDetails")
 private MerchandiseDetails merchandiseDetails;
 @JsonIgnore
@@ -206,12 +206,12 @@ this.maxDiscountAmount = maxDiscountAmount;
 }
 
 @JsonProperty("minimumCorePurchaseQuantity")
-public Long getMinimumCorePurchaseQuantity() {
+public Float getMinimumCorePurchaseQuantity() {
 return minimumCorePurchaseQuantity;
 }
 
 @JsonProperty("minimumCorePurchaseQuantity")
-public void setMinimumCorePurchaseQuantity(Long minimumCorePurchaseQuantity) {
+public void setMinimumCorePurchaseQuantity(Float minimumCorePurchaseQuantity) {
 this.minimumCorePurchaseQuantity = minimumCorePurchaseQuantity;
 }
 

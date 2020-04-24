@@ -25,7 +25,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 	MemberSelect member;
 	protected String expected;
 	protected int ItemId, ItemId2, Quantity, Quantity2, disc, disc2;
-	protected Map<String, String> promodetails, promodetails2, postRequestDetails, postDoubleRequestDetails;
+	//protected Map<String, String> promodetails, promodetails2, postRequestDetails, postDoubleRequestDetails;
 
 	private SoftAssertions softAssertions;
 
@@ -70,7 +70,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < size - 1) {
+		while (i < size-1) {
 
 			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 
@@ -83,11 +83,11 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 			String promoIdry = mapry.get("PromoId");
 
 			if (promoIdr.contentEquals(promoIdry)) {
-
-				postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
+				
+				Map<String, String> postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
 						channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber,
 						TransactionId, arrbr, arrbry, pathsingle);
-
+				
 				postdata = postRequestDetails.get("DataPowerRequest");
 				postdata2 = postRequestDetails.get("EmulatorRequest");
 
@@ -142,8 +142,8 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 		while (i < size) {
 			String arrbr = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i);
-
-			postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,
+			
+			Map<String, String> postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,
 					ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber, TransactionId, arrbr,
 					pathsingle);
 
@@ -168,7 +168,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 	public void UpdatetheRequesttoDoubleLinesBroadReach(String ClubId, String ClubId2, String RetailPrice,
 			String lineNumber, String Applied_Dates, String arrx, String arry) throws Exception {
 
-		postDoubleRequestDetails = primaryrequest.getDoubleLinesRequest(ClubId, ClubId2, RetailPrice, lineNumber,
+		Map<String, String> postDoubleRequestDetails = primaryrequest.getDoubleLinesRequest(ClubId, ClubId2, RetailPrice, lineNumber,
 				Applied_Dates, postdata, postdata2, arrx, arry);
 
 		postdata = postDoubleRequestDetails.get("DataPowerRequest");
@@ -180,7 +180,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
 		thisRequestSpecification = RestAssured.with();
-		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when(); // header("Content-Type",
+		thisRequestSpecification.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS").body(postdata).when(); // header("Content-Type",
 																								// // "text/xml").
 
 	}

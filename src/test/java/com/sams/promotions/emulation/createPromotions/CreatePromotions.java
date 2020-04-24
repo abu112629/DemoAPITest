@@ -56,29 +56,30 @@ public class CreatePromotions extends BaseStep {
 	@Given("^Utilize URL and post data$")
 	public void POST_Operation(DataTable datatable) throws Exception {
 		
-		 
 		
 		
-		Map<String, String> mapqs =Helper.getPromotionDetails(reserveemulator.AnalyticPromoMetaData(prop.get(
-				  "metadata.prod.rest").toString(), 0)); 
-				  int size =
-				  Integer.valueOf(mapqs.get("SizeOfMetaData"));
+		  Map<String, String> mapqs
+		  =Helper.getPromotionDetails(reserveemulator.AnalyticPromoMetaData(prop.get(
+		  "metadata.prod.rest").toString(), 0)); int size =
+		  Integer.valueOf(mapqs.get("SizeOfMetaData"));
 		  
-				  BufferedWriter writer = new BufferedWriter(new
-						  FileWriter("src/test/resources/Emulation_Input/Promotions.txt"));
+		  BufferedWriter writer = new BufferedWriter(new
+		  FileWriter("src/test/resources/Emulation_Input/Promotions.txt"));
 		  
 		  for (int i = 0; i < size; i++) {
 		  
-		  String arrzte1=reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(),i); 
+		  String
+		  arrzte1=reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").
+		  toString(),i);
 		  
-		  writer.write(arrzte1); 
-		  writer.newLine();
+		  writer.write(arrzte1); writer.newLine();
 		  
 		  System.out.println(arrzte1); // System.out.println(mapnew.get("PromoId"));
 		  
 		  } //
 		  
 		  writer.close();
+		 
 		 
 
 		// System.out.println(arr);

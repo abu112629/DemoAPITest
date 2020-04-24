@@ -24,7 +24,7 @@ import io.restassured.specification.RequestSpecification;
 @Configuration
 public class BaseStep {
 
-	public static Properties prop;
+	protected Properties prop;
 
 //	 @Autowired
 //	    protected ValidationHelper validationHelper;
