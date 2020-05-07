@@ -5,9 +5,9 @@ import com.sams.promotions.emulation.test.helper.Helper;
 public class UrlConstants {
 
 		Helper helper;
-		//public static final String RESERVE_EMULATION = "/emulate/reserve";
+		public static final String RESERVE_EMULATION = "/emulate/reserve";
 		public static final String COUPON_REDEMPTION_FILE="src/test/resources/Emulation_Input/PackageRedeemDataPower.xml";
-		public static final String RESERVE_EMULATION = "/Services/CheckoutCustomerBasket";
+		//public static final String RESERVE_EMULATION = "/Services/CheckoutCustomerBasket";
 		public static final String REDEEM_EMULATION = "/emulate/redeem";
 		public static final String SERVICES_CHECKOUT = "/Services/CheckoutCustomerBasket";
 		public static final String PROMO_CREATION = "/promotions";

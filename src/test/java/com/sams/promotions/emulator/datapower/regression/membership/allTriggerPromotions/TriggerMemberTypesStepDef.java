@@ -85,16 +85,28 @@ public class TriggerMemberTypesStepDef extends BaseStep{
 			
 			
 			
-			  Map<String, String> mapr =Helper.getTriggerPromotionDetails(arrbr); String
-			  promoIdr=mapr.get("PromoId");
+			  Map<String, String> mapr =Helper.getTriggerPromotionDetails(arrbr);
+			  String promoIdr = mapr.get("PromoId");
 			  
-			  Map<String, String> mapry =Helper.getTriggerPromotionDetails(arrbry); String
-			  promoIdry=mapry.get("PromoId");
-			  
-			  triggerHelper.TriggerCertRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), mapr.get("actionDescription"), prop.get("metadata.prod.rest").toString());
-			  triggerHelper.TriggerEmulatorRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), prop.get("mercury.quicksilver").toString());
+			  Map<String, String> mapry =Helper.getTriggerPromotionDetails(arrbry); 
+			  String promoIdry = mapry.get("PromoId");
 			  
 			  if(promoIdr.contentEquals(promoIdry)) {
+				  
+				  triggerHelper.TriggerCertRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), mapr.get("actionDescription"), prop.get("metadata.prod.rest").toString());
+				  triggerHelper.TriggerEmulatorRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), prop.get("mercury.quicksilver").toString());
+				  
+			  }
+			 
+			  else {
+				  
+				  triggerHelper.TriggerCertRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), mapr.get("actionDescription"), prop.get("metadata.prod.rest").toString());
+				  triggerHelper.TriggerEmulatorRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), prop.get("mercury.quicksilver").toString());
+				  
+				  triggerHelper.TriggerCertRequest(membershipNbr, Applied_Dates, ClubId, mapry.get("actioncode"), mapry.get("actionDescription"), prop.get("metadata.prod.rest").toString());
+				  triggerHelper.TriggerEmulatorRequest(membershipNbr, Applied_Dates, ClubId, mapry.get("actioncode"), prop.get("mercury.quicksilver").toString());
+				  
+			  }
 			 
 				
 			
@@ -117,13 +129,7 @@ public class TriggerMemberTypesStepDef extends BaseStep{
 			ChecktheResultsdoubleLinesTrigger();
 			i++;
 			
-			
-			  }
-			  else {
-				  
-				  i++;
-			  }
-			
+					
 			
 			
 

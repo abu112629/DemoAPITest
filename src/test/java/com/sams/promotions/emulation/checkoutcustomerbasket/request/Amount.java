@@ -11,7 +11,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Amount {
+public class Amount implements Cloneable{
 	
 	private BigInteger value;
+	
+	public Object clone() throws CloneNotSupportedException {	
+	    return super.clone();
+	}
 }

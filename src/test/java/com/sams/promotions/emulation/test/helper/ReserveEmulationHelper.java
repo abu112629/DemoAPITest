@@ -123,7 +123,7 @@ public class ReserveEmulationHelper extends BaseStep {
 
 	protected Unmarshaller xmlUnmarshaller;
 	HeaderMapper headerMapper;
-	protected Helper helpermethod;
+	Helper helpermethod;
 	private String res;
 
 	@SuppressWarnings("deprecation")
@@ -503,6 +503,7 @@ public class ReserveEmulationHelper extends BaseStep {
 			String maxredcnt = String.valueOf(maxRedemptionCount);
 			String ite = null;
 			String mpq = null;
+			String ItemDesc = null;
 
 			if (line.getMerchandiseDetails().getItemDetails() != null) {
 				List<ItemDetail> item = line.getMerchandiseDetails().getItemDetails();
@@ -513,12 +514,16 @@ public class ReserveEmulationHelper extends BaseStep {
 					if (i > 2) {
 						break;
 					}
+
 					long Itemnumber = linenew.getItemNumber();
 					long Mpq = linenew.getMinimumPurchaseQuantity();
 					ite = String.valueOf(Itemnumber);
 					mpq = String.valueOf(Mpq);
+					ItemDesc = linenew.getItemTypeDescription();
+
 					arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+							+ ItemDesc };
 					arrList.add(arr[0].toString());
 
 				}
@@ -526,7 +531,8 @@ public class ReserveEmulationHelper extends BaseStep {
 
 			else {
 				arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+						+ ItemDesc };
 				arrList.add(arr[0].toString());
 
 			}
@@ -569,7 +575,7 @@ public class ReserveEmulationHelper extends BaseStep {
 			String maxredcnt = String.valueOf(maxRedemptionCount);
 			String ite = null;
 			String mpq = null;
-
+			String ItemDesc = null;
 			if (line.getMerchandiseDetails().getItemDetails() != null) {
 				List<ItemDetail> item = line.getMerchandiseDetails().getItemDetails();
 				int i = 0;
@@ -583,8 +589,10 @@ public class ReserveEmulationHelper extends BaseStep {
 					long Mpq = linenew.getMinimumPurchaseQuantity();
 					ite = String.valueOf(Itemnumber);
 					mpq = String.valueOf(Mpq);
+					ItemDesc = linenew.getItemTypeDescription();
 					arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+							+ ItemDesc };
 					arrList.add(arr[0].toString());
 
 				}
@@ -592,7 +600,8 @@ public class ReserveEmulationHelper extends BaseStep {
 
 			else {
 				arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+						+ ItemDesc };
 				arrList.add(arr[0].toString());
 
 			}
@@ -631,56 +640,60 @@ public class ReserveEmulationHelper extends BaseStep {
 			long maxRedemptionCount = line.getMaxRedemptionCount();
 			String maxredcnt = String.valueOf(maxRedemptionCount);
 			String offerTypeDescription = line.getOfferTypeDescription();
-			
-			if(line.getPackageDescription().contentEquals("ACTION TRIGGER")) {
-				
-			List<TriggerDetail> actiondetails = line.getTriggerDetails();
-			for (TriggerDetail triggerline : actiondetails) {
-				List<ActionDetail> actiondetailsnew = triggerline.getActionDetails();
-				for (ActionDetail detailLine : actiondetailsnew) {
 
-					String actioncode = String.valueOf(detailLine.getActionCode());
-					String actionDescription = detailLine.getActionCodeDescription();
+			if (line.getPackageDescription().contentEquals("ACTION TRIGGER")) {
 
-					String ite = null;
-					String mpq = null;
+				List<TriggerDetail> actiondetails = line.getTriggerDetails();
+				for (TriggerDetail triggerline : actiondetails) {
+					List<ActionDetail> actiondetailsnew = triggerline.getActionDetails();
+					for (ActionDetail detailLine : actiondetailsnew) {
 
-					if (line.getMerchandiseDetails().getItemDetails() != null) {
+						String actioncode = String.valueOf(detailLine.getActionCode());
+						String actionDescription = detailLine.getActionCodeDescription();
 
-						List<ItemDetails> item = line.getMerchandiseDetails().getItemDetails();
-						int i = 0;
-						for (ItemDetails linenew : item) {
+						String ite = null;
+						String mpq = null;
+						String ItemDesc = null;
 
-							i++;
-							if (i > 2) {
-								break;
+						if (line.getMerchandiseDetails().getItemDetails() != null) {
+
+							List<ItemDetails> item = line.getMerchandiseDetails().getItemDetails();
+							int i = 0;
+							for (ItemDetails linenew : item) {
+
+								i++;
+								if (i > 2) {
+									break;
+								}
+								long Itemnumber = linenew.getItemNumber();
+								long Mpq = linenew.getMinimumPurchaseQuantity();
+								ite = String.valueOf(Itemnumber);
+								mpq = String.valueOf(Mpq);
+								ItemDesc = linenew.getItemTypeDescription();
+								arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate
+										+ "||" + ite + "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||"
+										+ offerTypeDescription + "||" + actioncode + "||" + actionDescription + "||"
+										+ ItemDesc };
+								arrList.add(arr[0].toString());
+
 							}
-							long Itemnumber = linenew.getItemNumber();
-							long Mpq = linenew.getMinimumPurchaseQuantity();
-							ite = String.valueOf(Itemnumber);
-							mpq = String.valueOf(Mpq);
+						}
+
+						else {
 							arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate
 									+ "||" + ite + "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||"
-									+ offerTypeDescription + "||" + actioncode + "||" + actionDescription};
+									+ offerTypeDescription + "||" + actioncode + "||" + actionDescription + "||"
+									+ ItemDesc };
 							arrList.add(arr[0].toString());
 
 						}
-					}
-
-					else {
-						arr = new String[] {
-								PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite + "||"
-										+ mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription +"||" + actioncode + "||" + actionDescription};
-						arrList.add(arr[0].toString());
 
 					}
-
 				}
+
 			}
 
 		}
-			
-	}
 		return arrList.get(index) + "||" + arrList.size();
 
 	}
@@ -713,50 +726,57 @@ public class ReserveEmulationHelper extends BaseStep {
 			long maxRedemptionCount = line.getMaxRedemptionCount();
 			String maxredcnt = String.valueOf(maxRedemptionCount);
 			String offerTypeDescription = line.getOfferTypeDescription();
-			List<TriggerDetail> actiondetails = line.getTriggerDetails();
-			for (TriggerDetail triggerline : actiondetails) {
-				List<ActionDetail> actiondetailsnew = triggerline.getActionDetails();
-				for (ActionDetail detailLine : actiondetailsnew) {
 
-					String actioncode = String.valueOf(detailLine.getActionCode());
-					String actionDescription = detailLine.getActionCodeDescription();
+			if (line.getPackageDescription().contentEquals("ACTION TRIGGER")) {
 
-					String ite = null;
-					String mpq = null;
+				List<TriggerDetail> actiondetails = line.getTriggerDetails();
+				for (TriggerDetail triggerline : actiondetails) {
+					List<ActionDetail> actiondetailsnew = triggerline.getActionDetails();
+					for (ActionDetail detailLine : actiondetailsnew) {
 
-					if (line.getMerchandiseDetails().getItemDetails() != null) {
+						String actioncode = String.valueOf(detailLine.getActionCode());
+						String actionDescription = detailLine.getActionCodeDescription();
 
-						List<ItemDetails> item = line.getMerchandiseDetails().getItemDetails();
-						int i = 0;
-						for (ItemDetails linenew : item) {
+						String ite = null;
+						String mpq = null;
+						String ItemDesc = null;
+						if (line.getMerchandiseDetails().getItemDetails() != null) {
 
-							i++;
-							if (i > 1) {
-								break;
+							List<ItemDetails> item = line.getMerchandiseDetails().getItemDetails();
+							int i = 0;
+							for (ItemDetails linenew : item) {
+
+								i++;
+								if (i > 1) {
+									break;
+								}
+								long Itemnumber = linenew.getItemNumber();
+								long Mpq = linenew.getMinimumPurchaseQuantity();
+								ite = String.valueOf(Itemnumber);
+								mpq = String.valueOf(Mpq);
+								ItemDesc = linenew.getItemTypeDescription();
+								arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate
+										+ "||" + ite + "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||"
+										+ offerTypeDescription + "||" + actioncode + "||" + actionDescription + "||"
+										+ ItemDesc };
+								arrList.add(arr[0].toString());
+
 							}
-							long Itemnumber = linenew.getItemNumber();
-							long Mpq = linenew.getMinimumPurchaseQuantity();
-							ite = String.valueOf(Itemnumber);
-							mpq = String.valueOf(Mpq);
+						}
+
+						else {
 							arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate
 									+ "||" + ite + "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||"
-									+ offerTypeDescription + "||" + actioncode + "||" + actionDescription};
+									+ offerTypeDescription + "||" + actioncode + "||" + actionDescription + "||"
+									+ ItemDesc };
 							arrList.add(arr[0].toString());
 
 						}
-					}
-
-					else {
-						arr = new String[] {
-								PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite + "||"
-										+ mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription +"||" + actioncode + "||" + actionDescription};
-						arrList.add(arr[0].toString());
 
 					}
-
 				}
-			}
 
+			}
 		}
 		return arrList.get(index) + "||" + arrList.size();
 
@@ -794,6 +814,7 @@ public class ReserveEmulationHelper extends BaseStep {
 
 			String ite = null;
 			String mpq = null;
+			String ItemDesc = null;
 
 			if (line.getMerchandiseDetails().getItemDetails() != null) {
 				List<AnalyticItemDetail> item = line.getMerchandiseDetails().getItemDetails();
@@ -808,8 +829,11 @@ public class ReserveEmulationHelper extends BaseStep {
 					long Mpq = linenew.getMinimumPurchaseQuantity();
 					ite = String.valueOf(Itemnumber);
 					mpq = String.valueOf(Mpq);
+					ItemDesc = linenew.getItemTypeDescription();
+
 					arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+							+ ItemDesc };
 					arrList.add(arr[0].toString());
 
 				}
@@ -817,7 +841,8 @@ public class ReserveEmulationHelper extends BaseStep {
 
 			else {
 				arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+						+ ItemDesc };
 				arrList.add(arr[0].toString());
 
 			}
@@ -860,7 +885,7 @@ public class ReserveEmulationHelper extends BaseStep {
 
 			String ite = null;
 			String mpq = null;
-
+			String ItemDesc = null;
 			if (line.getMerchandiseDetails().getItemDetails() != null) {
 				List<AnalyticItemDetail> item = line.getMerchandiseDetails().getItemDetails();
 				int i = 0;
@@ -874,8 +899,10 @@ public class ReserveEmulationHelper extends BaseStep {
 					long Mpq = linenew.getMinimumPurchaseQuantity();
 					ite = String.valueOf(Itemnumber);
 					mpq = String.valueOf(Mpq);
+					ItemDesc = linenew.getItemTypeDescription();
 					arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+							+ ItemDesc };
 					arrList.add(arr[0].toString());
 
 				}
@@ -883,7 +910,8 @@ public class ReserveEmulationHelper extends BaseStep {
 
 			else {
 				arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+						+ ItemDesc };
 				arrList.add(arr[0].toString());
 
 			}
@@ -943,7 +971,7 @@ public class ReserveEmulationHelper extends BaseStep {
 			String maxredcnt = String.valueOf(maxRedemptionCount);
 			String ite = null;
 			String mpq = null;
-
+			String ItemDesc = null;
 			if (line.getMerchandiseDetails().getItemDetails() != null) {
 				List<PackageItemDetail> item = line.getMerchandiseDetails().getItemDetails();
 				int i = 0;
@@ -957,8 +985,10 @@ public class ReserveEmulationHelper extends BaseStep {
 					long Mpq = linenew.getMinimumPurchaseQuantity();
 					ite = String.valueOf(Itemnumber);
 					mpq = String.valueOf(Mpq);
+					ItemDesc = linenew.getItemTypeDescription();
 					arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+							+ ItemDesc };
 					arrList.add(arr[0].toString());
 
 				}
@@ -966,7 +996,8 @@ public class ReserveEmulationHelper extends BaseStep {
 
 			else {
 				arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+						+ ItemDesc };
 				arrList.add(arr[0].toString());
 
 			}
@@ -1026,6 +1057,7 @@ public class ReserveEmulationHelper extends BaseStep {
 			String maxredcnt = String.valueOf(maxRedemptionCount);
 			String ite = null;
 			String mpq = null;
+			String ItemDesc = null;
 
 			if (line.getMerchandiseDetails().getItemDetails() != null) {
 				List<PackageItemDetail> item = line.getMerchandiseDetails().getItemDetails();
@@ -1040,8 +1072,10 @@ public class ReserveEmulationHelper extends BaseStep {
 					long Mpq = linenew.getMinimumPurchaseQuantity();
 					ite = String.valueOf(Itemnumber);
 					mpq = String.valueOf(Mpq);
+					ItemDesc = linenew.getItemTypeDescription();
 					arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+							+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+							+ ItemDesc };
 					arrList.add(arr[0].toString());
 
 				}
@@ -1049,7 +1083,8 @@ public class ReserveEmulationHelper extends BaseStep {
 
 			else {
 				arr = new String[] { PromoNumber + "||" + Discount + "||" + StartDate + "||" + EndDate + "||" + ite
-						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription };
+						+ "||" + mpq + "||" + PackageCode + "||" + maxredcnt + "||" + offerTypeDescription + "||"
+						+ ItemDesc };
 				arrList.add(arr[0].toString());
 
 			}
@@ -1183,6 +1218,7 @@ public class ReserveEmulationHelper extends BaseStep {
 		// String arrx =
 		// BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 
+		helpermethod = new Helper();
 		int ItemId, Quantity;
 		String postdata = "", postdata2 = "";
 		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
@@ -1332,5 +1368,152 @@ public class ReserveEmulationHelper extends BaseStep {
 		return postrequestDetails;
 
 	}
+	
+	
+	
+	public Map<String, String> getMultiLinesRequest(String ClubId, String ClubId2, String RetailPrice, String lineNumber,
+			String Applied_Dates,String postdata, String postdata2,String arrx) throws Exception {
+
+		reserveemulator = new ReserveEmulationHelper();
+		helpermethod = new Helper();
+		
+		Map<String, String> maprx = helpermethod.getRetailPrice(arrx);
+		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
+		int ItemId2 = Integer.valueOf(promodetails.get("ItemId"));
+		int Quantity2 = Integer.valueOf(promodetails.get("MinimumPurchaseQuantity"));
+		
+		switch (RetailPrice) {
+		
+		case "SAME_PRICE":
+			
+
+			switch (Applied_Dates) {
+			case "FIRST_DATE":
+
+				postdata = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId, lineNumber,
+						postdata);
+
+				postdata2 = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId2, lineNumber,
+						postdata2);
+				
+
+				break;
+				
+			case "MIDDLE_DATE":
+
+				postdata = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId, lineNumber,
+						postdata);
+
+				postdata2 = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId2, lineNumber,
+						postdata2);
+
+
+				break;
+			case "LAST_DATE":
+
+				postdata = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId, lineNumber,
+						postdata);
+
+				postdata2 = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId2, lineNumber,
+						postdata2);
+
+
+				break;
+
+			}
+
+			break;
+			
+			case "LESS_PRICE":
+
+				switch (Applied_Dates) {
+				case "FIRST_DATE":
+
+					postdata = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId, lineNumber,
+							postdata);
+
+					postdata2 = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId2, lineNumber,
+							postdata2);
+					
+
+					break;
+					
+				case "MIDDLE_DATE":
+
+					postdata = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId, lineNumber,
+							postdata);
+
+					postdata2 = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId2, lineNumber,
+							postdata2);
+
+
+					break;
+				case "LAST_DATE":
+
+					postdata = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId, lineNumber,
+							postdata);
+
+					postdata2 = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId2, lineNumber,
+							postdata2);
+
+
+					break;
+
+				}	
+				
+				break;
+			
+		case "MORE_PRICE":
+			
+			switch (Applied_Dates) {
+			case "FIRST_DATE":
+
+				postdata = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId, lineNumber,
+						postdata);
+
+				postdata2 = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId2, lineNumber,
+						postdata2);
+				
+
+				break;
+				
+			case "MIDDLE_DATE":
+
+				postdata = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId, lineNumber,
+						postdata);
+
+				postdata2 = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId2, lineNumber,
+						postdata2);
+
+
+				break;
+			case "LAST_DATE":
+
+				postdata = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId, lineNumber,
+						postdata);
+
+				postdata2 = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId2, lineNumber,
+						postdata2);
+
+
+				break;
+
+			}	
+			break;
+
+		}
+
+
+
+		Map<String, String> postrequestDetails = new HashMap<String, String>();
+
+		postrequestDetails.put("DataPowerRequest", postdata);
+		postrequestDetails.put("EmulatorRequest", postdata2);
+
+		return postrequestDetails;
+
+	}
+
+	
 
 }

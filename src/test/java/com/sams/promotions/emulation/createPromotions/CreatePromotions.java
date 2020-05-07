@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sams.promotions.emulation.test.base.BaseStep;
 import com.sams.promotions.emulation.test.helper.Helper;
+import com.sams.promotions.emulation.test.helper.PrimaryRequestHelper;
 import com.sams.promotions.emulation.test.helper.ReserveEmulationHelper;
 import com.sams.promotions.emulation.test.membershipCreate.Membership;
 import com.sams.promotions.emulation.test.steps.util.HeaderMapper;
@@ -51,10 +52,16 @@ public class CreatePromotions extends BaseStep {
 		membership = new Membership();
 		reserveemulator = new ReserveEmulationHelper();
 		memberrequest=new MemberSelect();
+		primaryrequest = new PrimaryRequestHelper();
 	}
 
 	@Given("^Utilize URL and post data$")
 	public void POST_Operation(DataTable datatable) throws Exception {
+		
+		
+		
+		
+		
 		
 		
 		
@@ -81,7 +88,7 @@ public class CreatePromotions extends BaseStep {
 		  writer.close();
 		 
 		 
-
+		 
 		// System.out.println(arr);
 
 		/*

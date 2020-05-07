@@ -16,8 +16,7 @@ import cucumber.api.junit.Cucumber;
 				"src/test/resources/promotions/emulator/RegressionPromotionsMigrationActiveAddOnComplimentaryMember/" }, glue = {
 						"com/sams/promotions/migrations/emulator/datapower/regression/membership/addon/complimentary/active/" },
 
-		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport4.html" }
+		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json"}
 
 )
 

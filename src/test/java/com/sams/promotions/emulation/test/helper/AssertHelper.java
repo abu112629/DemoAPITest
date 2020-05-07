@@ -1050,61 +1050,34 @@ public class AssertHelper extends BaseStep{
 		
 		helper = new Helper();
 		System.out.println("Response Thread "+Thread.currentThread());
-		Response res = response.assertThat().statusCode(200).and().extract().response();
-		Response res2 = response2.assertThat().statusCode(200).and().extract().response();
+		Response res = response.extract().response();
+		Response res2 = response2.extract().response();
+		//assertThat().statusCode(200).and().
 
-		String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
-		String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
-		
-		Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
-		Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
+		if(res.statusCode()==200 && res2.statusCode()==200) {
+			
+			String[] actual = helper.ActualMigratedValidations(res.prettyPrint().toString());
+			String[] actual2 = helper.ActualMigratedValidations(res2.prettyPrint().toString());
+			
+			Map<String, String> dataPowerValues=helper.getAssertValues(res.asString());
+			Map<String, String> emulatorValues=helper.getAssertValues(res2.asString());
 
 
-				System.out.println("DataPower Actual : " + Arrays.toString(actual));
-				System.out.println("Emulator Actual : " + Arrays.toString(actual2));
-				
-				
-				softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);    	  
-		/*
-		 * softAssertions.assertThat(dataPowerValues.containsKey("code")).isEqualTo(
-		 * emulatorValues.containsKey("code"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("responseDescription"))
-		 * .isEqualTo(emulatorValues.containsKey("responseDescription"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("basketId")).isEqualTo(
-		 * emulatorValues.containsKey("basketId"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("FirstLineOfferId")).
-		 * isEqualTo(emulatorValues.containsKey("FirstLineOfferId"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("FirstLinegs1Code")).
-		 * isEqualTo(emulatorValues.containsKey("FirstLinegs1Code"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("FirstLinegtin")).
-		 * isEqualTo(emulatorValues.containsKey("FirstLinegtin"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey(
-		 * "FirstLineTotalDiscount")).isEqualTo(emulatorValues.containsKey(
-		 * "FirstLineTotalDiscount"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("FirstLineItemId")).
-		 * isEqualTo(emulatorValues.containsKey("FirstLineItemId"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey(
-		 * "FirstLineEachItemDiscount")).isEqualTo(emulatorValues.containsKey(
-		 * "FirstLineEachItemDiscount"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("SecondLineOfferId")).
-		 * isEqualTo(emulatorValues.containsKey("SecondLineOfferId"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("SecondLinegs1Code")).
-		 * isEqualTo(emulatorValues.containsKey("SecondLinegs1Code"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("SecondLinegtin")).
-		 * isEqualTo(emulatorValues.containsKey("SecondLinegtin"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey(
-		 * "SecondLineTotalDiscount")).isEqualTo(emulatorValues.containsKey(
-		 * "SecondLineTotalDiscount"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("SecondLineQuanity")).
-		 * isEqualTo(emulatorValues.containsKey("SecondLineQuanity"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey(
-		 * "SecondLineEachItemDiscount")).isEqualTo(emulatorValues.containsKey(
-		 * "SecondLineEachItemDiscount"));
-		 * softAssertions.assertThat(dataPowerValues.containsKey("SecondLineItemId")).
-		 * isEqualTo(emulatorValues.containsKey("SecondLineItemId"));
-		 */
-				
-				
+					System.out.println("DataPower Actual : " + Arrays.toString(actual));
+					System.out.println("Emulator Actual : " + Arrays.toString(actual2));
+					
+					
+					softAssertions.assertThat(dataPowerValues).isEqualTo(emulatorValues);    
+			
+		}
+		else {
+			
+			System.out.println(res.prettyPrint());
+			System.out.println(res2.prettyPrint());
+			
+			softAssertions.assertThat(res.prettyPrint().toString()).isEqualTo(res2.prettyPrint().toString());
+		}
+						
 		
 		return softAssertions;
 

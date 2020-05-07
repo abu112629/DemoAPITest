@@ -81,15 +81,6 @@ public class AnalyticMemberTypesStepDef extends BaseStep{
 			String arrbr = reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(),i);
 			String arrbry = reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(),i+1);
 			
-			
-			  Map<String, String> mapr =Helper.getPromotionDetails(arrbr); String
-			  promoIdr=mapr.get("PromoId");
-			  
-			  Map<String, String> mapry =Helper.getPromotionDetails(arrbry); String
-			  promoIdry=mapry.get("PromoId");
-			  
-			  if(promoIdr.contentEquals(promoIdry)) {
-			 
 				
 			
 			postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
@@ -109,15 +100,8 @@ public class AnalyticMemberTypesStepDef extends BaseStep{
 			Getemulatorparameter_and_postOperation_for_Doublelines_Analytic();
 
 			ChecktheResultsdoubleLinesAnalytic();
-			i++;
 			
-			
-			  }
-			  else {
-				  
-				  i++;
-			  }
-			
+			i++;		
 			
 			
 

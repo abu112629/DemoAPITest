@@ -79,15 +79,6 @@ public class PackageMemberTypesStepDef extends BaseStep {
 			String arrbry = reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(),
 					UrlConstants.METADATA_PROMOTION_PACKAGE, i + 1);
 			
-
-			  Map<String, String> mapr =Helper.getPromotionDetails(arrbr); String
-			  promoIdr=mapr.get("PromoId");
-			  
-			  Map<String, String> mapry =Helper.getPromotionDetails(arrbry); String
-			  promoIdry=mapry.get("PromoId");
-			  
-			  
-			  if(promoIdr.contentEquals(promoIdry)) {
 				  
 				  postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
 							channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates,
@@ -108,14 +99,6 @@ public class PackageMemberTypesStepDef extends BaseStep {
 
 					i++;
 			 
-			  }
-			  
-			  else {
-				  
-				  i++;
-			  }
-
-			
 
 		}
 

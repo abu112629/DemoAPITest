@@ -11,13 +11,13 @@ import cucumber.api.junit.Cucumber;
 @CucumberOptions(
 
 		monochrome = true, // dryRun=true,
-		//tags= {"regressionBroadReachSingle"},
+		tags= {"@regressionBroadReach"},
 
-		features = { "src/test/resources/promotions/emulator/allPromotionsMembers/" }, 
+		features = { "src/test/resources/promotions/emulator/BroadReachRegression/" }, 
 		glue = {"com/sams/promotions/emulator/datapower/regression/membership/allBroadReachPromotions/" },
 
 		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReportTest.html" }
+				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReportBroadReachTest.html" }
 
 )
 

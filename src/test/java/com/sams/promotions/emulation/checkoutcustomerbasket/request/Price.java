@@ -11,7 +11,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Price {
+public class Price implements Cloneable{
 	
 	private Amount amount;
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {	
+		
+		Price cloned=(Price)super.clone();
+		cloned.setAmount((Amount)cloned.getAmount().clone()); 
+		
+	    return cloned;
+	}
 }

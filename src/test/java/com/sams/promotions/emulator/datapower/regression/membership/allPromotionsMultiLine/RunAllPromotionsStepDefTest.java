@@ -1,5 +1,5 @@
 
-package com.sams.promotions.emulator.datapower.regression.membership.allAnalyticPromotions;
+package com.sams.promotions.emulator.datapower.regression.membership.allPromotionsMultiLine;
 
 import org.junit.runner.RunWith;
 
@@ -21,6 +21,6 @@ import cucumber.api.junit.Cucumber;
 
 )
 
-public class RunAllAnalyticMembersTest {
+public class RunAllPromotionsStepDefTest {
 
 }

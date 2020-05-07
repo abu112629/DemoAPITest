@@ -19,6 +19,9 @@ public class ProductOffering implements Cloneable{
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-	    return super.clone();
+		ProductOffering cloned=(ProductOffering)super.clone();
+		cloned.setPrice((Price)cloned.getPrice().clone()); 
+		
+	    return cloned;
 	}
 }

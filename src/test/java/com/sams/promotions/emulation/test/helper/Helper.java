@@ -135,7 +135,6 @@ public class Helper extends BaseStep {
 		String enddt = mapx.get("EndDate");
 
 		// System.out.println(abc[0]);
-
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 		SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -147,10 +146,10 @@ public class Helper extends BaseStep {
 		String firstdate = outputFormat.format(firstDate);
 		String midDate = outputFormat.format(MidDate);
 		String lastdate = outputFormat.format(lastDate);
-
 		ReqDates.put("firstdate", firstdate);
 		ReqDates.put("midDate", midDate);
 		ReqDates.put("lastdate", lastdate);
+		
 
 		return ReqDates;
 
@@ -319,7 +318,8 @@ public class Helper extends BaseStep {
 		promotionDetails.put("PackageCode", abc[6]);
 		promotionDetails.put("MaxRedemptionCount", abc[7]);
 		promotionDetails.put("offerTypeDescription", abc[8]);
-		promotionDetails.put("SizeOfMetaData", abc[9]);
+		promotionDetails.put("ItemTypeDescription", abc[9]);
+		promotionDetails.put("SizeOfMetaData", abc[10]);
 
 		return promotionDetails;
 
@@ -341,7 +341,8 @@ public class Helper extends BaseStep {
 		promotionDetails.put("offerTypeDescription", abc[8]);
 		promotionDetails.put("actioncode", abc[9]);
 		promotionDetails.put("actionDescription", abc[10]);
-		promotionDetails.put("SizeOfMetaData", abc[11]);
+		promotionDetails.put("ItemTypeDescription", abc[11]);
+		promotionDetails.put("SizeOfMetaData", abc[12]);
 
 		return promotionDetails;
 

@@ -16,8 +16,7 @@ import cucumber.api.junit.Cucumber;
 		features = { "src/test/resources/promotions/emulator/XMLtoJSONReserveConverter/" }, glue = {
 				"com/sams/promotions/emulation/xmltojsoncheck/" },
 
-		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport7.html" }
+		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json"}
 
 )
 

@@ -16,7 +16,7 @@ import cucumber.api.junit.Cucumber;
 				"com/sams/promotions/emulator/regression/emulatedMetaData/instantsavingMetaDataTest/" },
 				
 		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport3.html" }
+				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReportMetaDataTest.html" }
 
 )
 

@@ -31,14 +31,12 @@
 					<threadCount>8</threadCount>
 					<threadCountClasses>2</threadCountClasses>
 					<!-- <useUnlimitedThreads>true</useUnlimitedThreads> -->
-					<forkCount>2</forkCount>
-					<reuseForks>false</reuseForks>
 					<!-- <argLine>-Xmx2048M -XX:MaxPermSize=2048M</argLine> -->
-					<parallel>all</parallel>
+					<!-- <parallel>all</parallel>
 					<threadCount>16</threadCount>
-					<perCoreThreadCount>false</perCoreThreadCount>
-					<forkCount>2.0C</forkCount>
-					<reuseForks>true</reuseForks>
+					<perCoreThreadCount>false</perCoreThreadCount> -->
+					<forkCount>3</forkCount>
+					<reuseForks>false</reuseForks>
 					<argLine>-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MinHeapFreeRatio=20 -XX:MaxHeapFreeRatio=40 -XX:AdaptiveSizePolicyWeight=90 -XX:MaxRAMFraction=1</argLine>
 					<includes>
 						<include>**/*Test.java</include>

@@ -733,24 +733,77 @@ public class PrimaryRequestHelper extends BaseStep {
 		String postdata="",postdata2="";
 		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
 		Map<String, String> promodetails2 = Helper.getPromotionDetails(arry);
+		
+		if(promodetails.get("PromoId").contains(promodetails2.get("PromoId"))) {
+			
+			if(promodetails.get("ItemTypeDescription").contentEquals("Reward")) {
+				
+				ItemId=Integer.valueOf(promodetails.get("ItemId"));
+				
+				if(promodetails.get("ItemTypeDescription").contentEquals("Seed")) {
+					ItemId2 = Integer.valueOf(promodetails2.get("ItemId"));
+				}
+				
+			}
+			else if (promodetails.get("ItemTypeDescription").contentEquals("Seed")){
+				
+					
+					ItemId=Integer.valueOf(promodetails.get("ItemId"));
+					
+					if(promodetails2.get("ItemTypeDescription").contentEquals("Reward")) {
+						ItemId2 = Integer.valueOf(promodetails2.get("ItemId"));
+					}
+									
+			}
+			
+			else {
+				
+				if (promodetails.get("ItemId").contentEquals("null")) {
 
-		if (promodetails.get("ItemId").contentEquals("null")) {
+					ItemId = 725443;
 
-			ItemId = 725443;
+				} else {
+					ItemId = Integer.valueOf(promodetails.get("ItemId"));
 
-		} else {
-			ItemId = Integer.valueOf(promodetails.get("ItemId"));
+				}
 
+				if (promodetails2.get("ItemId").contentEquals("null")) {
+
+					ItemId2 = 725443;
+
+				} else {
+
+					ItemId2 = Integer.valueOf(promodetails2.get("ItemId"));
+				}
+				
+				
+			}
+			
+			
+		}
+		
+		else {
+			
+			if (promodetails.get("ItemId").contentEquals("null")) {
+
+				ItemId = 725443;
+
+			} else {
+				ItemId = Integer.valueOf(promodetails.get("ItemId"));
+
+			}
+
+			if (promodetails2.get("ItemId").contentEquals("null")) {
+
+				ItemId2 = 725443;
+
+			} else {
+
+				ItemId2 = Integer.valueOf(promodetails2.get("ItemId"));
+			}
 		}
 
-		if (promodetails2.get("ItemId").contentEquals("null")) {
-
-			ItemId2 = 725443;
-
-		} else {
-
-			ItemId2 = Integer.valueOf(promodetails2.get("ItemId"));
-		}
+		
 
 		Map<String, String> map = helpermethod.getDatesDoubleLinesMetadata(arrx, arry);
 		Map<String, String> maprx = helpermethod.getRetailPriceMetadata(arrx, arry);
@@ -882,6 +935,7 @@ public class PrimaryRequestHelper extends BaseStep {
 			String Applied_Dates,String postdata, String postdata2,String arrx,String arry) throws Exception {
 
 		reserveemulator = new ReserveEmulationHelper();
+		helpermethod = new Helper();
 		Map<String, String> maprx = helpermethod.getRetailPriceMetadata(arrx, arry);
 		
 		

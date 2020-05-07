@@ -16,8 +16,7 @@ import cucumber.api.junit.Cucumber;
 		features = { "src/test/resources/promotions/emulator/valueCouponTables/" }, glue = {
 				"com/sams/promotions/emulation/valueCouponTables/" },
 
-		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReport7.html" }
+		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json"}
 
 )
 

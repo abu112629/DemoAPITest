@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 "minimumBasketAmount",
 "maxDiscountAmount",
 "minimumCorePurchaseQuantity",
+"minimumSeedPurchaseQuantity",
+"minimumRewardPurchaseQuantity",
 "merchandiseDetails"
 })
 public class BroadReachOffer {
@@ -60,6 +62,10 @@ private Float minimumBasketAmount;
 private Float maxDiscountAmount;
 @JsonProperty("minimumCorePurchaseQuantity")
 private Float minimumCorePurchaseQuantity;
+@JsonProperty("minimumSeedPurchaseQuantity")
+private Float minimumSeedPurchaseQuantity;
+@JsonProperty("minimumRewardPurchaseQuantity")
+private Float minimumRewardPurchaseQuantity;
 @JsonProperty("merchandiseDetails")
 private MerchandiseDetails merchandiseDetails;
 @JsonIgnore
@@ -213,6 +219,27 @@ return minimumCorePurchaseQuantity;
 @JsonProperty("minimumCorePurchaseQuantity")
 public void setMinimumCorePurchaseQuantity(Float minimumCorePurchaseQuantity) {
 this.minimumCorePurchaseQuantity = minimumCorePurchaseQuantity;
+}
+
+@JsonProperty("minimumSeedPurchaseQuantity")
+public Float getMinimumSeedPurchaseQuantity() {
+return minimumSeedPurchaseQuantity;
+}
+
+@JsonProperty("minimumSeedPurchaseQuantity")
+public void setMinimumSeedPurchaseQuantity(Float minimumSeedPurchaseQuantity) {
+this.minimumSeedPurchaseQuantity = minimumSeedPurchaseQuantity;
+}
+
+
+@JsonProperty("minimumRewardPurchaseQuantity")
+public Float getMinimumRewardPurchaseQuantity() {
+return minimumRewardPurchaseQuantity;
+}
+
+@JsonProperty("minimumRewardPurchaseQuantity")
+public void setMinimumRewardPurchaseQuantity(Float minimumRewardPurchaseQuantity) {
+this.minimumRewardPurchaseQuantity = minimumRewardPurchaseQuantity;
 }
 
 @JsonProperty("merchandiseDetails")

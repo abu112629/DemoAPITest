@@ -53,16 +53,19 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 			String lineNumber2, String Applied_Dates, String RegistrationNumber, String TransactionId)
 			throws Exception {
 
-		membershipNbr = member.memberRequest(type, membershipBase, Tier);
-
-		if (code == 1) {
-
-			long y = Long.valueOf(membershipNbr) / 10000000000L;
-			long x = Integer.parseInt((membershipNbr).substring(8));
-
-			membershipNbr = Long.toString(y) + Long.toString(x);
-
-		}
+		
+		
+		  membershipNbr = member.memberRequest(type, membershipBase, Tier);
+		  
+		  if (code == 1) {
+		  
+		  long y = Long.valueOf(membershipNbr) / 10000000000L; long x =
+		  Integer.parseInt((membershipNbr).substring(8));
+		  
+		  membershipNbr = Long.toString(y) + Long.toString(x);
+		  
+		  }
+		 
 
 		int i = 0;
 
@@ -76,17 +79,16 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 			String arrbry = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i + 1);
 
-			Map<String, String> mapr = Helper.getPromotionDetails(arrbr);
-			String promoIdr = mapr.get("PromoId");
 
-			Map<String, String> mapry = Helper.getPromotionDetails(arrbry);
-			String promoIdry = mapry.get("PromoId");
-
-			if (promoIdr.contentEquals(promoIdry)) {
+			//if (promoIdr.contentEquals(promoIdry)) {
+			
 				
-				Map<String, String> postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
+				Map<String, String> postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i,membershipNbr,
 						channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber,
 						TransactionId, arrbr, arrbry, pathsingle);
+				
+		
+				
 				
 				postdata = postRequestDetails.get("DataPowerRequest");
 				postdata2 = postRequestDetails.get("EmulatorRequest");
@@ -104,12 +106,12 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 				i++;
 
-			}
+			//}
 
-			else {
+			//else {
 
-				i++;
-			}
+				//i++;
+			//}
 
 		}
 
@@ -123,16 +125,20 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 			String ClubId, String ClubId2, int code, String RetailPrice, String lineNumber, String Applied_Dates,
 			String RegistrationNumber, String TransactionId) throws Exception {
 
-		membershipNbr = member.memberRequest(type, membershipBase, Tier);
-
-		if (code == 1) {
-
-			long y = Long.valueOf(membershipNbr) / 10000000000L;
-			long x = Integer.parseInt((membershipNbr).substring(8));
-
-			membershipNbr = Long.toString(y) + Long.toString(x);
-
-		}
+		
+		
+		  membershipNbr = member.memberRequest(type, membershipBase, Tier);
+		  
+		  if (code == 1) {
+		  
+		  long y = Long.valueOf(membershipNbr) / 10000000000L; long x =
+		  Integer.parseInt((membershipNbr).substring(8));
+		  
+		  membershipNbr = Long.toString(y) + Long.toString(x);
+		  
+		  }
+		 
+		 
 
 		int i = 0;
 
@@ -146,7 +152,8 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 			Map<String, String> postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,
 					ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber, TransactionId, arrbr,
 					pathsingle);
-
+			
+		
 			postdata = postRequestDetails.get("DataPowerRequest");
 			postdata2 = postRequestDetails.get("EmulatorRequest");
 
@@ -178,7 +185,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	public void POST_the_request_for_DoubleLines_BroadReach() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 		thisRequestSpecification.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS").body(postdata).when(); // header("Content-Type",
 																								// // "text/xml").
@@ -203,7 +210,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	public void Getemulatorparameter_and_postOperation_for_Doublelines_BroadReach() {
 
-		response2 = thisRequestSpecification2.post(UrlConstants.RESERVE_EMULATION).then();
+		response2 = thisRequestSpecification2.post(UrlConstants.SERVICES_CHECKOUT).then();
 
 	}
 
