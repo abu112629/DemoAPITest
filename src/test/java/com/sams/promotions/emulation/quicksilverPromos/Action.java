@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
 "id",
+"extId",
 "created",
 "lastModified",
 "actionType",
@@ -16,6 +17,8 @@ public class Action {
 
 @JsonProperty("id")
 private String id;
+@JsonProperty("extId")
+private String extId;
 @JsonProperty("created")
 private String created;
 @JsonProperty("lastModified")
@@ -33,6 +36,16 @@ return id;
 @JsonProperty("id")
 public void setId(String id) {
 this.id = id;
+}
+
+@JsonProperty("extId")
+public String getextId() {
+return id;
+}
+
+@JsonProperty("extId")
+public void setextId(String extId) {
+this.extId = extId;
 }
 
 @JsonProperty("created")

@@ -253,7 +253,7 @@ public class ReserveEmulationHelper extends BaseStep {
 
 	public String RedeemCouponUpdater(String ClubNbr, String MembershipNbr, String CardholderNbr, String ValueCouponNbr,
 			String PkgDurationCode, String PkgDurationDesc, String DateRedeemed, String RedeemptionLeft,
-			String RedeemCouponPath) throws Exception {
+			String RedeemCouponPath,String uri) throws Exception {
 
 		helpermethod = new Helper();
 
@@ -276,8 +276,13 @@ public class ReserveEmulationHelper extends BaseStep {
 
 		String req1 = soapUtil.wrapSoap(req);
 		System.out.println(Helper.getPrettyString(req1));
-
-		return req1;
+		Map<String, Object> header =new HashMap<>();
+		header.put("Content-Type", "text/xml");
+		
+		Response res=helpermethod.sendPostRequest(uri, UrlConstants.CHECKOUT_PACKAGE_COUPON, header, req1);
+		
+		String packageCouponResp=res.prettyPrint();
+		return packageCouponResp;
 
 	}
 

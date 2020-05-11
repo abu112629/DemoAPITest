@@ -79,7 +79,42 @@ public class PackageMemberTypesStepDef extends BaseStep {
 			String arrbry = reserveemulator.PackagePromoMetaData(prop.get("metadata.prod.rest").toString(),
 					UrlConstants.METADATA_PROMOTION_PACKAGE, i + 1);
 			
+			Map<String, String> mapr =Helper.getPromotionDetails(arrbr);
+			String promoIdr = mapr.get("PromoId");
+			
+			Map<String, String> mapry =Helper.getPromotionDetails(arrbry);
+			String promoIdry = mapry.get("PromoId");
+			
+			String CardholderNbr=null;
+			/*Need Clarity on below value*/
+			
+			String PkgDurationCode=null;
+			String PkgDurationDesc=null;
+			String RedeemptionLeft=null;
+			
+			
+			  if(promoIdr.contentEquals(promoIdry)) {
+				  reserveemulator.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
+						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+				  reserveemulator.RedeemCouponUpdater(ClubId2, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
+						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
 				  
+			  }
+			
+			  else {
+				  reserveemulator.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
+						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+				  reserveemulator.RedeemCouponUpdater(ClubId2, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
+						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+				  
+				  
+				  reserveemulator.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr, promoIdry, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
+						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+				  reserveemulator.RedeemCouponUpdater(ClubId2, membershipNbr, CardholderNbr, promoIdry, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
+						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+				  
+			  }
+			
 				  postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i, membershipNbr,
 							channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates,
 							RegistrationNumber, TransactionId, arrbr, arrbry, pathsingle);
@@ -135,7 +170,22 @@ public class PackageMemberTypesStepDef extends BaseStep {
 
 			String arrbr = reserveemulator.PackageSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(),
 					UrlConstants.METADATA_PROMOTION_PACKAGE, i);
+			
+			Map<String, String> mapr =Helper.getPromotionDetails(arrbr);
+			String promoIdr = mapr.get("PromoId");
 
+			String CardholderNbr=null;
+			/*Need Clarity on below value*/
+			
+			String PkgDurationCode=null;
+			String PkgDurationDesc=null;
+			String RedeemptionLeft=null;
+			
+			 reserveemulator.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
+					  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+			  reserveemulator.RedeemCouponUpdater(ClubId2, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
+					  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+			
 			postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,
 					ClubId2, code, RetailPrice, lineNumber, Applied_Dates,RegistrationNumber, TransactionId,
 					arrbr, pathsingle);
@@ -173,7 +223,7 @@ public class PackageMemberTypesStepDef extends BaseStep {
 
 	public void POST_the_request_for_DoubleLines_Package() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when(); // header("Content-Type",
 																								// // "text/xml").
@@ -182,7 +232,7 @@ public class PackageMemberTypesStepDef extends BaseStep {
 
 	public void POST_the_emulator_request_for_Doublelines_Package() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.instantsavings");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")
@@ -198,7 +248,7 @@ public class PackageMemberTypesStepDef extends BaseStep {
 
 	public void Getemulatorparameter_and_postOperation_for_Doublelines_Package() {
 
-		response2 = thisRequestSpecification2.post(UrlConstants.RESERVE_EMULATION).then();
+		response2 = thisRequestSpecification2.post(UrlConstants.SERVICES_CHECKOUT).then();
 
 	}
 

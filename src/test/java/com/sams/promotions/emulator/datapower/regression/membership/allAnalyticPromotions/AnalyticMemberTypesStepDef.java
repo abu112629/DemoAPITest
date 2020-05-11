@@ -178,7 +178,7 @@ public class AnalyticMemberTypesStepDef extends BaseStep{
 
 	public void POST_the_request_for_DoubleLines_Analytic() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when(); // header("Content-Type",
 																								// // "text/xml").	
@@ -188,7 +188,7 @@ public class AnalyticMemberTypesStepDef extends BaseStep{
 
 	public void POST_the_emulator_request_for_Doublelines_Analytic() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.instantsavings");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")
@@ -204,7 +204,7 @@ public class AnalyticMemberTypesStepDef extends BaseStep{
 
 	public void Getemulatorparameter_and_postOperation_for_Doublelines_Analytic() {
 
-		response2 = thisRequestSpecification2.post(UrlConstants.RESERVE_EMULATION).then();
+		response2 = thisRequestSpecification2.post(UrlConstants.SERVICES_CHECKOUT).then();
 
 	}
 

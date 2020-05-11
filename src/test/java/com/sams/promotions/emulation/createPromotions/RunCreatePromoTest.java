@@ -13,7 +13,7 @@ import cucumber.api.junit.Cucumber;
 							//dryRun=true,
 							
 							
-							tags= {"@Sanity"},
+							tags= {"@PromoTest"},
 							features= {"src/test/resources/promotions/emulator/CreatePromotions/"},
 							glue= {"com/sams/promotions/emulation/createPromotions/"},
 							
@@ -21,7 +21,8 @@ import cucumber.api.junit.Cucumber;
 							
 							plugin= {"pretty",
 									"html:target/cucumber-htmlreport",
-									"json:target/cucumber-report.json"
+									"json:target/cucumber-report.json",
+									"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReportPromoTest.html" 
 							}
 							
 							)

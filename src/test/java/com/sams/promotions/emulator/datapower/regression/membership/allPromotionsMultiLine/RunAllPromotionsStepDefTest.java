@@ -11,13 +11,13 @@ import cucumber.api.junit.Cucumber;
 @CucumberOptions(
 
 		monochrome = true, // dryRun=true,
-		tags= {"@regressionAnalytic"},
+		//tags= {"@regressionAnalytic"},
 
-		features = { "src/test/resources/promotions/emulator/AnalyticRegression/" }, 
-		glue = {"com/sams/promotions/emulator/datapower/regression/membership/allAnalyticPromotions/" },
+		features = { "src/test/resources/promotions/emulator/AllPromoMixOffer/" }, 
+		glue = {"com/sams/promotions/emulator/datapower/regression/membership/allPromotionsMultiLine/" },
 
 		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
-				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReportAnalyticTest.html" }
+				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ExtentReportMixOfferTest.html" }
 
 )
 

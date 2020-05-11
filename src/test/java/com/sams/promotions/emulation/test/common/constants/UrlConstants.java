@@ -39,7 +39,8 @@ public class UrlConstants {
 		public static final String CHECKOUT_TRIGGERS_QS="/promotions/event";
 		public static final String TRIGGER_JSON_CERT_REQUEST="src/test/resources/Emulation_Input/TriggerDataPowerRequest.json";
 		public static final String TRIGGER_JSON_EMULATOR_REQUEST="src/test/resources/Emulation_Input/TriggerJsonRequest.json";
-		
+		public static final String PACKAGE_REDEMPTION_COUPON="src/test/resources/Emulation_Input/PackageRedeemDataPower.xml";
+		public static final String CHECKOUT_PACKAGE_COUPON="/ManageMbrCouponV1_0_0";
 	
 
 }

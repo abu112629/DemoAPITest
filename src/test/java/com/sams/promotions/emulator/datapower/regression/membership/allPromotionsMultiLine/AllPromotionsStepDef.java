@@ -47,8 +47,8 @@ public class AllPromotionsStepDef extends BaseStep{
 
 	}
 
-	@Given("DataPower with a (.*), (.*), (.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with Code (\\d+) and Price (.*) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) to be Utilised to Get Analytic Offer$")
-	public void createtheInitialLinerequestforAllMembersAnalytic(String membershipBase, String type, String Tier,
+	@Given("DataPower with a (.*), (.*), (.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with Code (\\d+) and Price (.*) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) to be Utilised to Get Mixed Offer$")
+	public void createtheInitialLinerequestforAllMembersMixed(String membershipBase, String type, String Tier,
 			String channelName, String ClubId, String ClubId2, int code, String RetailPrice,String Applied_Dates, String RegistrationNumber, String TransactionId)
 			throws Exception {
 
@@ -137,9 +137,9 @@ public class AllPromotionsStepDef extends BaseStep{
 
 	
 
-	public void POST_the_request_for_DoubleLines_Analytic() {
+	public void POST_the_request_for_Mixed_Offer() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.prod.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when(); // header("Content-Type",
 																								// // "text/xml").	
@@ -147,9 +147,9 @@ public class AllPromotionsStepDef extends BaseStep{
 
 	}
 
-	public void POST_the_emulator_request_for_Doublelines_Analytic() {
+	public void POST_the_emulator_request_for_Mixed_Offer() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.cert.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.instantsavings");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")
@@ -157,19 +157,19 @@ public class AllPromotionsStepDef extends BaseStep{
 
 	}
 
-	public void Getparameter_and_postOperation_for_DoubleLines_Analytic() {
+	public void Getparameter_and_postOperation_for_Mixed_Offer() {
 
 		response = thisRequestSpecification.post(UrlConstants.SERVICES_CHECKOUT).then();
 
 	}
 
-	public void Getemulatorparameter_and_postOperation_for_Doublelines_Analytic() {
+	public void Getemulatorparameter_and_postOperation_for_Mixed_Offer() {
 
-		response2 = thisRequestSpecification2.post(UrlConstants.RESERVE_EMULATION).then();
+		response2 = thisRequestSpecification2.post(UrlConstants.SERVICES_CHECKOUT).then();
 
 	}
 
-	public void ChecktheResultsdoubleLinesAnalytic() throws Exception {
+	public void ChecktheResultsdoubleLinesMixed_Offer() throws Exception {
 
 		softAssertions = asserthelper.ValidationsAll(response, response2);
 

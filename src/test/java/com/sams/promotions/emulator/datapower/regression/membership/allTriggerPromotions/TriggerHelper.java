@@ -1,6 +1,7 @@
 package com.sams.promotions.emulator.datapower.regression.membership.allTriggerPromotions;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -28,10 +29,12 @@ public class TriggerHelper extends BaseStep{
 	HeaderMapper headerMapper;
 	protected Helper helpermethod;
 	
-	public String TriggerCertRequest(String membershipNbr,String requestTs,String ClubNbr,String actioncode,String actionDesc,String Uri) throws JsonParseException, JsonMappingException, IOException {
+	public String TriggerCertRequest(String arrx,String membershipNbr,String requestTs,String ClubNbr,String actioncode,String actionDesc,String Uri) throws JsonParseException, JsonMappingException, IOException, ParseException {
 
 		headerMapper = new HeaderMapper();
 		helpermethod = new Helper();
+		
+		Map<String, String> map = Helper.getDatesMetadata(arrx);
 		
 		long membershipNumber=Long.valueOf(membershipNbr);
 		long ClubId=Long.valueOf(ClubNbr);
@@ -42,7 +45,24 @@ public class TriggerHelper extends BaseStep{
 		
 		
 		triggerreq.setMembershipNbr(membershipNumber);
-		triggerreq.setRequestTs(requestTs);
+		
+		switch (requestTs) {
+		
+		case "FIRST_DATE":
+			
+			triggerreq.setRequestTs(map.get("firstdate"));
+			break;
+			
+		case "MIDDLE_DATE":
+			triggerreq.setRequestTs(map.get("midDate"));
+			break;
+			
+		case "LAST_DATE":
+			triggerreq.setRequestTs(map.get("lastdate"));
+			break;
+		
+		}
+		
 		triggerreq.setClubNbr(ClubId);
 		ActionInfo actionInfo=triggerreq.getActionInfo();
 		ActionCodeInfo actioncodeInfo=actionInfo.getActionCodeInfo();
@@ -61,10 +81,12 @@ public class TriggerHelper extends BaseStep{
 	
 	}
 	
-	public String TriggerEmulatorRequest(String membershipNbr,String requestTs,String ClubNbr,String actioncode,String Uri) throws Exception {
+	public String TriggerEmulatorRequest(String arrx,String membershipNbr,String requestTs,String ClubNbr,String actioncode,String Uri) throws Exception {
 
 		headerMapper = new HeaderMapper();
 		helpermethod = new Helper();
+		
+		Map<String, String> map = Helper.getDatesMetadata(arrx);
 		
 		String triggerpayload=helpermethod.GenerateStringFromResource(UrlConstants.TRIGGER_JSON_EMULATOR_REQUEST);
 		ObjectMapper objectmapper = new ObjectMapper();
@@ -73,7 +95,24 @@ public class TriggerHelper extends BaseStep{
 		
 		Payload payload=triggerreq.getPayload();
 		payload.setEventId(actioncode);
-		payload.setRequestTimestamp(requestTs);
+		
+		switch (requestTs) {
+		
+		case "FIRST_DATE":
+			
+			payload.setRequestTimestamp(map.get("firstdate"));
+			break;
+			
+		case "MIDDLE_DATE":
+			payload.setRequestTimestamp(map.get("midDate"));
+			break;
+			
+		case "LAST_DATE":
+			payload.setRequestTimestamp(map.get("lastdate"));
+			break;
+		
+		}
+		
 		EventAttributes eventattr=payload.getEventAttributes();
 		eventattr.setMembershipId(membershipNbr);
 		eventattr.setClubId(ClubNbr);

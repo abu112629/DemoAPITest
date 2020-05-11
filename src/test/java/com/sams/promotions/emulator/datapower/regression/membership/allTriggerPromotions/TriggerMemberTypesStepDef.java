@@ -93,18 +93,18 @@ public class TriggerMemberTypesStepDef extends BaseStep{
 			  
 			  if(promoIdr.contentEquals(promoIdry)) {
 				  
-				  triggerHelper.TriggerCertRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), mapr.get("actionDescription"), prop.get("metadata.prod.rest").toString());
-				  triggerHelper.TriggerEmulatorRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), prop.get("mercury.quicksilver").toString());
+				  triggerHelper.TriggerCertRequest(arrbr,membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), mapr.get("actionDescription"), prop.get("metadata.prod.rest").toString());
+				  triggerHelper.TriggerEmulatorRequest(arrbr,membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), prop.get("mercury.quicksilver").toString());
 				  
 			  }
 			 
 			  else {
 				  
-				  triggerHelper.TriggerCertRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), mapr.get("actionDescription"), prop.get("metadata.prod.rest").toString());
-				  triggerHelper.TriggerEmulatorRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), prop.get("mercury.quicksilver").toString());
+				  triggerHelper.TriggerCertRequest(arrbr,membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), mapr.get("actionDescription"), prop.get("metadata.prod.rest").toString());
+				  triggerHelper.TriggerEmulatorRequest(arrbr,membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), prop.get("mercury.quicksilver").toString());
 				  
-				  triggerHelper.TriggerCertRequest(membershipNbr, Applied_Dates, ClubId, mapry.get("actioncode"), mapry.get("actionDescription"), prop.get("metadata.prod.rest").toString());
-				  triggerHelper.TriggerEmulatorRequest(membershipNbr, Applied_Dates, ClubId, mapry.get("actioncode"), prop.get("mercury.quicksilver").toString());
+				  triggerHelper.TriggerCertRequest(arrbry,membershipNbr, Applied_Dates, ClubId, mapry.get("actioncode"), mapry.get("actionDescription"), prop.get("metadata.prod.rest").toString());
+				  triggerHelper.TriggerEmulatorRequest(arrbry,membershipNbr, Applied_Dates, ClubId, mapry.get("actioncode"), prop.get("mercury.quicksilver").toString());
 				  
 			  }
 			 
@@ -169,9 +169,9 @@ public class TriggerMemberTypesStepDef extends BaseStep{
 			String arrbr = reserveemulator.TriggerSinglePromoMetaData(prop.get("metadata.prod.rest").toString(),i);
 			Map<String, String> mapr =Helper.getTriggerPromotionDetails(arrbr);
 			triggerHelper.
-			TriggerCertRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), mapr.get("actionDescription"), prop.get("metadata.prod.rest").toString());
+			TriggerCertRequest(arrbr,membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), mapr.get("actionDescription"), prop.get("metadata.prod.rest").toString());
 			triggerHelper.
-			 TriggerEmulatorRequest(membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), prop.get("mercury.quicksilver").toString());
+			 TriggerEmulatorRequest(arrbr,membershipNbr, Applied_Dates, ClubId, mapr.get("actioncode"), prop.get("mercury.quicksilver").toString());
 
 			postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,
 					ClubId2, code, RetailPrice, lineNumber, Applied_Dates,RegistrationNumber, TransactionId,arrbr,

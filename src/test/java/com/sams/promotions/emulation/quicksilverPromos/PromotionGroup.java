@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
 "id",
+"extId",
 "name",
 "description",
 "rank",
@@ -18,6 +19,8 @@ public class PromotionGroup {
 
 @JsonProperty("id")
 private String id;
+@JsonProperty("extId")
+private String extId;
 @JsonProperty("name")
 private String name;
 @JsonProperty("description")
@@ -39,6 +42,16 @@ return id;
 @JsonProperty("id")
 public void setId(String id) {
 this.id = id;
+}
+
+@JsonProperty("extId")
+public String getextId() {
+return extId;
+}
+
+@JsonProperty("extId")
+public void setextId(String extId) {
+this.extId = extId;
 }
 
 @JsonProperty("name")

@@ -1,6 +1,6 @@
 Feature: Verify Promo Creation
 
-  @Sanity
+  @PromoTest
   Scenario Outline: Verify Response is displayed in json
     Given Utilize URL and post data
       | Condition String   | eligibility Condition   | PromoName   | AwardValue   | Discount limit   | Promotion ItemNumber   |

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -15,6 +16,7 @@ import com.sams.promotions.emulation.test.helper.Helper;
 import com.sams.promotions.emulation.test.helper.PrimaryRequestHelper;
 import com.sams.promotions.emulation.test.helper.ReserveEmulationHelper;
 import com.sams.promotions.emulation.test.membershipCreate.Membership;
+import com.sams.promotions.emulation.test.steps.util.ClientConfigurationDatabase;
 import com.sams.promotions.emulation.test.steps.util.HeaderMapper;
 import com.sams.promotions.emulator.datapower.regression.membership.allAnalyticPromotions.MemberSelect;
 
@@ -38,6 +40,8 @@ public class CreatePromotions extends BaseStep {
 	protected String StartDate, EndDate, arr[];
 	protected int pro1, pro2;
 	MemberSelect memberrequest;
+	ClientConfigurationDatabase connection;
+	SoftAssertions softAssertions;
 
 	public CreatePromotions() throws IOException {
 		super();
@@ -53,14 +57,12 @@ public class CreatePromotions extends BaseStep {
 		reserveemulator = new ReserveEmulationHelper();
 		memberrequest=new MemberSelect();
 		primaryrequest = new PrimaryRequestHelper();
+		connection=new ClientConfigurationDatabase();
+		softAssertions=new SoftAssertions();
 	}
 
 	@Given("^Utilize URL and post data$")
 	public void POST_Operation(DataTable datatable) throws Exception {
-		
-		
-		
-		
 		
 		
 		
@@ -86,6 +88,7 @@ public class CreatePromotions extends BaseStep {
 		  } //
 		  
 		  writer.close();
+		 
 		 
 		 
 		 

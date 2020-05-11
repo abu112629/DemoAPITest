@@ -1,5 +1,7 @@
 package com.sams.promotions.emulation.quicksilverPromos;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 "sendEmail",
 "perMemberItemLimit",
 "isAlreadyApplied",
+"couponGroupList",
 "couponGroup",
 "couponType",
 "memberLimit",
@@ -40,6 +43,8 @@ private Boolean sendEmail;
 private Long perMemberItemLimit;
 @JsonProperty("isAlreadyApplied")
 private Boolean isAlreadyApplied;
+@JsonProperty("couponGroupList")
+private List<String> couponGroupList = null;
 @JsonProperty("couponGroup")
 private String couponGroup;
 @JsonProperty("couponType")
@@ -129,6 +134,16 @@ return isAlreadyApplied;
 @JsonProperty("isAlreadyApplied")
 public void setIsAlreadyApplied(Boolean isAlreadyApplied) {
 this.isAlreadyApplied = isAlreadyApplied;
+}
+
+@JsonProperty("couponGroupList")
+public List<String> getCouponGroupList() {
+return couponGroupList;
+}
+
+@JsonProperty("couponGroupList")
+public void setCouponGroupList(List<String> couponGroupList) {
+this.couponGroupList = couponGroupList;
 }
 
 @JsonProperty("couponGroup")

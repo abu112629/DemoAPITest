@@ -19,6 +19,8 @@ import java.util.concurrent.Executors;
 
 import javax.swing.JOptionPane;
 
+import org.assertj.core.api.SoftAssertions;
+
 import com.microsoft.azure.cosmosdb.ConnectionPolicy;
 import com.microsoft.azure.cosmosdb.ConsistencyLevel;
 import com.microsoft.azure.cosmosdb.Document;
@@ -301,6 +303,60 @@ public class ClientConfigurationDatabase extends BaseStep {
 			return null;
 		}
 		return rs;
+
+	}
+	
+	public SoftAssertions getPromos(String VCN) throws IOException {
+
+		SoftAssertions softAssertions = new SoftAssertions();
+
+		try {
+			con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
+					prop.getProperty("password"));
+			Class.forName(prop.getProperty("database_driver"));
+			
+			query = "SELECT * FROM VALUE_COUPON WHERE VALUE_COUPON_NBR=" + VCN;
+			 
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+		
+			if (rs.next() == false) {
+				System.out.println("No Values entered into DB2");
+				softAssertions.assertThat(rs.toString().isEmpty());
+				rs.close();
+			}
+
+			else {
+				
+				System.out.println(
+						"========================VALUE_COUPON : DB2 TABLE ===============================");
+				System.out.println(
+						"VALUE_COUPON_NBR\tSTART_DATE\tEND_DATE\tVALUE_AMT");
+				System.out.println(
+						"=================\t==================\t==================\t===============");
+				
+				//while (rs.next()) {
+					
+
+					int ptxno = rs.getInt("VALUE_COUPON_NBR");
+					Date pno = rs.getDate("START_DATE");
+					Date pro = rs.getDate("END_DATE");
+					int vno = rs.getInt("VALUE_AMT");
+
+					System.out.println(ptxno + "\t\t\t" + pno + "\t\t\t" + pro + "\t\t\t" + vno);
+
+				//}
+			}
+			
+			con.close();
+		}
+
+		catch (Exception e) {
+
+			JOptionPane.showMessageDialog(null, e);
+			return null;
+		}
+		return softAssertions;
 
 	}
 
