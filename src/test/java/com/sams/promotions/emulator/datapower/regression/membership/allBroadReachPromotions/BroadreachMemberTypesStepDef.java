@@ -55,16 +55,18 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 		
 		
-		  membershipNbr = member.memberRequest(type, membershipBase, Tier);
-		  
-		  if (code == 1) {
-		  
-		  long y = Long.valueOf(membershipNbr) / 10000000000L; long x =
-		  Integer.parseInt((membershipNbr).substring(8));
-		  
-		  membershipNbr = Long.toString(y) + Long.toString(x);
-		  
-		  }
+		/*
+		 * membershipNbr = member.memberRequest(type, membershipBase, Tier);
+		 * 
+		 * if (code == 1) {
+		 * 
+		 * long y = Long.valueOf(membershipNbr) / 10000000000L; long x =
+		 * Integer.parseInt((membershipNbr).substring(8));
+		 * 
+		 * membershipNbr = Long.toString(y) + Long.toString(x);
+		 * 
+		 * }
+		 */
 		 
 
 		int i = 0;
@@ -83,7 +85,11 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 			//if (promoIdr.contentEquals(promoIdry)) {
 			
 				
-				Map<String, String> postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i,membershipNbr,
+				Map<String, String> postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i,"10134100913186870",
+						channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber,
+						TransactionId, arrbr, arrbry, pathsingle);
+				
+				Map<String, String> postRequestDetailsx = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i,"10142100863234050",
 						channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber,
 						TransactionId, arrbr, arrbry, pathsingle);
 				
@@ -91,7 +97,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				
 				
 				postdata = postRequestDetails.get("DataPowerRequest");
-				postdata2 = postRequestDetails.get("EmulatorRequest");
+				postdata2 = postRequestDetailsx.get("EmulatorRequest");
 
 				UpdatetheRequesttoDoubleLinesBroadReach(ClubId, ClubId2, RetailPrice, lineNumber2, Applied_Dates, arrbr,
 						arrbry);
@@ -127,16 +133,18 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 		
 		
-		  membershipNbr = member.memberRequest(type, membershipBase, Tier);
-		  
-		  if (code == 1) {
-		  
-		  long y = Long.valueOf(membershipNbr) / 10000000000L; long x =
-		  Integer.parseInt((membershipNbr).substring(8));
-		  
-		  membershipNbr = Long.toString(y) + Long.toString(x);
-		  
-		  }
+		/*
+		 * membershipNbr = member.memberRequest(type, membershipBase, Tier);
+		 * 
+		 * if (code == 1) {
+		 * 
+		 * long y = Long.valueOf(membershipNbr) / 10000000000L; long x =
+		 * Integer.parseInt((membershipNbr).substring(8));
+		 * 
+		 * membershipNbr = Long.toString(y) + Long.toString(x);
+		 * 
+		 * }
+		 */
 		 
 		 
 
@@ -149,13 +157,17 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 		while (i < size) {
 			String arrbr = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 			
-			Map<String, String> postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,
+			Map<String, String> postRequestDetails = reserveemulator.getReserveRequestDetails(i, "10134100913186870", channelName, ClubId,
+					ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber, TransactionId, arrbr,
+					pathsingle);
+			
+			Map<String, String> postRequestDetailsx = reserveemulator.getReserveRequestDetails(i, "10142100863234050", channelName, ClubId,
 					ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber, TransactionId, arrbr,
 					pathsingle);
 			
 		
 			postdata = postRequestDetails.get("DataPowerRequest");
-			postdata2 = postRequestDetails.get("EmulatorRequest");
+			postdata2 = postRequestDetailsx.get("EmulatorRequest");
 
 			POST_the_request_for_DoubleLines_BroadReach();
 			Getparameter_and_postOperation_for_DoubleLines_BroadReach();

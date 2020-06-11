@@ -353,7 +353,15 @@ public class Helper extends BaseStep {
 		String[] abc = promotion.split(Pattern.quote("||"));
 
 		promotionDetails.put("QSOfferId", abc[0]);
-		promotionDetails.put("Total", abc[1]);
+		promotionDetails.put("conditionString", abc[1]);
+		promotionDetails.put("startDate", abc[2]);
+		promotionDetails.put("EndDate", abc[3]);
+		promotionDetails.put("redemptionlimit", abc[4]);
+		promotionDetails.put("discount", abc[5]);
+		promotionDetails.put("promotionItemNumber", abc[6]);
+		promotionDetails.put("gs1Code", abc[7]);
+		promotionDetails.put("DiscountLimit", abc[8]);
+		promotionDetails.put("Total", abc[9]);
 
 		return promotionDetails;
 

@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sams.promotions.emulation.test.base.BaseStep;
 import com.sams.promotions.emulation.test.helper.Helper;
@@ -20,10 +17,6 @@ import com.sams.promotions.emulator.datapower.regression.membership.allAnalyticP
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
-
-@SpringBootTest
-
-@RunWith(SpringRunner.class)
 
 public class PromoMigrationTest extends BaseStep {
 

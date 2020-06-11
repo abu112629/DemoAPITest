@@ -38,6 +38,7 @@ import com.sams.promotions.emulation.packageOffers.PackageOffers;
 import com.sams.promotions.emulation.packageRedeem.request.AddMbrCouponRequest;
 import com.sams.promotions.emulation.promoCreation.Action;
 import com.sams.promotions.emulation.promoCreation.PromoCreationRequest;
+import com.sams.promotions.emulation.quicksilverPromos.Action_;
 import com.sams.promotions.emulation.quicksilverPromos.Item;
 import com.sams.promotions.emulation.quicksilverPromos.QSPromos;
 import com.sams.promotions.emulation.test.base.BaseStep;
@@ -1108,8 +1109,13 @@ public class ReserveEmulationHelper extends BaseStep {
 		ArrayList<String> arrList = new ArrayList<String>();
 		String arr[] = null;
 
-		Long QSOfferId = null;
+		String QSOfferId = null;
 
+		String conditionString=null;
+		String startDate=null;
+		String EndDate=null;
+		String redemptionlimit=null;
+		
 		Map<String, Object> header = headerMapper.mapHeaders(UrlConstants.QSPROMO_HEADER_PATH);
 
 		Response res = helpermethod.sendGetRequest(Uri, UrlConstants.PROMO_CREATION, header);
@@ -1121,10 +1127,41 @@ public class ReserveEmulationHelper extends BaseStep {
 
 		for (Item line : list) {
 
-			QSOfferId = line.getPromotionNumber();
-
+			QSOfferId = Long.toString(line.getPromotionNumber());
+			
+			conditionString=line.getConditionString();
+			
+			startDate=line.getSchedule().getStartDate();
+			EndDate=line.getSchedule().getEndDate();
+			
+			redemptionlimit=Long.toString(line.getPerMembershipRedemptionLimit());
+			
+			List<Action_> actions=line.getActions();
+			String discount = "";
+			String promotionItemNumber="";
+			String gs1Code="";
+			String DiscountLimit="";
+			
+			for(Action_ actionlist : actions) {
+				if(actionlist.getAward().getType().contains("CouponPackAward")||
+						actionlist.getAward().getType().contains("CouponAward")) {
+					
+				}
+				
+				
+				else{
+					
+				
+				discount=Long.toString(actionlist.getAward().getValue());
+				promotionItemNumber=actionlist.getAward().getPromotionItemNumber();
+				gs1Code=actionlist.getAward().getGs1Code();
+				DiscountLimit=Long.toString(actionlist.getAward().getDiscountLimit());
+				
+				}
+			}
 			String Total = String.valueOf(metadata.getPayload().getTotal());
-			arr = new String[] { QSOfferId + "||" + Total };
+			arr = new String[] { QSOfferId + "||" + conditionString +"||" + startDate + "||" + EndDate + "||" + redemptionlimit + "||" + discount + "||"+
+					promotionItemNumber + "||" + gs1Code + "||" + DiscountLimit + "||" + Total };
 			arrList.add(arr[0].toString());
 
 		}

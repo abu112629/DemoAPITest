@@ -88,6 +88,7 @@ public class PackageMemberTypesStepDef extends BaseStep {
 			String CardholderNbr=null;
 			/*Need Clarity on below value*/
 			
+			/* Offers cannot be shared between Addon and Primary (Assign each CPN ) */
 			String PkgDurationCode=null;
 			String PkgDurationDesc=null;
 			String RedeemptionLeft=null;

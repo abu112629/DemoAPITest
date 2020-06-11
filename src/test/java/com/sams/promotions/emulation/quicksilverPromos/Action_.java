@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 "actionType",
 "award"
 })
-public class Action {
+public class Action_ {
 
 @JsonProperty("id")
 private String id;
