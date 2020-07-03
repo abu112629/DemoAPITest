@@ -35,7 +35,6 @@
 					<ns:customer>
 						<ns:id>1010010504980939</ns:id>
 					</ns:customer>
-					<ns:orderHeader></ns:orderHeader>
 					<ns:salesTransaction>
 						<ns:transactionCode>111</ns:transactionCode>
 						<ns:txTime>2017-04-14T00:46:43</ns:txTime>
@@ -52,12 +51,6 @@
 							</ns:businessUnitType>
 						</ns:businessUnit>
 					</ns:salesTransaction>
-					<ns:offers>
-						<!--1 or more repetitions:-->
-						<ns:offer>
-							<ns:id>65900</ns:id>
-						</ns:offer>
-					</ns:offers>
 				</ns:customerOrder>
 			</ns:messageBody>
 		</ns:redeemOffersRequest>

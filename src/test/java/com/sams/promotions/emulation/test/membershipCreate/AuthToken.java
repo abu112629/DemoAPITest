@@ -27,11 +27,11 @@ public class AuthToken extends BaseStep{
 		Map<String, Object> header = headerMapper
 				.mapHeaders(AuthTokenConstants.AUTH_TOKEN_HEADER_PATH + "authTokenMembershipHeader.txt");
 
-		Response response = helper.getAuthToken(prop.get("auth.token.endpoint").toString(),
+		Response response = helper.getAuthToken(prop.get("membership.stage.endpoint").toString(),
 				AuthTokenConstants.AUTH_TOKEN_PATH_PARAMS, header,
 				AuthTokenConstants.AUTH_TOKEN_FORM_PARAMS_MEMBERSHIP_CLIENT_ID,
 				AuthTokenConstants.AUTH_TOKEN_FORM_PARAMS_MEMBERSHIP_CLIENT_SECRET);
-
+		
 		assertEquals("Auth token is not created. Error : " + response.asString(), HttpStatus.SC_OK,
 				response.getStatusCode());
 

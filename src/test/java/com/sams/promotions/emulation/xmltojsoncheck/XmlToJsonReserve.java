@@ -17,7 +17,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.sams.promotions.emulation.test.common.constants.UrlConstants;
 import com.sams.promotions.emulation.test.steps.util.ReserveTestHelper;
-import com.sams.promotions.platform.emulation.core.ChannelAware;
 import com.sams.promotions.platform.emulation.core.Lookup;
 import com.sams.promotions.platform.emulation.core.helpers.ReserveHelper;
 import com.sams.promotions.platform.emulation.core.xml_to_json.XmlToJsonReserveImpl;
@@ -43,8 +42,6 @@ public class XmlToJsonReserve {
 	@Mock
 	private CurrencyUnitMapper currencyUnitMapper;
 
-	@Mock
-	private ChannelAware channelAware;
 	
 	@Mock
 	private ReserveHelper reserveHelper;

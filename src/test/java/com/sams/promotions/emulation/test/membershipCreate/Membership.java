@@ -33,7 +33,6 @@ public class Membership extends BaseStep{
 
 		// Get auth token
 		header.put(AuthTokenConstants.AUTHORIZATION, authToken.getMembershipAuthToken());
-		
 
 		Response response = helper.sendPostRequest(prop.get("membership.stage.endpoint").toString(),
 				MembershipConstants.MEMBERSHIP_PATH_PARAMS, header,

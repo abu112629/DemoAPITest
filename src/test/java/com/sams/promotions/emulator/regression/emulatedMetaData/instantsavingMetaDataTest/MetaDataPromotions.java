@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Assert;
 
 import com.sams.promotions.emulation.test.base.BaseStep;
 import com.sams.promotions.emulation.test.common.constants.UrlConstants;

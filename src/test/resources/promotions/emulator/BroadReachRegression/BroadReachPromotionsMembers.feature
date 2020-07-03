@@ -1,7 +1,7 @@
 Feature: Verify BroadReach Promotions in the MetaData for Active Members with Single and Double Order Lines
 
   #mvn test -Denv=stage -Dcucumber.options="--tags @Primaryactiveregression"
-  #mvn test -Denv=prod -Dcucumber.options="--tags @regressionBroadReach"
+  #mvn test -Denv=stage -Dcucumber.options="--tags @regressionBroadReach"
   
   @regressionBroadReach
   Scenario Outline: QuickSilver Promos for BroadReach Regular Mix and Match Double Order Lines for Promo Items with ACTIVE <type> <membership> <Tier> Member
@@ -10,7 +10,7 @@ Feature: Verify BroadReach Promotions in the MetaData for Active Members with Si
     # add negative tests for membership length of 16,17
     Examples: 
       | membership | type    | Tier | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | SecondOrderLine | Applied_Dates | ClubId2 | RegistrationNumber | TransactionId |
-      | savings    | primary | Plus |           2 | MORE_PRICE  |   6279 |          1 | DOTCOM  |               2 | MIDDLE_DATE   |    6279 |               7898 |           221 |
+      | savings    | primary | Plus |           2 | MORE_PRICE  |   6279 |          1 | DOTCOM  |               2 | MIDDLE_DATE   |    6279 |               7891 |           225 |
 
   @regressionBroadReach
   Scenario Outline: QuickSilver Promos for BroadReach Regular Mix and Match Single Order Lines for Promo Items with ACTIVE <type> <membership> <Tier> Member
@@ -18,7 +18,7 @@ Feature: Verify BroadReach Promotions in the MetaData for Active Members with Si
 
     Examples: 
       | membership | type    | Tier | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | Applied_Dates | ClubId2 | RegistrationNumber | TransactionId |
-      | savings    | primary | Plus |           2 | MORE_PRICE  |   6279 |          1 | DOTCOM  | MIDDLE_DATE   |    6279 |               7987 |           344 |
+      | savings    | primary | Plus |           2 | MORE_PRICE  |   6279 |          1 | DOTCOM  | MIDDLE_DATE   |    6279 |               7927 |           354 |
 
       
     

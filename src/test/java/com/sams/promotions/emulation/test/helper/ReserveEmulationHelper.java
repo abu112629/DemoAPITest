@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -51,8 +52,7 @@ import com.sams.promotions.emulation.triggerOffers.TriggerDetail;
 import com.sams.promotions.emulation.triggerOffers.TriggerOffer;
 import com.sams.promotions.emulation.triggerOffers.TriggerOffer_;
 import com.sams.promotions.platform.common.dateutil.DateUtil;
-import com.sams.promotions.platform.emulation.core.ChannelAware;
-import com.sams.promotions.platform.emulation.core.Lookup;
+//import com.sams.promotions.platform.emulation.core.Lookup;
 import com.sams.promotions.platform.emulation.core.constants.ChannelConstants;
 import com.sams.promotions.platform.emulation.core.constants.MappingConstants;
 import com.sams.promotions.platform.emulation.core.json_to_xml.JsonToXmlReserveImpl;
@@ -63,7 +63,8 @@ import com.sams.promotions.platform.emulation.util.mapper.CurrencyUnitMapper;
 import com.sams.promotions.platform.emulation.util.mapper.EmulationSerializeHelper;
 import com.sams.promotions.platform.emulation.util.mapper.JaxBInitializer;
 import com.sams.promotions.platform.emulation.util.soap.SOAPUtil;
-import com.sams.promotions.platform.models.emulation.redeemoffers.Offer;
+import com.sams.promotions.platform.models.emulation.Status;
+//import com.sams.promotions.platform.models.emulation.redeemoffers.Offer;
 import com.sams.promotions.platform.models.emulation.redeemoffers.RedeemOffersRequest;
 import com.walmart.mercury.api.dto.TransactionKeyAttributes;
 import com.walmart.sams.order.common.model.CurrencyUnitEnum;
@@ -86,8 +87,7 @@ public class ReserveEmulationHelper extends BaseStep {
 		super();
 	}
 
-	private static String inputreserve;
-	private static DateUtil dUtil;
+	private static String inputreserve;	
 	private static String testjson;
 
 	// protected long PromoNumber, Itemnumber, Mpq, PackageCode,maxRedemptionCount;
@@ -105,12 +105,15 @@ public class ReserveEmulationHelper extends BaseStep {
 	@Mock
 	private CurrencyUnitMapper currencyUnitMapper;
 
-	@Mock
-	private ChannelAware channelAware;
+	///@Mock
+	//private ChannelAware channelAware;
 
 	@Spy
 	private SOAPUtil soapUtil;
 
+	@Spy
+	private DateUtil dUtil;
+	
 	@Spy
 	private EmulationSerializeHelper helper;
 
@@ -135,7 +138,7 @@ public class ReserveEmulationHelper extends BaseStep {
 		MockitoAnnotations.initMocks(this);
 
 		Mockito.doReturn(CurrencyUnitEnum.USD).when(currencyUnitMapper).mapCurrencyUnit(Mockito.nullable(String.class));
-		Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
+		//Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
 
 		MutableMessage<OrderApplyRequestWrapper> test = xmlToJsonHelperReserve.fromSOAP(inputreserve);
 
@@ -155,9 +158,11 @@ public class ReserveEmulationHelper extends BaseStep {
 
 		MockitoAnnotations.initMocks(this);
 
-		Mockito.doReturn(CurrencyUnitEnum.USD).when(currencyUnitMapper).mapCurrencyUnit(Mockito.nullable(String.class));
-		Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
-
+		//Mockito.doReturn(CurrencyUnitEnum.USD).when(currencyUnitMapper).mapCurrencyUnit(Mockito.nullable(String.class));
+		//Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
+		ReserveHelper.get().resetRequestProperties();
+		ReserveHelper.get().getRequestProperties().put(MappingConstants.TRANSACTION_STATUS_KEY, Status.RESERVE);
+		
 		dUtil = new DateUtil();
 		TransactionKeyAttributes body = xmlToJsonHelperReserve.fromSOAP(inputreserve).getBody().getPayload()
 				.getTransactionKeyAttributes();
@@ -170,12 +175,42 @@ public class ReserveEmulationHelper extends BaseStep {
 		return orderNumber;
 
 	}
+	
+	public String OrderNum(String path) throws Exception{
+		
+		String membershipNBRFinal = null;
+		membershipNbr = new MemberShipNbrValidate();
+		
+		String xml = helpermethod.GenerateStringFromResource(path);
+
+		xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketRequest.class);
+		CheckoutCustomerBasketRequest request = soapUtil.unwrapSoap(xmlUnmarshaller, xml,
+				CheckoutCustomerBasketRequest.class);
+
+		String id = request.getMessageBody().getCustomerBasket().getCustomer().getId();
+		String txTime = request.getMessageBody().getCustomerBasket().getCreateTimestamp();
+		long accessTokenId = Long.valueOf(request.getMessageBody().getCustomerBasket().getBasketID());
+		long number = Long.valueOf(request.getMessageBody().getCustomerBasket().getBusinessUnit().getNumber());
+		long terminalID = Long.valueOf(request.getMessageBody().getCustomerBasket().getTerminal().getTerminalID());
+		
+		String transactionNbr = StringUtils.leftPad(String.valueOf(accessTokenId), 4, "0");
+
+		String registrationNbr = StringUtils.leftPad(String.valueOf(terminalID), 4, "0");
+		
+		membershipNBRFinal = membershipNbr.validateMembershipNbr(id);
+		String strRedemptionDateCondensed = txTime.substring(0, 10);
+		String julianRedeemdate = String.valueOf(dUtil.convertToJulian(strRedemptionDateCondensed));
+		String orderNum=membershipNBRFinal+transactionNbr+registrationNbr+String.valueOf(number)+julianRedeemdate;
+		
+		return orderNum;
+	}
+	
 
 	public String convertJSONtoXML(String qs_response) throws Exception {
 
 		MockitoAnnotations.initMocks(this);
 
-		transform.afterPropertiesSet();
+		//transform.afterPropertiesSet();
 		ReserveHelper.get().resetRequestProperties();
 		ReserveHelper.get().getRequestProperties().put(MappingConstants.BASKET_ID_KEY, "4116");
 		ReserveHelper.get().getRequestProperties().put(MappingConstants.CHANNEL_NAME_KEY, ChannelConstants.DOTCOM_NAME);
@@ -188,7 +223,8 @@ public class ReserveEmulationHelper extends BaseStep {
 	}
 
 	public String RedeemRequestUpdater(String Reservepath, String Redeempath) throws Exception {
-
+		
+		
 		helpermethod = new Helper();
 
 		String xml = helpermethod.GenerateStringFromResource(Reservepath);
@@ -196,19 +232,21 @@ public class ReserveEmulationHelper extends BaseStep {
 		xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketRequest.class);
 
 		soapUtil = new SOAPUtil();
+		dUtil=new DateUtil();
 
 		CheckoutCustomerBasketRequest request = soapUtil.unwrapSoap(xmlUnmarshaller, xml,
 				CheckoutCustomerBasketRequest.class);
 
+		String channel=request.getMessageBody().getCustomerBasket().getChannel().getName();
 		int cod = request.getMessageBody().getCustomerBasket().getChannel().getCode();
 		String code = String.valueOf(cod);
 		String id = request.getMessageBody().getCustomerBasket().getCustomer().getId();
 		String txTime = request.getMessageBody().getCustomerBasket().getCreateTimestamp();
-		String terminalID = request.getMessageBody().getCustomerBasket().getBasketID();
-		String number = request.getMessageBody().getCustomerBasket().getBusinessUnit().getNumber();
-		String transactionCode = request.getMessageBody().getCustomerBasket().getTerminal().getTerminalID();
-
-		List<OrderLine> list = request.getMessageBody().getCustomerBasket().getOrderLines();
+		long accessTokenId = Long.valueOf(request.getMessageBody().getCustomerBasket().getBasketID());
+		long number = Long.valueOf(request.getMessageBody().getCustomerBasket().getBusinessUnit().getNumber());
+		long terminalID = Long.valueOf(request.getMessageBody().getCustomerBasket().getTerminal().getTerminalID());
+		
+		//List<OrderLine> list = request.getMessageBody().getCustomerBasket().getOrderLines();
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 		String redeemxml = helpermethod.GenerateStringFromResource(Redeempath);
@@ -216,26 +254,30 @@ public class ReserveEmulationHelper extends BaseStep {
 		xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(RedeemOffersRequest.class);
 		soapUtil = new SOAPUtil();
 		RedeemOffersRequest req = soapUtil.unwrapSoap(xmlUnmarshaller, redeemxml, RedeemOffersRequest.class);
+		req.getMessageBody().getChannel().setName(channel);
 		req.getMessageBody().getChannel().setCode(code);
 		req.getMessageBody().getCustomerOrder().getCustomer().setId(id);
 		req.getMessageBody().getCustomerOrder().getSalesTransaction().setTxTime(LocalDateTime.parse(txTime, formatter));
 		req.getMessageBody().getCustomerOrder().getSalesTransaction().getBusinessUnit().getBusinessUnitType()
 				.getTerminal().setTerminalID(terminalID);
 		req.getMessageBody().getCustomerOrder().getSalesTransaction().getBusinessUnit().setNumber(number);
+		req.getMessageBody().getAccessToken().setId(accessTokenId);
+		String transactionCode=OrderNum(Reservepath);
 		req.getMessageBody().getCustomerOrder().getSalesTransaction().setTransactionCode(transactionCode);
 
-		List<Offer> listredeem = req.getMessageBody().getCustomerOrder().getOffers();
-
-		for (Offer line : listredeem) {
-
-			for (OrderLine lines : list) {
-
-				String OfferId = lines.getProductOffering().getId();
-				line.setId(OfferId);
-
-			}
-
-		}
+		/*
+		 * List<Offer> listredeem = req.getMessageBody().getCustomerOrder().getOffers();
+		 * 
+		 * for (Offer line : listredeem) {
+		 * 
+		 * for (OrderLine lines : list) {
+		 * 
+		 * String OfferId = lines.getProductOffering().getId(); line.setId(OfferId);
+		 * 
+		 * }
+		 * 
+		 * }
+		 */
 
 		String req1 = soapUtil.wrapSoap(req);
 

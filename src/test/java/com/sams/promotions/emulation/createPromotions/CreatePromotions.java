@@ -64,23 +64,28 @@ public class CreatePromotions extends BaseStep {
 	@Given("^Utilize URL and post data$")
 	public void POST_Operation(DataTable datatable) throws Exception {
 		
-		String qsarr=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").toString(), 1);
-		Map<String, String> mapqs=Helper.getQSPromotionDetails(qsarr);
-		
-		int Total=Integer.valueOf(mapqs.get("Total"));
-		
-		int i=0;
-		
-		while(i<Total) {
+		/*
+		 * String qsarr=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").
+		 * toString(), 1); Map<String, String>
+		 * mapqs=Helper.getQSPromotionDetails(qsarr);
+		 * 
+		 * int Total=Integer.valueOf(mapqs.get("Total"));
+		 * 
+		 * int i=0;
+		 * 
+		 * while(i<Total) {
+		 * 
+		 * String
+		 * qsarry=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").
+		 * toString(), i); Map<String, String>
+		 * mapqsy=Helper.getQSPromotionDetails(qsarry);
+		 * 
+		 * System.out.println(mapqsy); i++; }
+		 */
 			
-			String qsarry=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").toString(), i);
-			Map<String, String> mapqsy=Helper.getQSPromotionDetails(qsarry);
-			
-			System.out.println(mapqsy);
-			i++;
-		}
 		
-		 /* Map<String, String> mapqs
+		
+		  Map<String, String> mapqs
 		  =Helper.getPromotionDetails(reserveemulator.AnalyticPromoMetaData(prop.get(
 		  "metadata.prod.rest").toString(), 0)); int size =
 		  Integer.valueOf(mapqs.get("SizeOfMetaData"));
@@ -100,7 +105,9 @@ public class CreatePromotions extends BaseStep {
 		  
 		  } //
 		  
-		  writer.close();*/
+		  writer.close();
+		 
+		 
 		 
 		 
 		 
