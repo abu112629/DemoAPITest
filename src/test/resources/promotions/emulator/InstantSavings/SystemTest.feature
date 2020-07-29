@@ -24,5 +24,5 @@ Feature: Verify System Integration End to End Test for All Services for Emulator
       #| GS1Code           |                          1111 |
       #| Offer Id          |                         77080 |
       #| Gtin              |                             0 |
-    Then POST Redeem Request after reserve
+    #Then POST Redeem Request after reserve
      

@@ -3,6 +3,7 @@ package com.sams.promotions.emulation.test.steps.util;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -44,7 +45,7 @@ public class ClientConfigurationDatabase extends BaseStep {
 	protected ExecutorService executorService;
 	protected Scheduler scheduler;
 	protected AsyncDocumentClient client;
-	public String databaseName = "promo";
+	public String databaseName = "transaction";
 	public String collectionId = "reserve";
 	protected String collectionId2="promotion";
 	protected String query;
@@ -252,17 +253,18 @@ public class ClientConfigurationDatabase extends BaseStep {
 
 	}
 
-	public ResultSet ConnectDB2(String ITN,String PSN,String VCN) throws IOException {
+	public ResultSet ConnectDB2(String ITN,String PSN,String MCN,String VCN) throws IOException {
 
-
+		
 		try {
 			con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
 					prop.getProperty("password"));
 			Class.forName(prop.getProperty("database_driver"));
 			
-			query = "SELECT * FROM VAL_COUPN_TXN_TEMP WHERE ITEM_NBR=" + ITN + " AND PURCHASE_STORE_NBR=" + PSN +" AND VALUE_COUPON_NBR=" + VCN;
+			query = "SELECT * FROM VAL_COUPN_TXN_TEMP WHERE ITEM_NBR=" + ITN + " AND PURCHASE_STORE_NBR=" + PSN +" AND MEMBERSHIP_NBR=" + MCN +" AND VALUE_COUPON_NBR="+ VCN +" WITH UR";
 			 
 			stmt = con.createStatement();
+			stmt.setFetchSize(0);
 			rs = stmt.executeQuery(query);
 
 			if (rs.next() == false) {
@@ -276,9 +278,11 @@ public class ClientConfigurationDatabase extends BaseStep {
 				System.out.println(
 						"========================VALUE_COUPON_TXN_TEMP : DB2 TABLE ===============================");
 				System.out.println(
-						"PURCHASE_TXN_NBR\tPURCHASE_STORE_NBR\tPURCHASE_REG_NBR\tVALUE_COUPON_NBR\tMEMBERSHIP_NBR");
+						"PURCHASE_TXN_NBR\tPURCHASE_STORE_NBR\tPURCHASE_REG_NBR\tVALUE_COUPON_NBR\tMEMBERSHIP_NBR\t\tITEM_NBR\t\tPURCHASE_DATE\t\tPURCHASE_QTY\t\tPURCHASE_AMT\t\tPURCHASE_VALUE_RDMPT_CNT"
+						+ "\tNON_VALUE_ITEM_QTY");
 				System.out.println(
-						"=================\t==================\t==================\t==================\t================");
+						"=================\t==================\t==================\t==================\t================\t================\t================\t================\t================"
+						+ "\t======================\t\t================");
 				
 				//while (rs.next()) {
 					
@@ -288,9 +292,18 @@ public class ClientConfigurationDatabase extends BaseStep {
 					int pro = rs.getInt("PURCHASE_REG_NBR");
 					int vno = rs.getInt("VALUE_COUPON_NBR");
 					int mno = rs.getInt("MEMBERSHIP_NBR");
+					int itemno=rs.getInt("ITEM_NBR");
+					Date redemptiondate=rs.getDate("PURCHASE_DATE");
+					BigDecimal quantty=rs.getBigDecimal("PURCHASE_QTY");
+					BigDecimal purchaseamt=rs.getBigDecimal("PURCHASE_AMT");
+					int pvrc=rs.getInt("PURCHASE_VALUE_RDMPT_CNT");
+					int nonvalqty=rs.getInt("NON_VALUE_ITEM_QTY");
+					
 
-					System.out.println(ptxno + "\t\t\t" + pno + "\t\t\t" + pro + "\t\t\t" + vno + "\t\t\t" + mno);
-
+					System.out.println(ptxno + "\t\t\t" + pno + "\t\t\t" + pro + "\t\t\t" + vno + "\t\t\t" + mno +"\t\t" + itemno + "\t\t\t" + redemptiondate + "\t\t\t"
+							+ quantty + "\t\t\t" +purchaseamt + "\t\t\t" + pvrc + "\t\t\t\t" + nonvalqty);
+					
+					
 				//}
 			}
 			
@@ -306,6 +319,8 @@ public class ClientConfigurationDatabase extends BaseStep {
 
 	}
 	
+	
+			
 	public SoftAssertions getPromos(String VCN) throws IOException {
 
 		SoftAssertions softAssertions = new SoftAssertions();

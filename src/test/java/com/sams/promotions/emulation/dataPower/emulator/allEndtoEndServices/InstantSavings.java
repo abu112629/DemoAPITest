@@ -3,19 +3,16 @@ package com.sams.promotions.emulation.dataPower.emulator.allEndtoEndServices;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.Unmarshaller;
 
-import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sams.promotions.emulation.checkoutcustomerbasket.request.CheckoutCustomerBasketRequest;
-import com.sams.promotions.emulation.checkoutcustomerbasket.request.OrderLine;
 import com.sams.promotions.emulation.test.base.BaseStep;
 import com.sams.promotions.emulation.test.common.constants.UrlConstants;
 import com.sams.promotions.emulation.test.helper.Helper;
@@ -39,12 +36,12 @@ public class InstantSavings extends BaseStep {
 	protected String postdata;
 	protected String qs_response;
 	private ClientConfigurationDatabase connection;
+	CosmosValidator validation;
 
-	
 	protected ResultSet rs;
 	protected SOAPUtil soapUtil;
 	protected Unmarshaller xmlUnmarshaller;
-	protected String IR, VCN, PSN;
+	protected String IR, VCN, PSN, MMBR_ID, PromoId, Discount, GS1Code, GTin, Quantity, Unitdiscount;
 
 	public InstantSavings() throws IOException {
 		super();
@@ -58,6 +55,7 @@ public class InstantSavings extends BaseStep {
 
 		reserveemulator = new ReserveEmulationHelper();
 		helper = new Helper();
+		validation = new CosmosValidator();
 
 	}
 
@@ -72,7 +70,8 @@ public class InstantSavings extends BaseStep {
 	@When("^POST the provided request to InstantSavings$")
 	public void postrequest() throws Exception {
 
-		qs_response = helper.POSTXMLEmulator("datapower.cert.instantsavings", postdata, UrlConstants.SERVICES_CHECKOUT);
+		qs_response = helper.POSTXMLEmulator("datapower.stage.instantsavings", postdata,
+				UrlConstants.SERVICES_CHECKOUT);
 
 	}
 
@@ -85,19 +84,17 @@ public class InstantSavings extends BaseStep {
 		CheckoutCustomerBasketRequest req = soapUtil.unwrapSoap(xmlUnmarshaller, postdata,
 				CheckoutCustomerBasketRequest.class);
 		PSN = req.getMessageBody().getCustomerBasket().getBusinessUnit().getNumber();
-		List<OrderLine> list = req.getMessageBody().getCustomerBasket().getOrderLines();
-		for (OrderLine line : list) {
-
-			IR = line.getProductOffering().getId();
-
-		}
-
-		XmlPath xp = helper.rawToXML(qs_response);
-		VCN = xp.getString("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer.id");
-
-		// System.out.println(IR+" "+VCN); 
-		connection = new ClientConfigurationDatabase();
-		rs = connection.connectValCpn(IR, VCN);
+		String membershipNumber = req.getMessageBody().getCustomerBasket().getCustomer().getId();
+		MMBR_ID = membershipNumber.substring(7);
+		/*
+		 * List<OrderLine> list =
+		 * req.getMessageBody().getCustomerBasket().getOrderLines(); for (OrderLine line
+		 * : list) {
+		 * 
+		 * IR = line.getProductOffering().getId();
+		 * 
+		 * }
+		 */
 
 	}
 
@@ -105,27 +102,41 @@ public class InstantSavings extends BaseStep {
 	public void ValidateValCPN() throws Exception {
 
 		connection = new ClientConfigurationDatabase();
-		rs = connection.ConnectDB2(IR, PSN, VCN);
+		String actual = null;
+
+		XmlPath xp;
+		xp = helper.rawToXML(qs_response);
+
+		int length = xp.getInt("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer.size()");
+
+		for (int i = 0; i < length; i++) {
+
+			actual = helper.Actual(qs_response, i);
+			Map<String, String> promodetailsMap = helper.getTransactionDetails(actual);
+
+			PromoId = promodetailsMap.get("PromoId");
+			GS1Code = promodetailsMap.get("Gs1Code");
+			GTin = promodetailsMap.get("Gtin");
+			Quantity = promodetailsMap.get("Quantity");
+			IR = promodetailsMap.get("ItemId");
+			Unitdiscount = promodetailsMap.get("UnitDiscount");
+
+			rs = connection.ConnectDB2(IR, PSN, MMBR_ID, PromoId);
+			
+		}
+		
+		String ordernumber = reserveemulator.OrderNum(UrlConstants.DATA_POWER_CLUB);
+
+		System.out.println(ordernumber);
+
+		TimeUnit.SECONDS.sleep(2);
+		
+		validation.CosmosExtractedResults("2420400450689759735627920198", length);
 
 	}
 
 	@Then("^Assert and compare the values for ClubId 4969$")
 	public void Check(Map<String, String> Items) throws Exception {
 
-		this.Items = Items;
-
-		String[] actual = helper.Actual(qs_response);
-		System.out.println(Arrays.toString(actual));
-
-		String[] expected = helper.Expected(Items);
-
-		try {
-			Assert.assertArrayEquals(expected, actual);
-			System.out.println("Successfully Compared Values");
-		} catch (Exception e) {
-			System.out.println("Data not equal");
-		}
-
 	}
-
 }

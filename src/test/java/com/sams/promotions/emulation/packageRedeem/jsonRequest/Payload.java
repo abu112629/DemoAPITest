@@ -36,6 +36,8 @@ private String startDate;
 private Boolean autoUse;
 @JsonProperty("memberId")
 private String memberId;
+@JsonProperty("couponCreationSource")
+private String couponCreationSource;
 
 @JsonProperty("memberLimit")
 public Long getMemberLimit() {
@@ -126,5 +128,16 @@ return memberId;
 public void setMemberId(String memberId) {
 this.memberId = memberId;
 }
+
+@JsonProperty("couponCreationSource")
+public String getcouponCreationSource() {
+return couponCreationSource;
+}
+
+@JsonProperty("couponCreationSource")
+public void setcouponCreationSource(String couponCreationSource) {
+this.couponCreationSource = couponCreationSource;
+}
+
 
 }

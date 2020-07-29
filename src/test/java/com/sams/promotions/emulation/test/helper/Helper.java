@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -149,7 +150,6 @@ public class Helper extends BaseStep {
 		ReqDates.put("firstdate", firstdate);
 		ReqDates.put("midDate", midDate);
 		ReqDates.put("lastdate", lastdate);
-		
 
 		return ReqDates;
 
@@ -347,6 +347,7 @@ public class Helper extends BaseStep {
 		return promotionDetails;
 
 	}
+
 	public static Map<String, String> getQSPromotionDetails(String promotion) throws java.text.ParseException {
 
 		Map<String, String> promotionDetails = new HashMap<String, String>();
@@ -482,21 +483,89 @@ public class Helper extends BaseStep {
 
 	}
 
-	public String[] Actual(String response) throws Exception {
+	public String Actual(String response, int i) throws Exception {
 
 		XmlPath xp = rawToXML(response);
+		ArrayList<String> arrList = new ArrayList<String>();
+		String gs1code = null, id = null, gtin = null, qty = null, itemid = null, unitdisc = null;
+		String actual[] = null;
 
-		String od = xp
-				.getString("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer.description");
-		String gs1code = xp
-				.getString("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer.gs1Code");
-		String id = xp.getString("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer.id");
-		String gtin = xp.getString(
-				"Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer.offerGlobalTradeItem.gtin");
+		//int length = xp.getInt("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer.size()");
+		int orderlinelength = xp.getInt(
+				"Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer.orderLinesinOfferSummary.orderLines.size()");
 
-		String[] actual = new String[] { id, od, gs1code, gtin };
+		/*for (int i = 0; i < length;i++) {*/
 
-		return actual;
+			/*
+			 * disc = xp.getString(
+			 * "Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer[" +
+			 * i + "].discount.amount.value");
+			 */
+			gs1code = xp.getString(
+					"Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer[" + i + "].gs1Code");
+			id = xp.getString("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer[" + i + "].id");
+			gtin = xp.getString("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer[" + i
+					+ "].offerGlobalTradeItem.gtin");
+
+			for (int j = 0; j < orderlinelength; j++) {
+
+				qty = xp.getString("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer[" + j
+						+ "].orderLinesinOfferSummary.orderLines.orderLine.quantity" + ".amount");
+				itemid = xp.getString("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer[" + j
+						+ "].orderLinesinOfferSummary.orderLines.orderLine.productOffering" + ".id");
+				unitdisc = xp.getString("Envelope.Body.checkoutCustomerBasketResponse.customerBasket.offers.offer[" + j
+						+ "].orderLinesinOfferSummary.orderLines.orderLine.productOffering" + ".price.amount.value");
+
+				actual = new String[] { id + "||" + gs1code + "||" + gtin + "||" + qty + "||" + itemid
+						+ "||" + unitdisc };
+				arrList.add(actual[0].toString());
+				
+			
+			}
+
+		/* } */
+
+		return arrList.get(i);
+
+	}
+
+	public Map<String, String> getTransactionDetails(String values) throws java.text.ParseException {
+
+		Map<String, String> transactionDetails = new HashMap<String, String>();
+		String[] abc = values.split(Pattern.quote("||"));
+
+		transactionDetails.put("PromoId", abc[0]);
+		transactionDetails.put("Gs1Code", abc[1]);
+		transactionDetails.put("Gtin", abc[2]);
+		transactionDetails.put("Quantity", abc[3]);
+		transactionDetails.put("ItemId", abc[4]);
+		transactionDetails.put("UnitDiscount", abc[5]);
+	
+		return transactionDetails;
+
+	}
+	
+	public Map<String, String> getCosmosTransactionDetails(String values) throws java.text.ParseException {
+
+		Map<String, String> transactionDetails= new HashMap<String, String>();
+		String[] abc = values.split(Pattern.quote("||"));
+		
+
+		transactionDetails.put("PromoId", abc[0]);
+		transactionDetails.put("PVRC", abc[1]);
+		transactionDetails.put("Gtin", abc[2]);
+		transactionDetails.put("Quantity", abc[3]);
+		transactionDetails.put("ItemId", abc[4]);
+		transactionDetails.put("UnitDiscount", abc[5]);
+		transactionDetails.put("RegisterNumber", abc[6]);
+		transactionDetails.put("TransactioNumber", abc[7]);
+		transactionDetails.put("MembershipId", abc[8]);
+		transactionDetails.put("Clubid", abc[9]);
+		transactionDetails.put("RedemptionDate", abc[10]);
+		transactionDetails.put("NonValueItemQuantity", abc[11]);
+		
+	
+		return transactionDetails;
 
 	}
 
@@ -634,7 +703,7 @@ public class Helper extends BaseStep {
 
 		try {
 			RestAssured.baseURI = baseURI.toString();
-			RequestSpecification request = RestAssured.given().relaxedHTTPSValidation("TLS");
+			RequestSpecification request = RestAssured.given().relaxedHTTPSValidation("TLS").redirects().follow(true);
 			request.headers(header);
 
 			if (requestPath.contains(".json")) {
@@ -648,7 +717,7 @@ public class Helper extends BaseStep {
 			 * request.log().uri(); ; request.log().body();request.log().headers();
 			 */
 
-			response =request.post(pathParams);
+			response = request.post(pathParams);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -657,7 +726,6 @@ public class Helper extends BaseStep {
 		return response;
 
 	}
-	
 
 	public Response sendGetRequest(String baseURI, String pathParams, Map<String, Object> header) {
 
@@ -782,18 +850,18 @@ public class Helper extends BaseStep {
 		}
 		return environment;
 
-	}
-
+	}	
+	
 	public Map<String, String> getAssertValues(String qs_response) throws Exception {
-	//FirstLineOfferDescription,SecondLineOfferDescription
-		
-		String basketId, responseDescription, FirstLineOfferId,FirstLinetype,
-				FirstLinegs1Code, FirstLinefeaturedText, FirstLineserialNumber, FirstLinesettlementId, FirstLinegtin,
-				FirstLineTotalDiscount, FirstLineQuanity, FirstLineItemId, FirstLineEachItemDiscount;
+		// FirstLineOfferDescription,SecondLineOfferDescription
 
-		String SecondLineOfferId,SecondLinetype, SecondLinegs1Code, SecondLinefeaturedText,
-				SecondLineserialNumber, SecondLinesettlementId, SecondLinegtin, SecondLineTotalDiscount,
-				SecondLineQuanity, SecondLineItemId, SecondLineEachItemDiscount;
+		String basketId, responseDescription, FirstLineOfferId, FirstLinetype, FirstLinegs1Code, FirstLinefeaturedText,
+				FirstLineserialNumber, FirstLinesettlementId, FirstLinegtin, FirstLineTotalDiscount, FirstLineQuanity,
+				FirstLineItemId, FirstLineEachItemDiscount;
+
+		String SecondLineOfferId, SecondLinetype, SecondLinegs1Code, SecondLinefeaturedText, SecondLineserialNumber,
+				SecondLinesettlementId, SecondLinegtin, SecondLineTotalDiscount, SecondLineQuanity, SecondLineItemId,
+				SecondLineEachItemDiscount;
 
 		basketId = responseDescription = FirstLineOfferId = FirstLinetype = FirstLinegs1Code = FirstLinefeaturedText = FirstLineserialNumber = FirstLinesettlementId = FirstLinegtin = FirstLineTotalDiscount = FirstLineQuanity = FirstLineItemId = FirstLineEachItemDiscount = "";
 
@@ -817,8 +885,9 @@ public class Helper extends BaseStep {
 			// List<OrderLine> orderline =
 			// line.getOrderLinesInOfferSummary().getOrderLines();
 
-			List<OrderLine> orderLines = line.getOrderLinesInOfferSummary().getOrderLines().stream()
-					.sorted((ol1, ol2) -> Integer.toString(ol1.getLineNumber()).compareTo(Integer.toString(ol2.getLineNumber())))
+			List<OrderLine> orderLines = line
+					.getOrderLinesInOfferSummary().getOrderLines().stream().sorted((ol1, ol2) -> Integer
+							.toString(ol1.getLineNumber()).compareTo(Integer.toString(ol2.getLineNumber())))
 					.collect(Collectors.toList());
 
 			for (OrderLine ol : orderLines) {
@@ -826,7 +895,7 @@ public class Helper extends BaseStep {
 				if (Integer.toString(ol.getLineNumber()).contentEquals("1")) {
 
 					FirstLineOfferId = Long.toString(line.getId());
-					//FirstLineOfferDescription = line.getDescription();
+					// FirstLineOfferDescription = line.getDescription();
 					FirstLinetype = line.getType();
 					FirstLinegs1Code = line.getGs1Code();
 					FirstLinefeaturedText = line.getFeaturedText();
@@ -844,7 +913,7 @@ public class Helper extends BaseStep {
 				else if (Integer.toString(ol.getLineNumber()).contentEquals("2")) {
 
 					SecondLineOfferId = Long.toString(line.getId());
-					//SecondLineOfferDescription = line.getDescription();
+					// SecondLineOfferDescription = line.getDescription();
 					SecondLinetype = line.getType();
 					SecondLinegs1Code = line.getGs1Code();
 					SecondLinefeaturedText = line.getFeaturedText();
@@ -868,7 +937,7 @@ public class Helper extends BaseStep {
 		getAssertValues.put("responseDescription", responseDescription);
 		getAssertValues.put("basketId", basketId);
 		getAssertValues.put("FirstLineOfferId", FirstLineOfferId);
-		//getAssertValues.put("FirstLineOfferDescription", FirstLineOfferDescription);
+		// getAssertValues.put("FirstLineOfferDescription", FirstLineOfferDescription);
 		getAssertValues.put("FirstLinetype", FirstLinetype);
 		getAssertValues.put("FirstLinegs1Code", FirstLinegs1Code);
 		getAssertValues.put("FirstLinefeaturedText", FirstLinefeaturedText);
@@ -880,7 +949,8 @@ public class Helper extends BaseStep {
 		getAssertValues.put("FirstLineItemId", FirstLineItemId);
 		getAssertValues.put("FirstLineEachItemDiscount", FirstLineEachItemDiscount);
 		getAssertValues.put("SecondLineOfferId", SecondLineOfferId);
-		//getAssertValues.put("SecondLineOfferDescription", SecondLineOfferDescription);
+		// getAssertValues.put("SecondLineOfferDescription",
+		// SecondLineOfferDescription);
 		getAssertValues.put("SecondLinetype", SecondLinetype);
 		getAssertValues.put("SecondLinegs1Code", SecondLinegs1Code);
 		getAssertValues.put("SecondLinefeaturedText", SecondLinefeaturedText);

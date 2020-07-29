@@ -87,7 +87,7 @@ public class ReserveEmulationHelper extends BaseStep {
 		super();
 	}
 
-	private static String inputreserve;	
+	private static String inputreserve;
 	private static String testjson;
 
 	// protected long PromoNumber, Itemnumber, Mpq, PackageCode,maxRedemptionCount;
@@ -105,15 +105,15 @@ public class ReserveEmulationHelper extends BaseStep {
 	@Mock
 	private CurrencyUnitMapper currencyUnitMapper;
 
-	///@Mock
-	//private ChannelAware channelAware;
+	/// @Mock
+	// private ChannelAware channelAware;
 
 	@Spy
 	private SOAPUtil soapUtil;
 
 	@Spy
 	private DateUtil dUtil;
-	
+
 	@Spy
 	private EmulationSerializeHelper helper;
 
@@ -138,7 +138,7 @@ public class ReserveEmulationHelper extends BaseStep {
 		MockitoAnnotations.initMocks(this);
 
 		Mockito.doReturn(CurrencyUnitEnum.USD).when(currencyUnitMapper).mapCurrencyUnit(Mockito.nullable(String.class));
-		//Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
+		// Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
 
 		MutableMessage<OrderApplyRequestWrapper> test = xmlToJsonHelperReserve.fromSOAP(inputreserve);
 
@@ -158,11 +158,11 @@ public class ReserveEmulationHelper extends BaseStep {
 
 		MockitoAnnotations.initMocks(this);
 
-		//Mockito.doReturn(CurrencyUnitEnum.USD).when(currencyUnitMapper).mapCurrencyUnit(Mockito.nullable(String.class));
-		//Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
+		// Mockito.doReturn(CurrencyUnitEnum.USD).when(currencyUnitMapper).mapCurrencyUnit(Mockito.nullable(String.class));
+		// Mockito.doReturn(Lookup.RESERVE_APPLY).when(channelAware).shouldWrapInSOAP("POS");
 		ReserveHelper.get().resetRequestProperties();
 		ReserveHelper.get().getRequestProperties().put(MappingConstants.TRANSACTION_STATUS_KEY, Status.RESERVE);
-		
+
 		dUtil = new DateUtil();
 		TransactionKeyAttributes body = xmlToJsonHelperReserve.fromSOAP(inputreserve).getBody().getPayload()
 				.getTransactionKeyAttributes();
@@ -175,12 +175,15 @@ public class ReserveEmulationHelper extends BaseStep {
 		return orderNumber;
 
 	}
-	
-	public String OrderNum(String path) throws Exception{
-		
+
+	public String OrderNum(String path) throws Exception {
+
 		String membershipNBRFinal = null;
 		membershipNbr = new MemberShipNbrValidate();
-		
+
+		helpermethod = new Helper();
+		soapUtil = new SOAPUtil();
+		dUtil = new DateUtil();
 		String xml = helpermethod.GenerateStringFromResource(path);
 
 		xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketRequest.class);
@@ -192,25 +195,25 @@ public class ReserveEmulationHelper extends BaseStep {
 		long accessTokenId = Long.valueOf(request.getMessageBody().getCustomerBasket().getBasketID());
 		long number = Long.valueOf(request.getMessageBody().getCustomerBasket().getBusinessUnit().getNumber());
 		long terminalID = Long.valueOf(request.getMessageBody().getCustomerBasket().getTerminal().getTerminalID());
-		
+
 		String transactionNbr = StringUtils.leftPad(String.valueOf(accessTokenId), 4, "0");
 
 		String registrationNbr = StringUtils.leftPad(String.valueOf(terminalID), 4, "0");
-		
+
 		membershipNBRFinal = membershipNbr.validateMembershipNbr(id);
 		String strRedemptionDateCondensed = txTime.substring(0, 10);
 		String julianRedeemdate = String.valueOf(dUtil.convertToJulian(strRedemptionDateCondensed));
-		String orderNum=membershipNBRFinal+transactionNbr+registrationNbr+String.valueOf(number)+julianRedeemdate;
-		
+		String orderNum = membershipNBRFinal + registrationNbr + transactionNbr + String.valueOf(number)
+				+ julianRedeemdate;
+
 		return orderNum;
 	}
-	
 
 	public String convertJSONtoXML(String qs_response) throws Exception {
 
 		MockitoAnnotations.initMocks(this);
 
-		//transform.afterPropertiesSet();
+		// transform.afterPropertiesSet();
 		ReserveHelper.get().resetRequestProperties();
 		ReserveHelper.get().getRequestProperties().put(MappingConstants.BASKET_ID_KEY, "4116");
 		ReserveHelper.get().getRequestProperties().put(MappingConstants.CHANNEL_NAME_KEY, ChannelConstants.DOTCOM_NAME);
@@ -223,8 +226,7 @@ public class ReserveEmulationHelper extends BaseStep {
 	}
 
 	public String RedeemRequestUpdater(String Reservepath, String Redeempath) throws Exception {
-		
-		
+
 		helpermethod = new Helper();
 
 		String xml = helpermethod.GenerateStringFromResource(Reservepath);
@@ -232,12 +234,12 @@ public class ReserveEmulationHelper extends BaseStep {
 		xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketRequest.class);
 
 		soapUtil = new SOAPUtil();
-		dUtil=new DateUtil();
+		dUtil = new DateUtil();
 
 		CheckoutCustomerBasketRequest request = soapUtil.unwrapSoap(xmlUnmarshaller, xml,
 				CheckoutCustomerBasketRequest.class);
 
-		String channel=request.getMessageBody().getCustomerBasket().getChannel().getName();
+		String channel = request.getMessageBody().getCustomerBasket().getChannel().getName();
 		int cod = request.getMessageBody().getCustomerBasket().getChannel().getCode();
 		String code = String.valueOf(cod);
 		String id = request.getMessageBody().getCustomerBasket().getCustomer().getId();
@@ -245,8 +247,9 @@ public class ReserveEmulationHelper extends BaseStep {
 		long accessTokenId = Long.valueOf(request.getMessageBody().getCustomerBasket().getBasketID());
 		long number = Long.valueOf(request.getMessageBody().getCustomerBasket().getBusinessUnit().getNumber());
 		long terminalID = Long.valueOf(request.getMessageBody().getCustomerBasket().getTerminal().getTerminalID());
-		
-		//List<OrderLine> list = request.getMessageBody().getCustomerBasket().getOrderLines();
+
+		// List<OrderLine> list =
+		// request.getMessageBody().getCustomerBasket().getOrderLines();
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 		String redeemxml = helpermethod.GenerateStringFromResource(Redeempath);
@@ -262,7 +265,7 @@ public class ReserveEmulationHelper extends BaseStep {
 				.getTerminal().setTerminalID(terminalID);
 		req.getMessageBody().getCustomerOrder().getSalesTransaction().getBusinessUnit().setNumber(number);
 		req.getMessageBody().getAccessToken().setId(accessTokenId);
-		String transactionCode=OrderNum(Reservepath);
+		String transactionCode = OrderNum(Reservepath);
 		req.getMessageBody().getCustomerOrder().getSalesTransaction().setTransactionCode(transactionCode);
 
 		/*
@@ -296,7 +299,7 @@ public class ReserveEmulationHelper extends BaseStep {
 
 	public String RedeemCouponUpdater(String ClubNbr, String MembershipNbr, String CardholderNbr, String ValueCouponNbr,
 			String PkgDurationCode, String PkgDurationDesc, String DateRedeemed, String RedeemptionLeft,
-			String RedeemCouponPath,String uri) throws Exception {
+			String RedeemCouponPath, String uri) throws Exception {
 
 		helpermethod = new Helper();
 
@@ -319,12 +322,12 @@ public class ReserveEmulationHelper extends BaseStep {
 
 		String req1 = soapUtil.wrapSoap(req);
 		System.out.println(Helper.getPrettyString(req1));
-		Map<String, Object> header =new HashMap<>();
+		Map<String, Object> header = new HashMap<>();
 		header.put("Content-Type", "text/xml");
-		
-		Response res=helpermethod.sendPostRequest(uri, UrlConstants.CHECKOUT_PACKAGE_COUPON, header, req1);
-		
-		String packageCouponResp=res.prettyPrint();
+
+		Response res = helpermethod.sendPostRequest(uri, UrlConstants.CHECKOUT_PACKAGE_COUPON, header, req1);
+
+		String packageCouponResp = res.prettyPrint();
 		return packageCouponResp;
 
 	}
@@ -1153,11 +1156,11 @@ public class ReserveEmulationHelper extends BaseStep {
 
 		String QSOfferId = null;
 
-		String conditionString=null;
-		String startDate=null;
-		String EndDate=null;
-		String redemptionlimit=null;
-		
+		String conditionString = null;
+		String startDate = null;
+		String EndDate = null;
+		String redemptionlimit = null;
+
 		Map<String, Object> header = headerMapper.mapHeaders(UrlConstants.QSPROMO_HEADER_PATH);
 
 		Response res = helpermethod.sendGetRequest(Uri, UrlConstants.PROMO_CREATION, header);
@@ -1170,40 +1173,39 @@ public class ReserveEmulationHelper extends BaseStep {
 		for (Item line : list) {
 
 			QSOfferId = Long.toString(line.getPromotionNumber());
-			
-			conditionString=line.getConditionString();
-			
-			startDate=line.getSchedule().getStartDate();
-			EndDate=line.getSchedule().getEndDate();
-			
-			redemptionlimit=Long.toString(line.getPerMembershipRedemptionLimit());
-			
-			List<Action_> actions=line.getActions();
+
+			conditionString = line.getConditionString();
+
+			startDate = line.getSchedule().getStartDate();
+			EndDate = line.getSchedule().getEndDate();
+
+			redemptionlimit = Long.toString(line.getPerMembershipRedemptionLimit());
+
+			List<Action_> actions = line.getActions();
 			String discount = "";
-			String promotionItemNumber="";
-			String gs1Code="";
-			String DiscountLimit="";
-			
-			for(Action_ actionlist : actions) {
-				if(actionlist.getAward().getType().contains("CouponPackAward")||
-						actionlist.getAward().getType().contains("CouponAward")) {
-					
+			String promotionItemNumber = "";
+			String gs1Code = "";
+			String DiscountLimit = "";
+
+			for (Action_ actionlist : actions) {
+				if (actionlist.getAward().getType().contains("CouponPackAward")
+						|| actionlist.getAward().getType().contains("CouponAward")) {
+
 				}
-				
-				
-				else{
-					
-				
-				discount=Long.toString(actionlist.getAward().getValue());
-				promotionItemNumber=actionlist.getAward().getPromotionItemNumber();
-				gs1Code=actionlist.getAward().getGs1Code();
-				DiscountLimit=Long.toString(actionlist.getAward().getDiscountLimit());
-				
+
+				else {
+
+					discount = Long.toString(actionlist.getAward().getValue());
+					promotionItemNumber = actionlist.getAward().getPromotionItemNumber();
+					gs1Code = actionlist.getAward().getGs1Code();
+					DiscountLimit = Long.toString(actionlist.getAward().getDiscountLimit());
+
 				}
 			}
 			String Total = String.valueOf(metadata.getPayload().getTotal());
-			arr = new String[] { QSOfferId + "||" + conditionString +"||" + startDate + "||" + EndDate + "||" + redemptionlimit + "||" + discount + "||"+
-					promotionItemNumber + "||" + gs1Code + "||" + DiscountLimit + "||" + Total };
+			arr = new String[] { QSOfferId + "||" + conditionString + "||" + startDate + "||" + EndDate + "||"
+					+ redemptionlimit + "||" + discount + "||" + promotionItemNumber + "||" + gs1Code + "||"
+					+ DiscountLimit + "||" + Total };
 			arrList.add(arr[0].toString());
 
 		}
@@ -1452,142 +1454,128 @@ public class ReserveEmulationHelper extends BaseStep {
 		return postrequestDetails;
 
 	}
-	
-	
-	
-	public Map<String, String> getMultiLinesRequest(String ClubId, String ClubId2, String RetailPrice, String lineNumber,
-			String Applied_Dates,String postdata, String postdata2,String arrx) throws Exception {
+
+	public Map<String, String> getMultiLinesRequest(String ClubId, String ClubId2, String RetailPrice,
+			String lineNumber, String Applied_Dates, String postdata, String postdata2, String arrx) throws Exception {
 
 		reserveemulator = new ReserveEmulationHelper();
 		helpermethod = new Helper();
-		
+
 		Map<String, String> maprx = helpermethod.getRetailPrice(arrx);
 		Map<String, String> promodetails = Helper.getPromotionDetails(arrx);
 		int ItemId2 = Integer.valueOf(promodetails.get("ItemId"));
 		int Quantity2 = Integer.valueOf(promodetails.get("MinimumPurchaseQuantity"));
-		
+
 		switch (RetailPrice) {
-		
+
 		case "SAME_PRICE":
-			
 
 			switch (Applied_Dates) {
 			case "FIRST_DATE":
 
-				postdata = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId, lineNumber,
-						postdata);
+				postdata = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")),
+						ClubId, lineNumber, postdata);
 
-				postdata2 = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId2, lineNumber,
-						postdata2);
-				
+				postdata2 = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")),
+						ClubId2, lineNumber, postdata2);
 
 				break;
-				
+
 			case "MIDDLE_DATE":
 
-				postdata = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId, lineNumber,
-						postdata);
+				postdata = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")),
+						ClubId, lineNumber, postdata);
 
-				postdata2 = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId2, lineNumber,
-						postdata2);
-
+				postdata2 = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")),
+						ClubId2, lineNumber, postdata2);
 
 				break;
 			case "LAST_DATE":
 
-				postdata = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId, lineNumber,
-						postdata);
+				postdata = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")),
+						ClubId, lineNumber, postdata);
 
-				postdata2 = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")), ClubId2, lineNumber,
-						postdata2);
-
+				postdata2 = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("SameRetailPrice")),
+						ClubId2, lineNumber, postdata2);
 
 				break;
 
 			}
 
 			break;
-			
-			case "LESS_PRICE":
 
-				switch (Applied_Dates) {
-				case "FIRST_DATE":
+		case "LESS_PRICE":
 
-					postdata = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId, lineNumber,
-							postdata);
-
-					postdata2 = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId2, lineNumber,
-							postdata2);
-					
-
-					break;
-					
-				case "MIDDLE_DATE":
-
-					postdata = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId, lineNumber,
-							postdata);
-
-					postdata2 = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId2, lineNumber,
-							postdata2);
-
-
-					break;
-				case "LAST_DATE":
-
-					postdata = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId, lineNumber,
-							postdata);
-
-					postdata2 = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")), ClubId2, lineNumber,
-							postdata2);
-
-
-					break;
-
-				}	
-				
-				break;
-			
-		case "MORE_PRICE":
-			
 			switch (Applied_Dates) {
 			case "FIRST_DATE":
 
-				postdata = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId, lineNumber,
-						postdata);
+				postdata = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")),
+						ClubId, lineNumber, postdata);
 
-				postdata2 = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId2, lineNumber,
-						postdata2);
-				
+				postdata2 = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")),
+						ClubId2, lineNumber, postdata2);
 
 				break;
-				
+
 			case "MIDDLE_DATE":
 
-				postdata = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId, lineNumber,
-						postdata);
+				postdata = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")),
+						ClubId, lineNumber, postdata);
 
-				postdata2 = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId2, lineNumber,
-						postdata2);
-
+				postdata2 = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")),
+						ClubId2, lineNumber, postdata2);
 
 				break;
 			case "LAST_DATE":
 
-				postdata = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId, lineNumber,
-						postdata);
+				postdata = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")),
+						ClubId, lineNumber, postdata);
 
-				postdata2 = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")), ClubId2, lineNumber,
-						postdata2);
-
+				postdata2 = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("LessRetailPrice")),
+						ClubId2, lineNumber, postdata2);
 
 				break;
 
-			}	
+			}
+
+			break;
+
+		case "MORE_PRICE":
+
+			switch (Applied_Dates) {
+			case "FIRST_DATE":
+
+				postdata = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")),
+						ClubId, lineNumber, postdata);
+
+				postdata2 = XMLRequestUpdaternew(Quantity2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")),
+						ClubId2, lineNumber, postdata2);
+
+				break;
+
+			case "MIDDLE_DATE":
+
+				postdata = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")),
+						ClubId, lineNumber, postdata);
+
+				postdata2 = XMLRequestUpdaternew(Quantity2 * 2, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")),
+						ClubId2, lineNumber, postdata2);
+
+				break;
+			case "LAST_DATE":
+
+				postdata = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")),
+						ClubId, lineNumber, postdata);
+
+				postdata2 = XMLRequestUpdaternew(Quantity2 * 3, ItemId2, Integer.valueOf(maprx.get("MoreRetailPrice")),
+						ClubId2, lineNumber, postdata2);
+
+				break;
+
+			}
 			break;
 
 		}
-
-
 
 		Map<String, String> postrequestDetails = new HashMap<String, String>();
 
@@ -1597,7 +1585,5 @@ public class ReserveEmulationHelper extends BaseStep {
 		return postrequestDetails;
 
 	}
-
-	
 
 }

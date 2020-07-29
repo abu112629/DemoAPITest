@@ -7,6 +7,7 @@ public class UrlConstants {
 		Helper helper;
 		public static final String RESERVE_EMULATION = "/emulate/reserve";
 		public static final String COUPON_REDEMPTION_FILE="src/test/resources/Emulation_Input/PackageRedeemDataPower.xml";
+		public static final String COUPON_REDEMPTION_JSON="src/test/resources/Emulation_Input/PackageRedemptionJson.json";
 		//public static final String RESERVE_EMULATION = "/Services/CheckoutCustomerBasket";
 		public static final String REDEEM_EMULATION = "/emulate/redeem";
 		public static final String SERVICES_CHECKOUT = "/Services/CheckoutCustomerBasket";
@@ -41,6 +42,9 @@ public class UrlConstants {
 		public static final String TRIGGER_JSON_EMULATOR_REQUEST="src/test/resources/Emulation_Input/TriggerJsonRequest.json";
 		public static final String PACKAGE_REDEMPTION_COUPON="src/test/resources/Emulation_Input/PackageRedeemDataPower.xml";
 		public static final String CHECKOUT_PACKAGE_COUPON="/ManageMbrCouponV1_0_0";
+		
+		public static final String PACKAGE_QS_HEADER_PATH="src/test/resources/requestHeader/PackageQSHeader.txt";
+		public static final String CHECKOUT_PACKAGE_QS="/coupons/suc";
 	
 
 }

@@ -8,6 +8,8 @@
      "expiryDate":"2023-07-20T23:00:29.187+0000",
      "startDate":"2016-01-20T23:00:29.187+0000",
      "autoUse":true,
-     "memberId": "10142100921963931"
+     "memberId": "10142100921963931",
+ 	  "couponCreationSource":"MERCURY_INSTANTSAVINGS"
+
   }
 }

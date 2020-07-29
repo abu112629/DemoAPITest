@@ -85,11 +85,11 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 			//if (promoIdr.contentEquals(promoIdry)) {
 			
 				
-				Map<String, String> postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i,"10134100913186870",
+				Map<String, String> postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i,"10142100124208539",
 						channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber,
 						TransactionId, arrbr, arrbry, pathsingle);
 				
-				Map<String, String> postRequestDetailsx = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i,"10142100863234050",
+				Map<String, String> postRequestDetailsx = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i,"10142100124210055",
 						channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber,
 						TransactionId, arrbr, arrbry, pathsingle);
 				
@@ -156,12 +156,13 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 		while (i < size) {
 			String arrbr = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+			//10134100913186870 ,10142100863234050
 			
-			Map<String, String> postRequestDetails = reserveemulator.getReserveRequestDetails(i, "10134100913186870", channelName, ClubId,
+			Map<String, String> postRequestDetails = reserveemulator.getReserveRequestDetails(i, "10142100124208539", channelName, ClubId,
 					ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber, TransactionId, arrbr,
 					pathsingle);
 			
-			Map<String, String> postRequestDetailsx = reserveemulator.getReserveRequestDetails(i, "10142100863234050", channelName, ClubId,
+			Map<String, String> postRequestDetailsx = reserveemulator.getReserveRequestDetails(i, "10142100124210055", channelName, ClubId,
 					ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber, TransactionId, arrbr,
 					pathsingle);
 			
@@ -206,7 +207,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	public void POST_the_emulator_request_for_Doublelines_BroadReach() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.instantsavings");
+		RestAssured.baseURI = prop.getProperty("mercury.quicksilver.prod");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")
@@ -222,7 +223,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	public void Getemulatorparameter_and_postOperation_for_Doublelines_BroadReach() {
 
-		response2 = thisRequestSpecification2.post(UrlConstants.SERVICES_CHECKOUT).then();
+		response2 = thisRequestSpecification2.post(UrlConstants.RESERVE_EMULATION).then();
 
 	}
 

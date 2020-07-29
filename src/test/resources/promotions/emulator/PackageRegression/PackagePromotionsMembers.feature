@@ -8,7 +8,7 @@ Feature: Verify Package Promotions in the MetaData for Active Members with Singl
     # add negative tests for membership length of 16,17
     Examples: 
       | membership | type                | Tier | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | SecondOrderLine | Applied_Dates | ClubId2 | RegistrationNumber | TransactionId |
-      | business   | primary             | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     |               2 | FIRST_DATE    |    4702 |               4226 |            83 |
+      | business   | primary             | Club |           2 | SAME_PRICE  |   6279 |          1 | DOTCOM     |               2 | FIRST_DATE    |    6279 |               4226 |            83 |
    
 
   @regressionPackage
@@ -17,6 +17,6 @@ Feature: Verify Package Promotions in the MetaData for Active Members with Singl
 
     Examples: 
       | membership | type                | Tier | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | Applied_Dates | ClubId2 | RegistrationNumber | TransactionId |
-      | business   | primary             | Club |           1 | SAME_PRICE  |   4969 |          1 | POS     | FIRST_DATE    |    4702 |               4226 |            83 |
+      | business   | primary             | Club |           2 | SAME_PRICE  |   6279 |          1 | DOTCOM     | FIRST_DATE    |    6279 |               4226 |            83 |
      
       

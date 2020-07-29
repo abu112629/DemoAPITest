@@ -28,6 +28,7 @@ public class PackageMemberTypesStepDef extends BaseStep {
 	protected Map<String, String> promodetails, promodetails2, postRequestDetails, postDoubleRequestDetails;
 
 	private SoftAssertions softAssertions;
+	PackagePromoHelper packagehelper;
 
 	public PackageMemberTypesStepDef() throws IOException {
 		super();
@@ -44,6 +45,7 @@ public class PackageMemberTypesStepDef extends BaseStep {
 		softAssertions = new SoftAssertions();
 		pathsingle = UrlConstants.DATA_POWER_CLUB;
 		member = new MemberSelect();
+		packagehelper= new PackagePromoHelper();
 
 	}
 
@@ -85,34 +87,49 @@ public class PackageMemberTypesStepDef extends BaseStep {
 			Map<String, String> mapry =Helper.getPromotionDetails(arrbry);
 			String promoIdry = mapry.get("PromoId");
 			
-			String CardholderNbr=null;
+			//String CardholderNbr=null;
 			/*Need Clarity on below value*/
 			
 			/* Offers cannot be shared between Addon and Primary (Assign each CPN ) */
-			String PkgDurationCode=null;
-			String PkgDurationDesc=null;
-			String RedeemptionLeft=null;
-			
-			
+				
 			  if(promoIdr.contentEquals(promoIdry)) {
-				  reserveemulator.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
-						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
-				  reserveemulator.RedeemCouponUpdater(ClubId2, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
-						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+				/*
+				 * packagehelper.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr,
+				 * promoIdr,
+				 * UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").
+				 * toString()); packagehelper.RedeemCouponUpdater(ClubId2, membershipNbr,
+				 * CardholderNbr, promoIdr,
+				 * UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").
+				 * toString());
+				 */
 				  
+				  packagehelper.RedeemCouponUpdaterEmulator(promoIdr+"_couponGroup", membershipNbr, prop.get("mercury.quicksilver").toString());
+				  packagehelper.RedeemCouponUpdaterEmulator(promoIdry+"_couponGroup", membershipNbr, prop.get("mercury.quicksilver").toString());
+				  		  
 			  }
 			
 			  else {
-				  reserveemulator.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
-						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
-				  reserveemulator.RedeemCouponUpdater(ClubId2, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
-						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+				/*
+				 * packagehelper.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr,
+				 * promoIdr,
+				 * UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").
+				 * toString()); packagehelper.RedeemCouponUpdater(ClubId2, membershipNbr,
+				 * CardholderNbr, promoIdr,
+				 * UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").
+				 * toString());
+				 * 
+				 * 
+				 * packagehelper.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr,
+				 * promoIdry,
+				 * UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").
+				 * toString()); packagehelper.RedeemCouponUpdater(ClubId2, membershipNbr,
+				 * CardholderNbr, promoIdry,
+				 * UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").
+				 * toString());
+				 */
 				  
-				  
-				  reserveemulator.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr, promoIdry, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
-						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
-				  reserveemulator.RedeemCouponUpdater(ClubId2, membershipNbr, CardholderNbr, promoIdry, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
-						  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+				  packagehelper.RedeemCouponUpdaterEmulator(promoIdr+"_couponGroup", membershipNbr, prop.get("mercury.quicksilver").toString());
+				  packagehelper.RedeemCouponUpdaterEmulator(promoIdry+"_couponGroup", membershipNbr, prop.get("mercury.quicksilver").toString());
 				  
 			  }
 			
@@ -175,17 +192,20 @@ public class PackageMemberTypesStepDef extends BaseStep {
 			Map<String, String> mapr =Helper.getPromotionDetails(arrbr);
 			String promoIdr = mapr.get("PromoId");
 
-			String CardholderNbr=null;
+			//String CardholderNbr=null;
 			/*Need Clarity on below value*/
+		
 			
-			String PkgDurationCode=null;
-			String PkgDurationDesc=null;
-			String RedeemptionLeft=null;
-			
-			 reserveemulator.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
-					  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
-			  reserveemulator.RedeemCouponUpdater(ClubId2, membershipNbr, CardholderNbr, promoIdr, PkgDurationCode, PkgDurationDesc, Applied_Dates, 
-					  RedeemptionLeft, UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").toString());
+			/*
+			 * packagehelper.RedeemCouponUpdater(ClubId, membershipNbr, CardholderNbr,
+			 * promoIdr,
+			 * UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").
+			 * toString()); packagehelper.RedeemCouponUpdater(ClubId2, membershipNbr,
+			 * CardholderNbr, promoIdr,
+			 * UrlConstants.PACKAGE_REDEMPTION_COUPON,prop.get("datapower.packageMmbrCpn").
+			 * toString());
+			 */
+			packagehelper.RedeemCouponUpdaterEmulator(promoIdr+"_couponGroup", membershipNbr, prop.get("mercury.quicksilver").toString());
 			
 			postRequestDetails = reserveemulator.getReserveRequestDetails(i, membershipNbr, channelName, ClubId,
 					ClubId2, code, RetailPrice, lineNumber, Applied_Dates,RegistrationNumber, TransactionId,
@@ -224,7 +244,7 @@ public class PackageMemberTypesStepDef extends BaseStep {
 
 	public void POST_the_request_for_DoubleLines_Package() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.stage.instantsavings");
 		thisRequestSpecification = RestAssured.with();
 		thisRequestSpecification.given().relaxedHTTPSValidation("TLS").body(postdata).when(); // header("Content-Type",
 																								// // "text/xml").
@@ -233,7 +253,7 @@ public class PackageMemberTypesStepDef extends BaseStep {
 
 	public void POST_the_emulator_request_for_Doublelines_Package() {
 
-		RestAssured.baseURI = prop.getProperty("datapower.instantsavings");
+		RestAssured.baseURI = prop.getProperty("datapower.stage.instantsavings");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")
