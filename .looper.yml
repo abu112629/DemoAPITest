@@ -1,0 +1,80 @@
+tools:
+  jdk: 8
+  maven: 3.6.2
+  
+envs:
+  dev:
+    variables:
+      env: dev
+       
+  stage:
+    variables:
+      env: stage
+       
+triggers:
+  - manual: Run default
+  
+  - manual: 
+      name: Dev Smoke Test
+      call: dev_smoke_test
+     
+  - manual: 
+      name: Dev Regression Test
+      call: dev_regression_test   
+     
+  - manual: 
+      name: Stage Smoke Test
+      call: stage_smoke_test
+     
+  - manual: 
+      name: Dev Regression Test
+      call: dev_regression_test     
+    
+flows: 
+  default:
+    - node(windows):
+      - call: smoke_test(stage)
+    
+  dev_smoke_test:
+    - call: smoke_test(dev)
+    
+  stage_smoke_test:
+    - call: smoke_test(stage)    
+ 
+  dev_regression_test:
+    - call: regression_test(dev)  
+    
+  stage_regression_test:
+    - call: regression_test(stage)  
+    
+  
+  smoke_test:
+    try: 
+      - echo "Started smoke test on ${env} environment."   
+      - mvn test -Denv=${env} -Dcucumber.options="--tags @smoke"
+      - mail:
+          from: sams-automation@walmart.com
+          to: Abubakkar.Farooque@walmart.com
+          contentType: text/html
+          subject: "Subscripitons automation report:"
+          messageFromFile: "reports/report.html"
+    catch:
+      - echo "Something happened wrong"
+      - exit 1      
+    
+  regression_test:
+    try: 
+      - echo "Started smoke test on ${env} environment."   
+      - mvn test -Denv=${env} -Dcucumber.options="--tags @regressionBroadReach"
+      - mail:
+          from: sams-automation@walmart.com
+          to: Abubakkar.Farooque@walmart.com
+          contentType: text/html
+          subject: "Subscripitons automation report:"
+          messageFromFile: "reports/report.html"
+    catch:
+      - echo "Something happened wrong"
+      - exit 1     
+    
+Regards,
+Prabhu Babu
