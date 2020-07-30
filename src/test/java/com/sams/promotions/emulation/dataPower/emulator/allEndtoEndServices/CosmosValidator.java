@@ -142,8 +142,6 @@ public class CosmosValidator {
 
 			}
 
-			arrListnew.add(actualnew[0].toString());
-
 		}
 		return arrListnew.get(index) + "||" + arrListnew.size();
 	}
@@ -195,31 +193,30 @@ public class CosmosValidator {
 
 		Helper helper = new Helper();
 		String result = null;
-		
+
 		connection = new ClientConfigurationDatabase();
 
 		Map<String, String> promodetails = helper.getCosmosTransactionDetails(ForwardSyncValidator(0, orderNumber));
 
 		int size = Integer.valueOf(promodetails.get("Size"));
+		
+		System.out.println(size);
 
 		for (int i = 0; i < size; i++) {
 
 			result = ForwardSyncValidator(i, orderNumber);
 
 			Map<String, String> promodetailsCosmos = helper.getCosmosTransactionDetails(result);
-			promodetailsCosmos.remove("Size");
-			
+
 			String PromoId = promodetailsCosmos.get("PromoId");
 			String ItemId = promodetailsCosmos.get("ItemId");
 			String MembershipId = promodetailsCosmos.get("MembershipId");
 			String Clubid = promodetailsCosmos.get("Clubid");
-			
+			promodetailsCosmos.remove("Size");
+
 			Map<String, String> rs = connection.ConnectDB2(ItemId, Clubid, MembershipId, PromoId);
-			
-			
 
 			softAssertions.assertThat(promodetailsCosmos).isEqualTo(rs);
-			
 
 		}
 

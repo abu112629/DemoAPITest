@@ -124,7 +124,8 @@ public class InstantSavings extends BaseStep {
 
 		TimeUnit.SECONDS.sleep(2);
 
-		validation.CosmosExtractedResults("2420400450689759735627920198");
+		validation.CosmosExtractedResults(ordernumber);
+		//2420400450689759735627920198
 
 	}
 
