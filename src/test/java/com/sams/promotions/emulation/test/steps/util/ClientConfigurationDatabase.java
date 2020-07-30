@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -253,8 +254,10 @@ public class ClientConfigurationDatabase extends BaseStep {
 
 	}
 
-	public ResultSet ConnectDB2(String ITN,String PSN,String MCN,String VCN) throws IOException {
-
+	public String ConnectDB2(String ITN,String PSN,String MCN,String VCN) throws IOException {
+		
+		ArrayList<String> arrListnew = new ArrayList<String>();
+		String actualnew[] = null;
 		
 		try {
 			con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
@@ -299,10 +302,15 @@ public class ClientConfigurationDatabase extends BaseStep {
 					int pvrc=rs.getInt("PURCHASE_VALUE_RDMPT_CNT");
 					int nonvalqty=rs.getInt("NON_VALUE_ITEM_QTY");
 					
-
+					String gtin="";
+					
 					System.out.println(ptxno + "\t\t\t" + pno + "\t\t\t" + pro + "\t\t\t" + vno + "\t\t\t" + mno +"\t\t" + itemno + "\t\t\t" + redemptiondate + "\t\t\t"
 							+ quantty + "\t\t\t" +purchaseamt + "\t\t\t" + pvrc + "\t\t\t\t" + nonvalqty);
 					
+					actualnew = new String[] { vno + "||" + pvrc + "||" + gtin + "||" + quantty + "||" + itemno
+							+ "||" + purchaseamt + "||" + pro + "||" + ptxno + "||" + mno + "||"
+							+ pno + "||" + redemptiondate + "||" + nonvalqty };
+					arrListnew.add(actualnew[0].toString());
 					
 				//}
 			}
@@ -315,7 +323,7 @@ public class ClientConfigurationDatabase extends BaseStep {
 			JOptionPane.showMessageDialog(null, e);
 			return null;
 		}
-		return rs;
+		return arrListnew.toString();
 
 	}
 	

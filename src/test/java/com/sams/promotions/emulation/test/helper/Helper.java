@@ -563,6 +563,7 @@ public class Helper extends BaseStep {
 		transactionDetails.put("Clubid", abc[9]);
 		transactionDetails.put("RedemptionDate", abc[10]);
 		transactionDetails.put("NonValueItemQuantity", abc[11]);
+		transactionDetails.put("Size", abc[12]);
 		
 	
 		return transactionDetails;

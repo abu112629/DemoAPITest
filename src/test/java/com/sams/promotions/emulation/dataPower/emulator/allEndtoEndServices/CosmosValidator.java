@@ -28,7 +28,6 @@ public class CosmosValidator {
 		String result = connection.setClient(OrderNumber);
 
 		assertNotNull(result);
-		// System.out.println(result);
 
 		ObjectMapper objectmapper = new ObjectMapper();
 		ReserveForwardSyncDocument document = objectmapper.readValue(result, ReserveForwardSyncDocument.class);
@@ -51,7 +50,7 @@ public class CosmosValidator {
 
 		if (list != null) {
 			String discount = null;
-			String gtin = null;
+			String gtin = "";
 			String ItemNumber = null;
 			long qty = 0;
 			long nonvalueitemqtty;
@@ -87,7 +86,6 @@ public class CosmosValidator {
 					BigDecimal discount2 = new BigDecimal(discount);
 					BigDecimal unitdiscount = discount2.abs();
 
-					gtin = newline.getPromotionItemNumber();
 					ItemNumber = lineitem.getItemNumber();
 					qty = lineitem.getOrderedQuantity();
 
@@ -106,7 +104,7 @@ public class CosmosValidator {
 			String PromoId = null;
 			long PVRC = 0;
 			String discount = null;
-			String gtin = null;
+			String gtin = "";
 			String ItemNumber = null;
 			long qty = 0;
 			long nonvalueitemqtty;
@@ -129,7 +127,6 @@ public class CosmosValidator {
 					BigDecimal discount2 = new BigDecimal(discount);
 					BigDecimal unitdiscount = discount2.abs();
 
-					gtin = newline.getPromotionItemNumber();
 					ItemNumber = lineitem.getItemNumber();
 					qty = lineitem.getOrderedQuantity();
 
@@ -145,29 +142,23 @@ public class CosmosValidator {
 			arrListnew.add(actualnew[0].toString());
 
 		}
-		return arrListnew.get(index);
+		return arrListnew.get(index) + "||" + arrListnew.size();
 	}
-	
-	
-	public String CosmosExtractedResults(String orderNumber,int length) throws Exception {
-		
-		
+
+	public String CosmosExtractedResults(String orderNumber) throws Exception {
+
 		Helper helper = new Helper();
 		String result = null;
+
+		Map<String, String> promodetails =helper.getCosmosTransactionDetails(ForwardSyncValidator(0, orderNumber));
+
+		int size = Integer.valueOf(promodetails.get("Size"));
 		
-		for (int i = 0; i < length; i++) {
-
-			result = ForwardSyncValidator(i,orderNumber);
-
-			System.out.println(
-					"PURCHASE_TXN_NBR\tPURCHASE_STORE_NBR\tPURCHASE_REG_NBR\tVALUE_COUPON_NBR\tMEMBERSHIP_NBR\t\tITEM_NBR\t\tPURCHASE_DATE\t\tPURCHASE_QTY\t\tPURCHASE_AMT\t\tPURCHASE_VALUE_RDMPT_CNT"
-							+ "\tNON_VALUE_ITEM_QTY");
-			System.out.println(
-					"=================\t==================\t==================\t==================\t================\t================\t================\t================\t================"
-							+ "\t======================\t\t================");
-
+		for (int i = 0; i < size; i++) {
+			
+			result = ForwardSyncValidator(i, orderNumber);
 			Map<String, String> promodetailsCosmos = helper.getCosmosTransactionDetails(result);
-
+			
 			String PromoId = promodetailsCosmos.get("PromoId");
 			String PVRC = promodetailsCosmos.get("PVRC");
 			promodetailsCosmos.get("Gtin");
@@ -180,6 +171,13 @@ public class CosmosValidator {
 			String Clubid = promodetailsCosmos.get("Clubid");
 			String RedemptionDate = promodetailsCosmos.get("RedemptionDate");
 			String NonValueItemQuantity = promodetailsCosmos.get("NonValueItemQuantity");
+			
+			System.out.println(
+					"PURCHASE_TXN_NBR\tPURCHASE_STORE_NBR\tPURCHASE_REG_NBR\tVALUE_COUPON_NBR\tMEMBERSHIP_NBR\t\tITEM_NBR\t\tPURCHASE_DATE\t\tPURCHASE_QTY\t\tPURCHASE_AMT\t\tPURCHASE_VALUE_RDMPT_CNT"
+							+ "\tNON_VALUE_ITEM_QTY");
+			System.out.println(
+					"=================\t==================\t==================\t==================\t================\t================\t================\t================\t================"
+							+ "\t======================\t\t================");
 
 			System.out.println(TransactioNumber + "\t\t\t" + Clubid + "\t\t\t" + RegisterNumber + "\t\t\t" + PromoId
 					+ "\t\t\t" + MembershipId + "\t\t" + ItemId + "\t\t" + RedemptionDate + "\t\t\t" + Quantity
@@ -188,7 +186,6 @@ public class CosmosValidator {
 		}
 		return result;
 
-		
 	}
 
 }

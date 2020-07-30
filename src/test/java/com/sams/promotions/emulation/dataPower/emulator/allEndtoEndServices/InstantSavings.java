@@ -2,7 +2,6 @@
 package com.sams.promotions.emulation.dataPower.emulator.allEndtoEndServices;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +37,7 @@ public class InstantSavings extends BaseStep {
 	private ClientConfigurationDatabase connection;
 	CosmosValidator validation;
 
-	protected ResultSet rs;
+	protected String rs;
 	protected SOAPUtil soapUtil;
 	protected Unmarshaller xmlUnmarshaller;
 	protected String IR, VCN, PSN, MMBR_ID, PromoId, Discount, GS1Code, GTin, Quantity, Unitdiscount;
@@ -59,7 +58,7 @@ public class InstantSavings extends BaseStep {
 
 	}
 
-	@Given("^Request Sent for the ClubId 4969$")
+	@Given("^Request Sent for the ClubId$")
 	public void POST_Operation_4969() throws Exception {
 
 		postdata = helper.GenerateStringFromResource(UrlConstants.DATA_POWER_CLUB);
@@ -75,7 +74,7 @@ public class InstantSavings extends BaseStep {
 
 	}
 
-	@Then("^Validate with DB2 VAL_CPN_ITEM table for ISPromo$")
+	@Then("^Create Input parameters for Database Validations$")
 	public void ValidateCPNItm() throws Exception {
 
 		xmlUnmarshaller = new JaxBInitializer().initUnmarshaller(CheckoutCustomerBasketRequest.class);
@@ -84,21 +83,14 @@ public class InstantSavings extends BaseStep {
 		CheckoutCustomerBasketRequest req = soapUtil.unwrapSoap(xmlUnmarshaller, postdata,
 				CheckoutCustomerBasketRequest.class);
 		PSN = req.getMessageBody().getCustomerBasket().getBusinessUnit().getNumber();
+
 		String membershipNumber = req.getMessageBody().getCustomerBasket().getCustomer().getId();
+
 		MMBR_ID = membershipNumber.substring(7);
-		/*
-		 * List<OrderLine> list =
-		 * req.getMessageBody().getCustomerBasket().getOrderLines(); for (OrderLine line
-		 * : list) {
-		 * 
-		 * IR = line.getProductOffering().getId();
-		 * 
-		 * }
-		 */
 
 	}
 
-	@Then("^Validate with VALUE_CPN_TXN_TMP DB2 tables if row inserted for CheckOutResponse 4969$")
+	@Then("^Validate with VALUE_CPN_TXN_TMP DB2 tables and Cosmos DB$")
 	public void ValidateValCPN() throws Exception {
 
 		connection = new ClientConfigurationDatabase();
@@ -115,28 +107,27 @@ public class InstantSavings extends BaseStep {
 			Map<String, String> promodetailsMap = helper.getTransactionDetails(actual);
 
 			PromoId = promodetailsMap.get("PromoId");
-			GS1Code = promodetailsMap.get("Gs1Code");
-			GTin = promodetailsMap.get("Gtin");
-			Quantity = promodetailsMap.get("Quantity");
 			IR = promodetailsMap.get("ItemId");
-			Unitdiscount = promodetailsMap.get("UnitDiscount");
 
 			rs = connection.ConnectDB2(IR, PSN, MMBR_ID, PromoId);
-			
+
 		}
-		
+
 		String ordernumber = reserveemulator.OrderNum(UrlConstants.DATA_POWER_CLUB);
 
 		System.out.println(ordernumber);
 
 		TimeUnit.SECONDS.sleep(2);
-		
-		validation.CosmosExtractedResults("2420400450689759735627920198", length);
+
+		validation.CosmosExtractedResults("2420400450689759735627920198");
 
 	}
 
-	@Then("^Assert and compare the values for ClubId 4969$")
-	public void Check(Map<String, String> Items) throws Exception {
+	@Then("^Assert and compare the values of both Database$")
+	public void Check() throws Exception {
 
-	}
+			
+
+		}
+
 }
