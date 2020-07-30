@@ -11,8 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -254,10 +254,13 @@ public class ClientConfigurationDatabase extends BaseStep {
 
 	}
 
-	public String ConnectDB2(String ITN,String PSN,String MCN,String VCN) throws IOException {
+	public Map<String, String> ConnectDB2(String ITN,String PSN,String MCN,String VCN) throws IOException {
 		
-		ArrayList<String> arrListnew = new ArrayList<String>();
-		String actualnew[] = null;
+		/*
+		 * ArrayList<String> arrListnew = new ArrayList<String>(); String actualnew[] =
+		 * null;
+		 */
+		Map<String, String> getDB2Values = new HashMap<String, String>();
 		
 		try {
 			con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
@@ -297,20 +300,36 @@ public class ClientConfigurationDatabase extends BaseStep {
 					int mno = rs.getInt("MEMBERSHIP_NBR");
 					int itemno=rs.getInt("ITEM_NBR");
 					Date redemptiondate=rs.getDate("PURCHASE_DATE");
-					BigDecimal quantty=rs.getBigDecimal("PURCHASE_QTY");
+					BigDecimal quantty=rs.getBigDecimal("PURCHASE_QTY").stripTrailingZeros();
 					BigDecimal purchaseamt=rs.getBigDecimal("PURCHASE_AMT");
 					int pvrc=rs.getInt("PURCHASE_VALUE_RDMPT_CNT");
 					int nonvalqty=rs.getInt("NON_VALUE_ITEM_QTY");
+					
 					
 					String gtin="";
 					
 					System.out.println(ptxno + "\t\t\t" + pno + "\t\t\t" + pro + "\t\t\t" + vno + "\t\t\t" + mno +"\t\t" + itemno + "\t\t\t" + redemptiondate + "\t\t\t"
 							+ quantty + "\t\t\t" +purchaseamt + "\t\t\t" + pvrc + "\t\t\t\t" + nonvalqty);
 					
-					actualnew = new String[] { vno + "||" + pvrc + "||" + gtin + "||" + quantty + "||" + itemno
-							+ "||" + purchaseamt + "||" + pro + "||" + ptxno + "||" + mno + "||"
-							+ pno + "||" + redemptiondate + "||" + nonvalqty };
-					arrListnew.add(actualnew[0].toString());
+				/*
+				 * actualnew = new String[] { vno + "||" + pvrc + "||" + gtin + "||" + quantty +
+				 * "||" + itemno + "||" + purchaseamt + "||" + pro + "||" + ptxno + "||" + mno +
+				 * "||" + pno + "||" + redemptiondate + "||" + nonvalqty };
+				 */
+					
+					getDB2Values.put("PromoId",String.valueOf(vno));
+					getDB2Values.put("PVRC", String.valueOf(pvrc));
+					getDB2Values.put("Gtin", gtin);
+					getDB2Values.put("Quantity", String.valueOf(quantty));
+					getDB2Values.put("ItemId", String.valueOf(itemno));
+					getDB2Values.put("UnitDiscount", String.valueOf(purchaseamt));
+					getDB2Values.put("RegisterNumber", String.valueOf(pro));
+					getDB2Values.put("TransactioNumber", String.valueOf(ptxno));
+					getDB2Values.put("MembershipId", String.valueOf(mno));
+					getDB2Values.put("Clubid", String.valueOf(pno));
+					getDB2Values.put("RedemptionDate", String.valueOf(redemptiondate));
+					getDB2Values.put("NonValueItemQuantity", String.valueOf(nonvalqty));
+					
 					
 				//}
 			}
@@ -323,7 +342,7 @@ public class ClientConfigurationDatabase extends BaseStep {
 			JOptionPane.showMessageDialog(null, e);
 			return null;
 		}
-		return arrListnew.toString();
+		return getDB2Values;
 
 	}
 	

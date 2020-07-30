@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.Unmarshaller;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -37,7 +38,9 @@ public class InstantSavings extends BaseStep {
 	private ClientConfigurationDatabase connection;
 	CosmosValidator validation;
 
-	protected String rs;
+	protected Map<String, String> rs;
+	@SuppressWarnings("unused")
+	private SoftAssertions softAssertions;
 	protected SOAPUtil soapUtil;
 	protected Unmarshaller xmlUnmarshaller;
 	protected String IR, VCN, PSN, MMBR_ID, PromoId, Discount, GS1Code, GTin, Quantity, Unitdiscount;
@@ -55,6 +58,7 @@ public class InstantSavings extends BaseStep {
 		reserveemulator = new ReserveEmulationHelper();
 		helper = new Helper();
 		validation = new CosmosValidator();
+		softAssertions = new SoftAssertions();
 
 	}
 
@@ -90,10 +94,11 @@ public class InstantSavings extends BaseStep {
 
 	}
 
-	@Then("^Validate with VALUE_CPN_TXN_TMP DB2 tables and Cosmos DB$")
+	@Then("^Validate VALUE_CPN_TXN_TEMP and Cosmos DB$")
 	public void ValidateValCPN() throws Exception {
 
 		connection = new ClientConfigurationDatabase();
+
 		String actual = null;
 
 		XmlPath xp;
@@ -126,8 +131,11 @@ public class InstantSavings extends BaseStep {
 	@Then("^Assert and compare the values of both Database$")
 	public void Check() throws Exception {
 
-			
+		String ordernumber = reserveemulator.OrderNum(UrlConstants.DATA_POWER_CLUB);
+		softAssertions = validation.ValidationsAll(ordernumber);
+		
+		softAssertions.assertAll();
 
-		}
+	}
 
 }

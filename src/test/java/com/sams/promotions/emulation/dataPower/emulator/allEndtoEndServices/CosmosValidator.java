@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.api.SoftAssertions;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sams.promotions.emulation.test.helper.Helper;
 import com.sams.promotions.emulation.test.steps.util.ClientConfigurationDatabase;
@@ -21,6 +23,7 @@ public class CosmosValidator {
 
 	private ClientConfigurationDatabase connection;
 	protected String PromotionId;
+	private SoftAssertions softAssertions = new SoftAssertions();
 
 	public String ForwardSyncValidator(int index, String OrderNumber) throws Exception {
 
@@ -150,15 +153,15 @@ public class CosmosValidator {
 		Helper helper = new Helper();
 		String result = null;
 
-		Map<String, String> promodetails =helper.getCosmosTransactionDetails(ForwardSyncValidator(0, orderNumber));
+		Map<String, String> promodetails = helper.getCosmosTransactionDetails(ForwardSyncValidator(0, orderNumber));
 
 		int size = Integer.valueOf(promodetails.get("Size"));
-		
+
 		for (int i = 0; i < size; i++) {
-			
+
 			result = ForwardSyncValidator(i, orderNumber);
 			Map<String, String> promodetailsCosmos = helper.getCosmosTransactionDetails(result);
-			
+
 			String PromoId = promodetailsCosmos.get("PromoId");
 			String PVRC = promodetailsCosmos.get("PVRC");
 			promodetailsCosmos.get("Gtin");
@@ -171,7 +174,7 @@ public class CosmosValidator {
 			String Clubid = promodetailsCosmos.get("Clubid");
 			String RedemptionDate = promodetailsCosmos.get("RedemptionDate");
 			String NonValueItemQuantity = promodetailsCosmos.get("NonValueItemQuantity");
-			
+
 			System.out.println(
 					"PURCHASE_TXN_NBR\tPURCHASE_STORE_NBR\tPURCHASE_REG_NBR\tVALUE_COUPON_NBR\tMEMBERSHIP_NBR\t\tITEM_NBR\t\tPURCHASE_DATE\t\tPURCHASE_QTY\t\tPURCHASE_AMT\t\tPURCHASE_VALUE_RDMPT_CNT"
 							+ "\tNON_VALUE_ITEM_QTY");
@@ -185,6 +188,42 @@ public class CosmosValidator {
 
 		}
 		return result;
+
+	}
+
+	public SoftAssertions ValidationsAll(String orderNumber) throws Exception {
+
+		Helper helper = new Helper();
+		String result = null;
+		
+		connection = new ClientConfigurationDatabase();
+
+		Map<String, String> promodetails = helper.getCosmosTransactionDetails(ForwardSyncValidator(0, orderNumber));
+
+		int size = Integer.valueOf(promodetails.get("Size"));
+
+		for (int i = 0; i < size; i++) {
+
+			result = ForwardSyncValidator(i, orderNumber);
+
+			Map<String, String> promodetailsCosmos = helper.getCosmosTransactionDetails(result);
+			promodetailsCosmos.remove("Size");
+			
+			String PromoId = promodetailsCosmos.get("PromoId");
+			String ItemId = promodetailsCosmos.get("ItemId");
+			String MembershipId = promodetailsCosmos.get("MembershipId");
+			String Clubid = promodetailsCosmos.get("Clubid");
+			
+			Map<String, String> rs = connection.ConnectDB2(ItemId, Clubid, MembershipId, PromoId);
+			
+			
+
+			softAssertions.assertThat(promodetailsCosmos).isEqualTo(rs);
+			
+
+		}
+
+		return softAssertions;
 
 	}
 
