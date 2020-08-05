@@ -3,7 +3,7 @@ tools:
   maven: 3.6.2
   
 envs:
-  dev:
+  prod:
     variables:
       env: prod
        
@@ -28,7 +28,7 @@ triggers:
      
   - manual: 
       name: Stage Regression Test
-      call: Stage_regression_test     
+      call: stage_regression_test     
     
 flows: 
   default:
@@ -52,12 +52,42 @@ flows:
     try: 
       - echo "Started smoke test on ${env} environment."   
       - mvn test -Denv=${env} -Dcucumber.options="--tags @smoke"
+      - publishReport:
+         context: cucumber
+         dir: reports
+         index: Smoke-report.html
+         verbose: true
       - mail:
           from: sams-automation@walmart.com
           to: Abubakkar.Farooque@walmart.com
           contentType: text/html
           subject: "Promotions automation report:"
           messageFromFile: "reports/report.html"
+          
+      - try:
+           - slack.postMessage:
+               message: "ReverseSync and ForwardSync build status: SUCCESS!"
+               channelId: "qe-walmart"
+               iconEmoji: ":coolstorydp:"
+               username: "Promotions Automation Bot"
+               attachments:
+                  - fallback: ${BUILD_URL}
+                    actions:
+                    - type: "button"
+                      text: "Build info and log"
+                      url: ${BUILD_URL}
+        catch:
+           - slack.postMessage:
+                message: "ReverseSync and ForwardSync build status: FAIL"
+                channelId: "qe-walmart"
+                iconEmoji: ":sadpanda:"
+                username: "Promotions Automation Bot"
+                attachments:
+                  - fallback: ${BUILD_URL}
+                    actions:
+                    - type: "button"
+                      text: "Build info and log"
+                      url: ${BUILD_URL}
     catch:
       - echo "Something happened wrong"
       - exit 1      
