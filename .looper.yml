@@ -76,5 +76,3 @@ flows:
       - echo "Something happened wrong"
       - exit 1     
     
-Regards,
-Prabhu Babu
