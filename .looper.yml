@@ -5,7 +5,7 @@ tools:
 envs:
   dev:
     variables:
-      env: dev
+      env: prod
        
   stage:
     variables:
@@ -15,34 +15,34 @@ triggers:
   - manual: Run default
   
   - manual: 
-      name: Dev Smoke Test
-      call: dev_smoke_test
+      name: prod Smoke Test
+      call: prod_smoke_test
      
   - manual: 
-      name: Dev Regression Test
-      call: dev_regression_test   
+      name: prod Regression Test
+      call: prod_regression_test   
      
   - manual: 
       name: Stage Smoke Test
       call: stage_smoke_test
      
   - manual: 
-      name: Dev Regression Test
-      call: dev_regression_test     
+      name: Stage Regression Test
+      call: Stage_regression_test     
     
 flows: 
   default:
     - node(windows):
       - call: smoke_test(stage)
     
-  dev_smoke_test:
-    - call: smoke_test(dev)
+  prod_smoke_test:
+    - call: smoke_test(prod)
     
   stage_smoke_test:
     - call: smoke_test(stage)    
  
-  dev_regression_test:
-    - call: regression_test(dev)  
+  prod_regression_test:
+    - call: regression_test(prod)  
     
   stage_regression_test:
     - call: regression_test(stage)  
@@ -56,7 +56,7 @@ flows:
           from: sams-automation@walmart.com
           to: Abubakkar.Farooque@walmart.com
           contentType: text/html
-          subject: "Subscripitons automation report:"
+          subject: "Promotions automation report:"
           messageFromFile: "reports/report.html"
     catch:
       - echo "Something happened wrong"
@@ -64,13 +64,13 @@ flows:
     
   regression_test:
     try: 
-      - echo "Started smoke test on ${env} environment."   
+      - echo "Started regression test on ${env} environment."   
       - mvn test -Denv=${env} -Dcucumber.options="--tags @regressionBroadReach"
       - mail:
           from: sams-automation@walmart.com
           to: Abubakkar.Farooque@walmart.com
           contentType: text/html
-          subject: "Subscripitons automation report:"
+          subject: "Promotions automation report:"
           messageFromFile: "reports/report.html"
     catch:
       - echo "Something happened wrong"

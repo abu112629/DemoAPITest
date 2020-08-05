@@ -207,7 +207,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	public void POST_the_emulator_request_for_Doublelines_BroadReach() {
 
-		RestAssured.baseURI = prop.getProperty("mercury.quicksilver.prod");
+		RestAssured.baseURI = prop.getProperty("mercury.quicksilver");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")

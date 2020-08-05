@@ -1,4 +1,3 @@
-
 package com.sams.promotions.emulation.dataPower.emulator.allEndtoEndServices;
 
 import org.junit.runner.RunWith;
@@ -12,13 +11,14 @@ import cucumber.api.junit.Cucumber;
 
 		monochrome = true, // dryRun=true,
 
-		// tags= {"@Important"},
+		tags= {"@smoke"},
 
 		// tags= {"~@Regression"},
 		features = { "src/test/resources/promotions/emulator/InstantSavings/" }, glue = {
 				"com/sams/promotions/emulation/dataPower/emulator/allEndtoEndServices" },
 
-		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json"}
+		plugin = { "pretty", "html:target/cucumber-htmlreport", "json:target/cucumber-report.json",
+				"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/ReverseSyncAndForwardSyncValidation.html" }
 
 )
 

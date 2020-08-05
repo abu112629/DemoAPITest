@@ -13,7 +13,7 @@ import cucumber.api.junit.Cucumber;
 							//dryRun=true,
 							
 							
-							tags= {"@PromoTest"},
+							//tags= {"@PromoTest"},
 							features= {"src/test/resources/promotions/emulator/CreatePromotions/"},
 							glue= {"com/sams/promotions/emulation/createPromotions/"},
 							

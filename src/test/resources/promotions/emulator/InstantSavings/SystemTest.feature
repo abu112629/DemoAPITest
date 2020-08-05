@@ -1,5 +1,5 @@
 Feature: Verify Forward Sync and Reverse Sync Validations End to End
-
+@smoke
   Scenario: Verify Database Validations for Legacy and Azure Systems
   
     Given Request Sent for the ClubId

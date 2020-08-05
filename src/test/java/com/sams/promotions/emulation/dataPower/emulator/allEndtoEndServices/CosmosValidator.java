@@ -213,8 +213,14 @@ public class CosmosValidator {
 			String MembershipId = promodetailsCosmos.get("MembershipId");
 			String Clubid = promodetailsCosmos.get("Clubid");
 			promodetailsCosmos.remove("Size");
+			promodetailsCosmos.remove("PVRC");
+			promodetailsCosmos.remove("NonValueItemQuantity");
+			
+			
 
 			Map<String, String> rs = connection.ConnectDB2(ItemId, Clubid, MembershipId, PromoId);
+			rs.remove("PVRC");
+			rs.remove("NonValueItemQuantity");
 
 			softAssertions.assertThat(promodetailsCosmos).isEqualTo(rs);
 

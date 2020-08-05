@@ -837,16 +837,16 @@ public class Helper extends BaseStep {
 				environment = System.getenv("env");
 			}
 			if (environment.trim().length() > 0) {
-				if (!(environment.equalsIgnoreCase("dev") || environment.equalsIgnoreCase("stage"))) {
+				if (!(environment.equalsIgnoreCase("dev") || environment.equalsIgnoreCase("stage") || environment.equalsIgnoreCase("prod"))) {
 					System.out.println("Invalid environment.");
 					System.exit(0);
 				}
 			} else {
-				System.out.println("Environment not set. Key name : env. Value : dev/stage");
+				System.out.println("Environment not set. Key name : env. Value : dev/stage/prod");
 				System.exit(0);
 			}
 		} catch (NullPointerException e) {
-			System.out.println("Environment not set. Key name : env. Value : dev/stage");
+			System.out.println("Environment not set. Key name : env. Value : dev/stage/prod");
 			System.exit(0);
 		}
 		return environment;

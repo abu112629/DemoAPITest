@@ -39,7 +39,6 @@ public class InstantSavings extends BaseStep {
 	CosmosValidator validation;
 
 	protected Map<String, String> rs;
-	@SuppressWarnings("unused")
 	private SoftAssertions softAssertions;
 	protected SOAPUtil soapUtil;
 	protected Unmarshaller xmlUnmarshaller;
@@ -73,7 +72,7 @@ public class InstantSavings extends BaseStep {
 	@When("^POST the provided request to InstantSavings$")
 	public void postrequest() throws Exception {
 
-		qs_response = helper.POSTXMLEmulator("datapower.stage.instantsavings", postdata,
+		qs_response = helper.POSTXMLEmulator("datapower.instantsavings", postdata,
 				UrlConstants.SERVICES_CHECKOUT);
 
 	}
