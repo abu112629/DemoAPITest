@@ -34,7 +34,7 @@ flows:
   default:
     - node(windows):
       - call: smoke_test(stage)
-    
+  
   prod_smoke_test:
     - call: smoke_test(prod)
     
@@ -53,21 +53,21 @@ flows:
       - echo "Started smoke test on ${env} environment."   
       - mvn test -Denv=${env} -Dcucumber.options="--tags @smoke"
       - publishReport:
-         context: cucumber
-         dir: reports
-         index: Smoke-report.html
-         verbose: true
+          context: cucumber
+          dir: target
+          index: DbValidationsTest.html
+          verbose: true
       - mail:
           from: sams-automation@walmart.com
-          to: Abubakkar.Farooque@walmart.com
+          to: abubakkar.farooque@walmart.com
           contentType: text/html
-          subject: "Promotions automation report:"
-          messageFromFile: "reports/report.html"
+          subject: "Promotions automation report"
+          messageFromFile: "target/DbValidationsTest.html"
           
       - try:
            - slack.postMessage:
                message: "ReverseSync and ForwardSync build status: SUCCESS!"
-               channelId: "qe-walmart"
+               channelId: "promotions-test"
                iconEmoji: ":coolstorydp:"
                username: "Promotions Automation Bot"
                attachments:
@@ -79,7 +79,7 @@ flows:
         catch:
            - slack.postMessage:
                 message: "ReverseSync and ForwardSync build status: FAIL"
-                channelId: "qe-walmart"
+                channelId: "promotions-test"
                 iconEmoji: ":sadpanda:"
                 username: "Promotions Automation Bot"
                 attachments:
@@ -89,20 +89,85 @@ flows:
                       text: "Build info and log"
                       url: ${BUILD_URL}
     catch:
-      - echo "Something happened wrong"
+      - try:
+           - slack.postMessage:
+               message: "ReverseSync and ForwardSync Build failed"
+               channelId: "promotions-test"
+               iconEmoji: ":sadpanda:"
+               username: "Promotions Automation Bot"
+           - publishReport:
+               context: cucumber
+               dir: target
+               index: DbValidationsTest.html
+               verbose: true
+           - mail:
+               from: sams-automation@walmart.com
+               to: abubakkar.farooque@walmart.com
+               contentType: text/html
+               subject: "Promotions automation report"
+               messageFromFile: "target/DbValidationsTest.html"   
+        catch:
+          - echo "Something happened wrong" 
       - exit 1      
     
   regression_test:
     try: 
       - echo "Started regression test on ${env} environment."   
       - mvn test -Denv=${env} -Dcucumber.options="--tags @regressionBroadReach"
+      - publishReport:
+          context: cucumber
+          dir: target
+          index: ExtentReportBroadReachTest.html
+          verbose: true
       - mail:
           from: sams-automation@walmart.com
-          to: Abubakkar.Farooque@walmart.com
+          to: abubakkar.farooque@walmart.com
           contentType: text/html
-          subject: "Promotions automation report:"
-          messageFromFile: "reports/report.html"
+          subject: "Promotions automation report"
+          messageFromFile: "target/ExtentReportBroadReachTest.html"
+          
+      - try:
+           - slack.postMessage:
+               message: "BroadReach Promotions Validation build status: SUCCESS!"
+               channelId: "promotions-test"
+               iconEmoji: ":coolstorydp:"
+               username: "Promotions Automation Bot"
+               attachments:
+                  - fallback: ${BUILD_URL}
+                    actions:
+                    - type: "button"
+                      text: "Build info and log"
+                      url: ${BUILD_URL}
+        catch:
+           - slack.postMessage:
+                message: "BroadReach Promotions Validation build status: FAIL"
+                channelId: "promotions-test"
+                iconEmoji: ":sadpanda:"
+                username: "Promotions Automation Bot"
+                attachments:
+                  - fallback: ${BUILD_URL}
+                    actions:
+                    - type: "button"
+                      text: "Build info and log"
+                      url: ${BUILD_URL}
     catch:
-      - echo "Something happened wrong"
-      - exit 1     
-    
+      - try:
+           - slack.postMessage:
+               message: "BroadReach Promotions Build Failed"
+               channelId: "promotions-test"
+               iconEmoji: ":sadpanda:"
+               username: "Promotions Automation Bot"
+           - publishReport:
+               context: cucumber
+               dir: target
+               index: target/ExtentReportBroadReachTest.html
+               verbose: true
+           - mail:
+               from: sams-automation@walmart.com
+               to: abubakkar.farooque@walmart.com
+               contentType: text/html
+               subject: "Promotions automation report"
+               messageFromFile: "target/ExtentReportBroadReachTest.html"   
+        catch:
+          - echo "Something happened wrong"                   
+      - exit 1
