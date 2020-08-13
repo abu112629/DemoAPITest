@@ -1,0 +1,8 @@
+---
+team:
+- id: "1916"
+product:
+- {}
+cloud:
+- autoRestart: false
+ignoreNotify: false
