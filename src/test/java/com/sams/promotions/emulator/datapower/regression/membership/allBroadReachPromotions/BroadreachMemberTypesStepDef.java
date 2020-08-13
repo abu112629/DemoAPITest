@@ -75,7 +75,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < size-1) {
+		while (i < 1) {
 
 			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 
@@ -154,7 +154,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < size) {
+		while (i < 1) {
 			String arrbr = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 			//10134100913186870 ,10142100863234050
 			
@@ -213,7 +213,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < size-1) {
+		while (i < 1) {
 
 			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 
@@ -292,7 +292,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < size) {
+		while (i < 1) {
 			String arrbr = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 			//10134100913186870 ,10142100863234050
 			
