@@ -121,7 +121,7 @@ flows:
           verbose: true
       - mail:
           from: sams-automation@walmart.com
-          to: abubakkar.farooque@walmart.com
+          to: abubakkar.farooque@walmart.com,vamshidhar.reddy@samsclub.com
           contentType: text/html
           subject: "Promotions automation report"
           messageFromFile: "target/ExtentReportBroadReachTest.html"
@@ -164,7 +164,7 @@ flows:
                verbose: true
            - mail:
                from: sams-automation@walmart.com
-               to: abubakkar.farooque@walmart.com
+               to: abubakkar.farooque@walmart.com,vamshidhar.reddy@samsclub.com
                contentType: text/html
                subject: "Promotions automation report"
                messageFromFile: "target/ExtentReportBroadReachTest.html"   

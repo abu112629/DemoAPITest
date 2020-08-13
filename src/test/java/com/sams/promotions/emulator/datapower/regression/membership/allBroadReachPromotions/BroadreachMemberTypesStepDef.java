@@ -75,7 +75,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < 1) {
+		while (i < size-1) {
 
 			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 
@@ -154,7 +154,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < 1) {
+		while (i < size) {
 			String arrbr = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 			//10134100913186870 ,10142100863234050
 			
@@ -185,7 +185,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 		softAssertions.assertAll();
 	}
 
-	@Given("DataPower with a (.*), (.*), (.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with Code (\\d+) and Price (.*) and Single OrderLine (\\d+), Second Order Line (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) for Add On to be Utilised to Get BroadReach Offer$")
+	@Given("DataPower with a (.*), (.*), (.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with Code (\\d+) and Price (.*) and Single OrderLine (\\d+), Second Order Line (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) for Complimentary to be Utilised to Get BroadReach Offer$")
 	public void createtheInitialLinerequestforAllAddOnMembers(String membershipBase, String type, String Tier,
 			String channelName, String ClubId, String ClubId2, int code, String RetailPrice, String lineNumber,
 			String lineNumber2, String Applied_Dates, String RegistrationNumber, String TransactionId)
@@ -213,7 +213,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < 1) {
+		while (i < size-1) {
 
 			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 
@@ -263,7 +263,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	}
 
-	@Given("^DataPower with a (.*),(.*),(.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with code (\\d+) and Price (.*) and Single OrderLine (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) for Add On to be Utilised to Get BroadReach Offer$")
+	@Given("^DataPower with a (.*),(.*),(.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with code (\\d+) and Price (.*) and Single OrderLine (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) for Complimentary to be Utilised to Get BroadReach Offer$")
 
 	public void createtheSingleLineAddOnRequest(String membershipBase, String type, String Tier, String channelName,
 			String ClubId, String ClubId2, int code, String RetailPrice, String lineNumber, String Applied_Dates,
@@ -292,7 +292,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < 1) {
+		while (i < size) {
 			String arrbr = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 			//10134100913186870 ,10142100863234050
 			
@@ -346,7 +346,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	public void POST_the_emulator_request_for_Doublelines_BroadReach() {
 
-		RestAssured.baseURI = prop.getProperty("mercury.quicksilver");
+		RestAssured.baseURI = prop.getProperty("datapower.instantsavings");
 		thisRequestSpecification2 = RestAssured.with();
 
 		thisRequestSpecification2.given().header("Content-Type", "text/xml").relaxedHTTPSValidation("TLS")
