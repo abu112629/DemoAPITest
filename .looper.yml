@@ -160,7 +160,7 @@ flows:
            - publishReport:
                context: cucumber
                dir: target
-               index: target/ExtentReportBroadReachTest.html
+               index: ExtentReportBroadReachTest.html
                verbose: true
            - mail:
                from: sams-automation@walmart.com
