@@ -170,4 +170,5 @@ flows:
                messageFromFile: "target/ExtentReportBroadReachTest.html"   
         catch:
           - echo "Something happened wrong"                   
-      - exit 1
+      - exit 1     
+    
