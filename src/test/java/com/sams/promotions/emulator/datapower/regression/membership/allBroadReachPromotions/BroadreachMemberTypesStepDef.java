@@ -75,7 +75,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < size-1) {
+		while (i < 1) {
 
 			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 
@@ -154,7 +154,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 				reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i));
 		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
 
-		while (i < size) {
+		while (i < 1) {
 			String arrbr = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i);
 			//10134100913186870 ,10142100863234050
 			
@@ -185,6 +185,145 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 		softAssertions.assertAll();
 	}
 
+	@Given("DataPower with a (.*), (.*), (.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with Code (\\d+) and Price (.*) and Single OrderLine (\\d+), Second Order Line (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) for Add On to be Utilised to Get BroadReach Offer$")
+	public void createtheInitialLinerequestforAllAddOnMembers(String membershipBase, String type, String Tier,
+			String channelName, String ClubId, String ClubId2, int code, String RetailPrice, String lineNumber,
+			String lineNumber2, String Applied_Dates, String RegistrationNumber, String TransactionId)
+			throws Exception {
+
+		
+		
+		/*
+		 * membershipNbr = member.memberRequest(type, membershipBase, Tier);
+		 * 
+		 * if (code == 1) {
+		 * 
+		 * long y = Long.valueOf(membershipNbr) / 10000000000L; long x =
+		 * Integer.parseInt((membershipNbr).substring(8));
+		 * 
+		 * membershipNbr = Long.toString(y) + Long.toString(x);
+		 * 
+		 * }
+		 */
+		 
+
+		int i = 0;
+
+		Map<String, String> mapqs = Helper.getPromotionDetails(
+				reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i));
+		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
+
+		while (i < 1) {
+
+			String arrbr = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+
+			String arrbry = reserveemulator.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), i + 1);
+
+
+			//if (promoIdr.contentEquals(promoIdry)) {
+			
+				
+				Map<String, String> postRequestDetails = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i,"10142100124208539",
+						channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber,
+						TransactionId, arrbr, arrbry, pathsingle);
+				
+				Map<String, String> postRequestDetailsx = primaryrequest.getInitialReserveDoubleLinesPostRequestDetails(i,"10142100124210055",
+						channelName, ClubId, ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber,
+						TransactionId, arrbr, arrbry, pathsingle);
+				
+		
+				
+				
+				postdata = postRequestDetails.get("DataPowerRequest");
+				postdata2 = postRequestDetailsx.get("EmulatorRequest");
+
+				UpdatetheRequesttoDoubleLinesBroadReach(ClubId, ClubId2, RetailPrice, lineNumber2, Applied_Dates, arrbr,
+						arrbry);
+
+				POST_the_request_for_DoubleLines_BroadReach();
+				Getparameter_and_postOperation_for_DoubleLines_BroadReach();
+
+				POST_the_emulator_request_for_Doublelines_BroadReach();
+				Getemulatorparameter_and_postOperation_for_Doublelines_BroadReach();
+
+				ChecktheResultsdoubleLinesBroadReach();
+
+				i++;
+
+			//}
+
+			//else {
+
+				//i++;
+			//}
+
+		}
+
+		softAssertions.assertAll();
+
+	}
+
+	@Given("^DataPower with a (.*),(.*),(.*), and (.*) with (\\d+) for InstantSavings and (\\d+) for QuickSilver with code (\\d+) and Price (.*) and Single OrderLine (\\d+) in (.*) with Registration Number (\\d+) and TransactionId (\\d+) for Add On to be Utilised to Get BroadReach Offer$")
+
+	public void createtheSingleLineAddOnRequest(String membershipBase, String type, String Tier, String channelName,
+			String ClubId, String ClubId2, int code, String RetailPrice, String lineNumber, String Applied_Dates,
+			String RegistrationNumber, String TransactionId) throws Exception {
+
+		
+		
+		/*
+		 * membershipNbr = member.memberRequest(type, membershipBase, Tier);
+		 * 
+		 * if (code == 1) {
+		 * 
+		 * long y = Long.valueOf(membershipNbr) / 10000000000L; long x =
+		 * Integer.parseInt((membershipNbr).substring(8));
+		 * 
+		 * membershipNbr = Long.toString(y) + Long.toString(x);
+		 * 
+		 * }
+		 */
+		 
+		 
+
+		int i = 0;
+
+		Map<String, String> mapqs = Helper.getPromotionDetails(
+				reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i));
+		int size = Integer.valueOf(mapqs.get("SizeOfMetaData"));
+
+		while (i < 1) {
+			String arrbr = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(), i);
+			//10134100913186870 ,10142100863234050
+			
+			Map<String, String> postRequestDetails = reserveemulator.getReserveRequestDetails(i, "10142100124208539", channelName, ClubId,
+					ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber, TransactionId, arrbr,
+					pathsingle);
+			
+			Map<String, String> postRequestDetailsx = reserveemulator.getReserveRequestDetails(i, "10142100124210055", channelName, ClubId,
+					ClubId2, code, RetailPrice, lineNumber, Applied_Dates, RegistrationNumber, TransactionId, arrbr,
+					pathsingle);
+			
+		
+			postdata = postRequestDetails.get("DataPowerRequest");
+			postdata2 = postRequestDetailsx.get("EmulatorRequest");
+
+			POST_the_request_for_DoubleLines_BroadReach();
+			Getparameter_and_postOperation_for_DoubleLines_BroadReach();
+
+			POST_the_emulator_request_for_Doublelines_BroadReach();
+			Getemulatorparameter_and_postOperation_for_Doublelines_BroadReach();
+
+			ChecktheResultsdoubleLinesBroadReach();
+
+			i++;
+
+		}
+
+		softAssertions.assertAll();
+	}
+
+	
 	public void UpdatetheRequesttoDoubleLinesBroadReach(String ClubId, String ClubId2, String RetailPrice,
 			String lineNumber, String Applied_Dates, String arrx, String arry) throws Exception {
 

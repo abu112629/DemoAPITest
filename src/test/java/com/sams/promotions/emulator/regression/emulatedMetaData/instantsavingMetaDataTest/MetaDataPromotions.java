@@ -14,7 +14,6 @@ import com.sams.promotions.emulation.test.steps.util.HeaderMapper;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
 
 public class MetaDataPromotions extends BaseStep{
 
@@ -36,28 +35,17 @@ public class MetaDataPromotions extends BaseStep{
 	}
 	
 	
-	@Given("^Check Promotion count from both Prod DataPower and Mercury QS$")
+	@Given("^Check Promotion count from both Prod DataPower and Emulator Metadata QS$")
 	public void Check_Promotion_Count() throws Exception
 	{
-		
-		
-		
-		String qsarr=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").toString(), 1);
-		Map<String, String> mapqs=Helper.getQSPromotionDetails(qsarr);
-		
-		int Total=Integer.valueOf(mapqs.get("Total"));
 				
-		
-			
 		String arrbroad = reserveemulator.BroadReachSingleLinePromoMetaData(prop.get("metadata.prod.rest").toString(),1);
-		//String arrpackage = reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").toString(),1);
-		//String arrbroademu=metadatahelper.BroadReachPromoMetaData(prop.get("metadata.rest").toString(),UrlConstants.EMULATION_METADATA_BROADREACH,1);	
+		String arrbroademu=metadatahelper.BroadReachPromoMetaData(prop.get("metadata.rest").toString(),UrlConstants.EMULATION_METADATA_BROADREACH,1);	
 		Map<String, String> mapx = Helper.getPromotionDetails(arrbroad);
-		//Map<String, String> mapemu = Helper.getPromotionDetails(arrbroademu);
-		//Map<String, String> mapemu = Helper.getPromotionDetails(arrpackage);
+		Map<String, String> mapemu = Helper.getPromotionDetails(arrbroademu);
 		
 		int sizepro=Integer.valueOf(mapx.get("SizeOfMetaData"));
-		//int sizeemu=Integer.valueOf(mapemu.get("SizeOfMetaData"));
+		int Total=Integer.valueOf(mapemu.get("SizeOfMetaData"));
 
 		
 		
@@ -65,35 +53,23 @@ public class MetaDataPromotions extends BaseStep{
 			
 			String promodetails=metadatahelper.BroadReachPromoMetaData(prop.get("metadata.prod.rest").toString(), UrlConstants.METADATA_PROMOTION_BROADREACH, j);
 			Map<String, String> mapprod =MetaDataHelper.getmetaDataPromotionDetails(promodetails);
-			//System.out.println("PromoID : "+mapprod.get("PromoId"));
 			
 			
 			  for(int i=0;i<Total;) {
 			  
-				/*
-				 * String
-				 * emmpack=metadatahelper.BroadReachPromoMetaData(prop.get("metadata.rest").
-				 * toString(),UrlConstants.EMULATION_METADATA_BROADREACH,j); Map<String, String>
-				 * mapemmpack=Helper.getPromotionDetails(emmpack);
-				 */
-				/*
-				 * String
-				 * emmpack=reserveemulator.AnalyticPromoMetaData(prop.get("metadata.prod.rest").
-				 * toString(),j); Map<String, String>
-				 * mapemmpack=Helper.getPromotionDetails(emmpack);
-				 */
+				
+				  String emmpack=metadatahelper.BroadReachPromoMetaData(prop.get("metadata.rest").toString(),UrlConstants.EMULATION_METADATA_BROADREACH,j); 
+				  Map<String, String> mapemmpack=MetaDataHelper.getmetaDataPromotionDetails(emmpack);
+				 
 				  
-				  String qsarry=reserveemulator.QSPromoMetaData(prop.get("mercury.quicksilver").toString(), i);
-				  Map<String, String> mapqsy=Helper.getQSPromotionDetails(qsarry);
 				    
-			  if(mapprod.get("PromoId").contentEquals(mapqsy.get("QSOfferId"))) {
+			  if(mapprod.get("PromoId").contentEquals(mapemmpack.get("PromoId"))) {
 			  
 				  		System.out.println("Legacy Promotion Offer Id :" +mapprod.get("PromoId"));
-				  		System.out.println("QS Offer Id :"+mapqsy.get("QSOfferId"));
+				  		System.out.println("Emulator Metadata Offer Id :"+mapemmpack.get("PromoId"));
 				  		
-					  softAssertions.assertThat(mapprod.get("Discount")).isEqualTo(mapqsy.get("discount"));
-					  //Assert.assertEquals(mapprod,mapemmpack);
-				 
+					  softAssertions.assertThat(mapprod).isEqualTo(mapemmpack);
+
 				  //System.out.println("Promotion Details are equal in the MetaData");
 			  break;
 			  
@@ -109,13 +85,6 @@ public class MetaDataPromotions extends BaseStep{
 			
 		}
 
-		
-		
-	}
-	
-	@Then("^Compare count of promotions$")
-	public void Assert_Count_from_both_and_Compare() throws Exception
-	{
 		
 		
 	}
