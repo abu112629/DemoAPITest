@@ -10,40 +10,47 @@ import com.sams.promotions.emulation.test.steps.util.ClientConfigurationDatabase
 
 import cucumber.api.java.en.Given;
 
-public class MemberTrackerValidation extends BaseStep{
-	
+public class MemberTrackerValidation extends BaseStep {
+
 	private ClientConfigurationDatabase connection;
 	private SoftAssertions softAssertions = new SoftAssertions();
-	
+
 	public MemberTrackerValidation() throws IOException {
 		super();
 	}
 
-	
 	@Given("^Validate Member Tracker Data with (.*),(.*),(.*) and (\\d+)$")
-	public void validate_Member_Tracker(String membershipId,String CardHolder,String Promotion,int redemptionLeft) throws Exception {
+	public void validate_Member_Tracker(String membershipId, String CardHolder, String Promotion, int redemptionLeft)
+			throws Exception {
 
-		String redemption=String.valueOf(redemptionLeft);
+		String redemption = String.valueOf(redemptionLeft);
 		String memberId;
-		if(membershipId.length()<9) {
-			
-			memberId=StringUtils.leftPad(""+ Integer.valueOf(membershipId),9, "0");
+		String cardholderNumber;
+		if (membershipId.length() < 9) {
+
+			memberId = StringUtils.leftPad("" + Integer.valueOf(membershipId), 9, "0");
 		}
-		
+
 		else {
-			memberId=membershipId;
+			memberId = membershipId;
 		}
-		
+
+		if (CardHolder.length() < 3) {
+
+			cardholderNumber = StringUtils.leftPad("" + Integer.valueOf(CardHolder), 2, "0");
+		}
+
+		else {
+
+			cardholderNumber = CardHolder;
+		}
 		connection = new ClientConfigurationDatabase();
-		String document=connection.checkMemberTracker(memberId, CardHolder, Promotion, redemption, "Metadata");
-		
+		String document = connection.checkMemberTracker(memberId, cardholderNumber, Promotion, redemption, "Metadata");
+
 		System.out.println(document);
 		softAssertions.assertThat(!document.isEmpty());
-		
+
 		softAssertions.assertAll();
 	}
-	
-	
-	
-}
 
+}
