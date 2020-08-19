@@ -49,6 +49,7 @@ public class ClientConfigurationDatabase extends BaseStep {
 	public String databaseName = "transaction";
 	public String collectionId = "reserve";
 	protected String collectionId2="promotion";
+	protected String collectionId3="member-tracker";
 	protected String query;
 	protected String sql;
 	protected String result;
@@ -151,6 +152,58 @@ public class ClientConfigurationDatabase extends BaseStep {
 		return result;
 
 	}
+	
+	public String checkMemberTracker(String membershipNumber,String CardHolderNum,String Promotion,String RedemptionLeft,String status) throws Exception {
+
+		
+		executorService = Executors.newFixedThreadPool(100);
+		scheduler = Schedulers.from(executorService);
+		client = new AsyncDocumentClient.Builder().withServiceEndpoint(prop.getProperty("uri"))
+				.withMasterKeyOrResourceToken(prop.getProperty("key"))
+				.withConnectionPolicy(ConnectionPolicy.GetDefault()).withConsistencyLevel(ConsistencyLevel.Eventual)
+				.build();
+
+		sql = "SELECT * FROM coll s where s.memberId='"+membershipNumber+"'"+""
+				+ "and s.cardholderId='"+CardHolderNum+"'"+"and s.promotionNumber="+Promotion+" "
+						+ "and s.redemptionCount="+RedemptionLeft+" "
+								+ "and s.status='"+status+"'";
+	 
+		System.out.println(sql);
+
+		ClientConfigurationDatabase connection = new ClientConfigurationDatabase();
+		FeedOptions options = new FeedOptions();
+		options.setEnableCrossPartitionQuery(true);
+		options.setMaxItemCount(2);
+
+		Observable<FeedResponse<Document>> documentQueryObservable = client
+				.queryDocuments("dbs/" + connection.databaseName + "/colls/" + connection.collectionId3, sql, options);
+		Iterator<FeedResponse<Document>> it = documentQueryObservable.toBlocking().getIterator();
+
+
+			System.out.println("========================Promo Created in Cosmos DB=======================");
+			System.out.println("============================================================================");
+			
+			
+			while (it.hasNext()) {
+				FeedResponse<Document> page = it.next();
+				List<Document> results = page.getResults();
+				
+				
+				
+				for (Object doc : results) {
+					
+					result = Helper.getPrettyJson(doc.toString());
+
+				}
+				
+				
+			}
+	
+		client.close();	
+		return result;
+
+	}
+	
 	
 	public ResultSet connectValCpn(String IR, String VCN) throws IOException {
 
