@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+<soap:Header>
+    <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+        <wsse:UsernameToken>
+            <wsse:Username>SVCSamsInstantSaving</wsse:Username>
+            <wsse:Password>qtayWn-wW7+%*NAbs1W1</wsse:Password>
+        </wsse:UsernameToken>
+    </wsse:Security>
+</soap:Header><soap:Body>
+<ns2:checkoutCustomerBasketRequest xmlns="http://www.xmlns.walmartstores.com/Header/datatypes/MessageHeader/1.4/"
+        xmlns:ns2="http://www.xmlns.walmartstores.com/DemandChain/ShoppingExperienceManagement/datatypes/CheckoutCustomerBasket/1.0/">
+    <ns2:messageHeader>
+        <SubId>S[B@KxEhYQ0N</SubId>
+        <CnsmrId>C[B@wD2AsaDR</CnsmrId>
+        <SrvcNm>CheckoutCustomerBasket.checkoutCustomerBasket</SrvcNm>
+        <TranId>82</TranId>
+        <SrcSysId>MOBILE</SrcSysId>
+        <Version>1.0</Version>
+    </ns2:messageHeader>
+    <ns2:messageBody>
+        <ns2:customerBasket>
+            <ns2:basketID>9182</ns2:basketID>
+            <ns2:createTimestamp>2020-08-21T15:54:44</ns2:createTimestamp>
+            <ns2:customer>
+                <ns2:id>1014210204259579</ns2:id>
+            </ns2:customer>
+            <ns2:orderLines>
+                <ns2:orderLine>
+                    <ns2:lineNumber>1</ns2:lineNumber>
+                    <ns2:isPriceOverride>false</ns2:isPriceOverride>
+                    <ns2:quantity>
+                        <ns2:amount>1</ns2:amount>
+                    </ns2:quantity>
+                    <ns2:productOffering>
+                        <ns2:id>66846</ns2:id>
+                        <ns2:price>
+                            <ns2:amount>
+                                <ns2:value>498</ns2:value>
+                            </ns2:amount>
+                        </ns2:price>
+                    </ns2:productOffering>
+                </ns2:orderLine>
+            </ns2:orderLines>
+            <ns2:terminal>
+                <ns2:terminalID>9298</ns2:terminalID>
+            </ns2:terminal>
+            <ns2:businessUnit>
+                <ns2:number>4969</ns2:number>
+                <ns2:country>
+                    <ns2:code>US</ns2:code>
+                </ns2:country>
+            </ns2:businessUnit>
+            <ns2:channel>
+                <ns2:code>1</ns2:code>
+                <ns2:name>POS</ns2:name>
+            </ns2:channel>
+        </ns2:customerBasket>
+    </ns2:messageBody>
+</ns2:checkoutCustomerBasketRequest>
+</soap:Body></soap:Envelope>

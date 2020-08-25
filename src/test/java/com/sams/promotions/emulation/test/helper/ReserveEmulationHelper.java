@@ -532,8 +532,6 @@ public class ReserveEmulationHelper extends BaseStep {
 		String arr[] = null;
 		Map<String, Object> header = headerMapper.mapHeaders(UrlConstants.METADATA_HEADER_PATH);
 
-		// UrlConstants.METADATA_PROMOTION_BROADREACH
-
 		Response res = helpermethod.sendGetRequest(Uri, UrlConstants.METADATA_PROMOTION_BROADREACH, header);
 		String metadataJson = res.asString();
 

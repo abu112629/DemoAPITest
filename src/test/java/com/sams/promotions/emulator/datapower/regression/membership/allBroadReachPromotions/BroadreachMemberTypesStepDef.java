@@ -224,7 +224,7 @@ public class BroadreachMemberTypesStepDef extends BaseStep {
 
 	public void Getemulatorparameter_and_postOperation_for_Doublelines_BroadReach() {
 
-		response2 = thisRequestSpecification2.post(UrlConstants.RESERVE_EMULATION).then();
+		response2 = thisRequestSpecification2.post(UrlConstants.SERVICES_CHECKOUT).then();
 
 	}
 

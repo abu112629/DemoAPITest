@@ -46,5 +46,10 @@ public class UrlConstants {
 		public static final String PACKAGE_QS_HEADER_PATH="src/test/resources/requestHeader/PackageQSHeader.txt";
 		public static final String CHECKOUT_PACKAGE_QS="/coupons/suc";
 	
+		
+		public static final String SEED_AND_REWARD_REQUEST="src/test/resources/Emulation_Input/SeedandReward.xml";
+		public static final String PACKAGE_DOLLAR_OFF_REQUEST="src/test/resources/Emulation_Input/PackageDollarOffRequest.xml";
+		public static final String PACKAGE_PERCENT_OFF_REQUEST="src/test/resources/Emulation_Input/PackageCouponPercentOff.xml";
+		public static final String PACKAGE_BROADREACH_REQUEST="src/test/resources/Emulation_Input/PackageandBroadReachRequest.xml";
 
 }

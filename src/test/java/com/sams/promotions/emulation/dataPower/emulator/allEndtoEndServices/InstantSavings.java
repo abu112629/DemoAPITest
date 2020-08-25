@@ -33,7 +33,7 @@ import io.restassured.path.xml.XmlPath;
 
 public class InstantSavings extends BaseStep {
 
-	protected String postdata;
+	protected String postdata,ordernumber;
 	protected String qs_response;
 	private ClientConfigurationDatabase connection;
 	CosmosValidator validation;
@@ -48,9 +48,6 @@ public class InstantSavings extends BaseStep {
 		super();
 	}
 
-	@SuppressWarnings("unused")
-	private Map<String, String> Items;
-
 	@Before
 	public void beforeSetup() throws IOException {
 
@@ -61,19 +58,45 @@ public class InstantSavings extends BaseStep {
 
 	}
 
-	@Given("^Request Sent for the ClubId$")
-	public void POST_Operation_4969() throws Exception {
+	@Given("^Request Sent for the ClubId with (.*)$")
+	public void POST_Operation_4969(String Request) throws Exception {
 
-		postdata = helper.GenerateStringFromResource(UrlConstants.DATA_POWER_CLUB);
+		switch (Request) {
+
+		case "BroadReach Dollar Off Request Type":
+			postdata = helper.GenerateStringFromResource(UrlConstants.DATA_POWER_CLUB);
+			ordernumber = reserveemulator.OrderNum(UrlConstants.DATA_POWER_CLUB);
+			break;
+
+		case "BroadReach Seed and Reward":
+			postdata = helper.GenerateStringFromResource(UrlConstants.SEED_AND_REWARD_REQUEST);
+			ordernumber = reserveemulator.OrderNum(UrlConstants.SEED_AND_REWARD_REQUEST);
+			break;
+
+		case "Package Coupon Dollar off":
+			postdata = helper.GenerateStringFromResource(UrlConstants.PACKAGE_DOLLAR_OFF_REQUEST);
+			ordernumber = reserveemulator.OrderNum(UrlConstants.PACKAGE_DOLLAR_OFF_REQUEST);
+			break;
+
+		case "Package Coupon Percentage Off":
+			postdata = helper.GenerateStringFromResource(UrlConstants.PACKAGE_PERCENT_OFF_REQUEST);
+			ordernumber = reserveemulator.OrderNum(UrlConstants.PACKAGE_PERCENT_OFF_REQUEST);
+			break;
+
+		case "Package and BroadReach":
+			postdata = helper.GenerateStringFromResource(UrlConstants.PACKAGE_BROADREACH_REQUEST);
+			ordernumber = reserveemulator.OrderNum(UrlConstants.PACKAGE_BROADREACH_REQUEST);
+			break;
+
+		}
+
 		System.out.println(postdata);
-
 	}
 
 	@When("^POST the provided request to InstantSavings$")
 	public void postrequest() throws Exception {
 
-		qs_response = helper.POSTXMLEmulator("datapower.instantsavings", postdata,
-				UrlConstants.SERVICES_CHECKOUT);
+		qs_response = helper.POSTXMLEmulator("datapower.instantsavings", postdata, UrlConstants.SERVICES_CHECKOUT);
 
 	}
 
@@ -117,23 +140,22 @@ public class InstantSavings extends BaseStep {
 
 		}
 
-		String ordernumber = reserveemulator.OrderNum(UrlConstants.DATA_POWER_CLUB);
+		
 
 		System.out.println(ordernumber);
 
 		TimeUnit.SECONDS.sleep(2);
 
 		validation.CosmosExtractedResults(ordernumber);
-		//2420400450689759735627920198
 
 	}
 
 	@Then("^Assert and compare the values of both Database$")
 	public void Check() throws Exception {
 
-		String ordernumber = reserveemulator.OrderNum(UrlConstants.DATA_POWER_CLUB);
-		softAssertions = validation.ValidationsAll(ordernumber);
 		
+		softAssertions = validation.ValidationsAll(ordernumber);
+
 		softAssertions.assertAll();
 
 	}
