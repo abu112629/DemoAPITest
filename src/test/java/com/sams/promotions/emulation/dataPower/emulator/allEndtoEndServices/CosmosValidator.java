@@ -65,6 +65,11 @@ public class CosmosValidator {
 
 				List<DiscountInfo> discountInfolist = lineitem.getDiscountInfo();
 
+				if (lineitem.getDiscountInfo() == null) {
+
+					continue;
+				}
+
 				for (DiscountInfo newline : discountInfolist) {
 
 					String PromoId = newline.getPromotionNumber();
@@ -117,6 +122,11 @@ public class CosmosValidator {
 			for (Item lineitem : itemlist) {
 
 				List<DiscountInfo> discountInfolist = lineitem.getDiscountInfo();
+
+				if (lineitem.getDiscountInfo() == null) {
+
+					continue;
+				}
 
 				for (DiscountInfo newline : discountInfolist) {
 
@@ -199,7 +209,7 @@ public class CosmosValidator {
 		Map<String, String> promodetails = helper.getCosmosTransactionDetails(ForwardSyncValidator(0, orderNumber));
 
 		int size = Integer.valueOf(promodetails.get("Size"));
-		
+
 		System.out.println(size);
 
 		for (int i = 0; i < size; i++) {
@@ -215,8 +225,6 @@ public class CosmosValidator {
 			promodetailsCosmos.remove("Size");
 			promodetailsCosmos.remove("PVRC");
 			promodetailsCosmos.remove("NonValueItemQuantity");
-			
-			
 
 			Map<String, String> rs = connection.ConnectDB2(ItemId, Clubid, MembershipId, PromoId);
 			rs.remove("PVRC");
