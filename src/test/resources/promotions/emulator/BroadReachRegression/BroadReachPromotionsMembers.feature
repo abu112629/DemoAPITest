@@ -18,6 +18,6 @@ Feature: Verify BroadReach Promotions in the MetaData for Active Members with Si
 
     Examples: 
       | membership | type    | Tier | ChannelCode | RetailPrice | ClubId | OrderLines | Channel | Applied_Dates | ClubId2 | RegistrationNumber | TransactionId |
-      | savings    | primary | Plus |           2 | MORE_PRICE  |   4969 |          1 | DOTCOM  | MIDDLE_DATE   |    6279 |               4808 |           354 |
+      | savings    | primary | Plus |           2 | MORE_PRICE  |   4969 |          1 | DOTCOM  | MIDDLE_DATE   |    4808 |               7927 |           354 |
 
       
