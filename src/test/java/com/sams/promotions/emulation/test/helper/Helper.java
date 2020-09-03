@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -99,6 +100,16 @@ public class Helper extends BaseStep {
 		cal.setTime(date);
 		cal.add(Calendar.DATE, days); // minus number would decrement the days
 		return cal.getTime();
+	}
+	
+	
+	public static String CurrentDate() {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		Date date = new Date();
+		String createTimeStamp = String.valueOf(dateFormat.format(date));
+		
+		return createTimeStamp;
 	}
 
 	public static Map<String, String> getDates(String requiredDates) throws java.text.ParseException {

@@ -52,4 +52,7 @@ public class UrlConstants {
 		public static final String PACKAGE_PERCENT_OFF_REQUEST="src/test/resources/Emulation_Input/PackageCouponPercentOff.xml";
 		public static final String PACKAGE_BROADREACH_REQUEST="src/test/resources/Emulation_Input/PackageandBroadReachRequest.xml";
 
+		public static final String REFUND_LOOKUP_REQUEST="src/test/resources/Emulation_Input/RefundLookUp.xml";
+		public static final String REFUND_SERVICES_CHECKOUT="/Services/CheckOutRefund";
+		public static final String REFUND_SERVICES_QS="/emulate/refund/lookup";
 }

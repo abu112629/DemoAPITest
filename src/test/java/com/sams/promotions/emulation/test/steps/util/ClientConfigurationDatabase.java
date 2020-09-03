@@ -48,8 +48,10 @@ public class ClientConfigurationDatabase extends BaseStep {
 	protected AsyncDocumentClient client;
 	public String databaseName = "transaction";
 	public String collectionId = "reserve";
-	protected String collectionId2="promotion";
-	protected String collectionId3="member-tracker";
+	public String collectionIdredeem = "redeem";
+	
+	protected String collectionId2 = "promotion";
+	protected String collectionId3 = "member-tracker";
 	protected String query;
 	protected String sql;
 	protected String result;
@@ -59,8 +61,6 @@ public class ClientConfigurationDatabase extends BaseStep {
 	Connection con;
 
 	public String setClient(String orderNumber) throws Exception {
-		
-
 
 		executorService = Executors.newFixedThreadPool(100);
 		scheduler = Schedulers.from(executorService);
@@ -70,7 +70,6 @@ public class ClientConfigurationDatabase extends BaseStep {
 				.build();
 
 		sql = "SELECT * FROM coll s WHERE s.orderNumber ='" + orderNumber + "'";
-	
 
 		ClientConfigurationDatabase connection = new ClientConfigurationDatabase();
 		FeedOptions options = new FeedOptions();
@@ -81,34 +80,28 @@ public class ClientConfigurationDatabase extends BaseStep {
 				.queryDocuments("dbs/" + connection.databaseName + "/colls/" + connection.collectionId, sql, options);
 		Iterator<FeedResponse<Document>> it = documentQueryObservable.toBlocking().getIterator();
 
+		System.out.println("========================Document Created in Cosmos DB=======================");
+		System.out.println("============================================================================");
 
-			System.out.println("========================Document Created in Cosmos DB=======================");
-			System.out.println("============================================================================");
-			
-			
-			while (it.hasNext()) {
-				FeedResponse<Document> page = it.next();
-				List<Document> results = page.getResults();
-				
-				
-				
-				for (Object doc : results) {
-					
-					result = Helper.getPrettyJson(doc.toString());
+		while (it.hasNext()) {
+			FeedResponse<Document> page = it.next();
+			List<Document> results = page.getResults();
 
-				}
-				
-				
+			for (Object doc : results) {
+
+				result = Helper.getPrettyJson(doc.toString());
+
 			}
-	
+
+		}
+
 		client.close();
 		return result;
 
 	}
-	
-	public String setPromo(String promoId) throws Exception {
 
-		
+	public String setRefundClient(String orderNumber) throws Exception {
+
 		executorService = Executors.newFixedThreadPool(100);
 		scheduler = Schedulers.from(executorService);
 		client = new AsyncDocumentClient.Builder().withServiceEndpoint(prop.getProperty("uri"))
@@ -116,8 +109,47 @@ public class ClientConfigurationDatabase extends BaseStep {
 				.withConnectionPolicy(ConnectionPolicy.GetDefault()).withConsistencyLevel(ConsistencyLevel.Eventual)
 				.build();
 
-		sql = "SELECT * FROM coll s WHERE s..values.is_promotion_number ='"+promoId+"'";
-	
+		sql = "SELECT * FROM coll s where s.reserveOrderNumber ='" + orderNumber + "'";
+
+		ClientConfigurationDatabase connection = new ClientConfigurationDatabase();
+		FeedOptions options = new FeedOptions();
+		options.setEnableCrossPartitionQuery(true);
+		options.setMaxItemCount(2);
+
+		Observable<FeedResponse<Document>> documentQueryObservable = client
+				.queryDocuments("dbs/" + connection.databaseName + "/colls/" + connection.collectionIdredeem, sql, options);
+		Iterator<FeedResponse<Document>> it = documentQueryObservable.toBlocking().getIterator();
+
+		System.out.println("========================Document Created in Cosmos DB=======================");
+		System.out.println("============================================================================");
+
+		while (it.hasNext()) {
+			FeedResponse<Document> page = it.next();
+			List<Document> results = page.getResults();
+
+			for (Object doc : results) {
+
+				result = Helper.getPrettyJson(doc.toString());
+
+			}
+
+		}
+
+		client.close();
+		return result;
+
+	}
+
+	public String setPromo(String promoId) throws Exception {
+
+		executorService = Executors.newFixedThreadPool(100);
+		scheduler = Schedulers.from(executorService);
+		client = new AsyncDocumentClient.Builder().withServiceEndpoint(prop.getProperty("uri"))
+				.withMasterKeyOrResourceToken(prop.getProperty("key"))
+				.withConnectionPolicy(ConnectionPolicy.GetDefault()).withConsistencyLevel(ConsistencyLevel.Eventual)
+				.build();
+
+		sql = "SELECT * FROM coll s WHERE s..values.is_promotion_number ='" + promoId + "'";
 
 		ClientConfigurationDatabase connection = new ClientConfigurationDatabase();
 		FeedOptions options = new FeedOptions();
@@ -128,34 +160,29 @@ public class ClientConfigurationDatabase extends BaseStep {
 				.queryDocuments("dbs/" + connection.databaseName + "/colls/" + connection.collectionId2, sql, options);
 		Iterator<FeedResponse<Document>> it = documentQueryObservable.toBlocking().getIterator();
 
+		System.out.println("========================Promo Created in Cosmos DB=======================");
+		System.out.println("============================================================================");
 
-			System.out.println("========================Promo Created in Cosmos DB=======================");
-			System.out.println("============================================================================");
-			
-			
-			while (it.hasNext()) {
-				FeedResponse<Document> page = it.next();
-				List<Document> results = page.getResults();
-				
-				
-				
-				for (Object doc : results) {
-					
-					result = Helper.getPrettyJson(doc.toString());
+		while (it.hasNext()) {
+			FeedResponse<Document> page = it.next();
+			List<Document> results = page.getResults();
 
-				}
-				
-				
+			for (Object doc : results) {
+
+				result = Helper.getPrettyJson(doc.toString());
+
 			}
-	
-		client.close();	
+
+		}
+
+		client.close();
 		return result;
 
 	}
-	
-	public String checkMemberTracker(String membershipNumber,String CardHolderNum,String Promotion,String RedemptionLeft,String status) throws Exception {
 
-		
+	public String checkMemberTracker(String membershipNumber, String CardHolderNum, String Promotion,
+			String RedemptionLeft, String status) throws Exception {
+
 		executorService = Executors.newFixedThreadPool(100);
 		scheduler = Schedulers.from(executorService);
 		client = new AsyncDocumentClient.Builder().withServiceEndpoint(prop.getProperty("uri"))
@@ -163,11 +190,10 @@ public class ClientConfigurationDatabase extends BaseStep {
 				.withConnectionPolicy(ConnectionPolicy.GetDefault()).withConsistencyLevel(ConsistencyLevel.Eventual)
 				.build();
 
-		sql = "SELECT * FROM coll s where s.memberId='"+membershipNumber+"'"+""
-				+ "and s.cardholderId='"+CardHolderNum+"'"+"and s.promotionNumber="+Promotion+" "
-						+ "and s.redemptionCount="+RedemptionLeft+" "
-								+ "and s.status='"+status+"'";
-	 
+		sql = "SELECT * FROM coll s where s.memberId='" + membershipNumber + "'" + "" + "and s.cardholderId='"
+				+ CardHolderNum + "'" + "and s.promotionNumber=" + Promotion + " " + "and s.redemptionCount="
+				+ RedemptionLeft + " " + "and s.status='" + status + "'";
+
 		System.out.println(sql);
 
 		ClientConfigurationDatabase connection = new ClientConfigurationDatabase();
@@ -179,34 +205,27 @@ public class ClientConfigurationDatabase extends BaseStep {
 				.queryDocuments("dbs/" + connection.databaseName + "/colls/" + connection.collectionId3, sql, options);
 		Iterator<FeedResponse<Document>> it = documentQueryObservable.toBlocking().getIterator();
 
+		System.out.println("========================Promo Created in Cosmos DB=======================");
+		System.out.println("============================================================================");
 
-			System.out.println("========================Promo Created in Cosmos DB=======================");
-			System.out.println("============================================================================");
-			
-			
-			while (it.hasNext()) {
-				FeedResponse<Document> page = it.next();
-				List<Document> results = page.getResults();
-				
-				
-				
-				for (Object doc : results) {
-					
-					result = Helper.getPrettyJson(doc.toString());
+		while (it.hasNext()) {
+			FeedResponse<Document> page = it.next();
+			List<Document> results = page.getResults();
 
-				}
-				
-				
+			for (Object doc : results) {
+
+				result = Helper.getPrettyJson(doc.toString());
+
 			}
-	
-		client.close();	
+
+		}
+
+		client.close();
 		return result;
 
 	}
-	
-	
-	public ResultSet connectValCpn(String IR, String VCN) throws IOException {
 
+	public ResultSet connectValCpn(String IR, String VCN) throws IOException {
 
 		try {
 			con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
@@ -218,7 +237,6 @@ public class ClientConfigurationDatabase extends BaseStep {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
 
-			
 			if (rs.next() == false) {
 				System.out.println("No Values exist into DB2");
 				assertTrue(rs.toString().isEmpty());
@@ -226,23 +244,19 @@ public class ClientConfigurationDatabase extends BaseStep {
 			}
 
 			else {
-				
-				System.out.println(
-					"================VALUE_COUPON_ITEM : DB2 TABLE ==================");
-				System.out.println(
-						"VALUE_COUPON_NBR\tITEM_NBR");
-				System.out.println(
-						"=================\t==================");
-				
-				//while (rs.next()) {
-					
 
-					int vcno = rs.getInt("VALUE_COUPON_NBR");
-					int itno = rs.getInt("ITEM_NBR");
+				System.out.println("================VALUE_COUPON_ITEM : DB2 TABLE ==================");
+				System.out.println("VALUE_COUPON_NBR\tITEM_NBR");
+				System.out.println("=================\t==================");
 
-					System.out.println(vcno + "\t\t\t" + itno);
+				// while (rs.next()) {
 
-				//}
+				int vcno = rs.getInt("VALUE_COUPON_NBR");
+				int itno = rs.getInt("ITEM_NBR");
+
+				System.out.println(vcno + "\t\t\t" + itno);
+
+				// }
 			}
 
 			con.close();
@@ -255,11 +269,9 @@ public class ClientConfigurationDatabase extends BaseStep {
 		}
 		return rs;
 
-	
-
 	}
 
-	public String Connect_Get_Applicable_Promo_Dates(String IR,String STRN) throws IOException {
+	public String Connect_Get_Applicable_Promo_Dates(String IR, String STRN) throws IOException {
 
 		String resultDate = "";
 
@@ -279,22 +291,21 @@ public class ClientConfigurationDatabase extends BaseStep {
 			}
 
 			else {
-								
-				//while (rs.next()) {
-					
 
-					Date ptxno = rs.getDate("START_DATE");
-					Date pno = rs.getDate("END_DATE");
-					
-					System.out.println(ptxno +"||"+ pno);
-					
-					resultDate = ptxno +"||"+ pno;
+				// while (rs.next()) {
 
-				//}
+				Date ptxno = rs.getDate("START_DATE");
+				Date pno = rs.getDate("END_DATE");
+
+				System.out.println(ptxno + "||" + pno);
+
+				resultDate = ptxno + "||" + pno;
+
+				// }
 			}
 
 			con.close();
-			
+
 		}
 
 		catch (Exception e) {
@@ -302,26 +313,27 @@ public class ClientConfigurationDatabase extends BaseStep {
 			JOptionPane.showMessageDialog(null, e);
 			return null;
 		}
-		
+
 		return resultDate;
 
 	}
 
-	public Map<String, String> ConnectDB2(String ITN,String PSN,String MCN,String VCN) throws IOException {
-		
+	public Map<String, String> ConnectDB2(String ITN, String PSN, String MCN, String VCN) throws IOException {
+
 		/*
 		 * ArrayList<String> arrListnew = new ArrayList<String>(); String actualnew[] =
 		 * null;
 		 */
 		Map<String, String> getDB2Values = new HashMap<String, String>();
-		
+
 		try {
 			con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
 					prop.getProperty("password"));
 			Class.forName(prop.getProperty("database_driver"));
-			
-			query = "SELECT * FROM VAL_COUPN_TXN_TEMP WHERE ITEM_NBR=" + ITN + " AND PURCHASE_STORE_NBR=" + PSN +" AND MEMBERSHIP_NBR=" + MCN +" AND VALUE_COUPON_NBR="+ VCN +" WITH UR";
-			 
+
+			query = "SELECT * FROM VAL_COUPN_TXN_TEMP WHERE ITEM_NBR=" + ITN + " AND PURCHASE_STORE_NBR=" + PSN
+					+ " AND MEMBERSHIP_NBR=" + MCN + " AND VALUE_COUPON_NBR=" + VCN + " WITH UR";
+
 			stmt = con.createStatement();
 			stmt.setFetchSize(0);
 			rs = stmt.executeQuery(query);
@@ -333,60 +345,58 @@ public class ClientConfigurationDatabase extends BaseStep {
 			}
 
 			else {
-				
+
 				System.out.println(
 						"========================VALUE_COUPON_TXN_TEMP : DB2 TABLE ===============================");
 				System.out.println(
 						"PURCHASE_TXN_NBR\tPURCHASE_STORE_NBR\tPURCHASE_REG_NBR\tVALUE_COUPON_NBR\tMEMBERSHIP_NBR\t\tITEM_NBR\t\tPURCHASE_DATE\t\tPURCHASE_QTY\t\tPURCHASE_AMT\t\tPURCHASE_VALUE_RDMPT_CNT"
-						+ "\tNON_VALUE_ITEM_QTY");
+								+ "\tNON_VALUE_ITEM_QTY");
 				System.out.println(
 						"=================\t==================\t==================\t==================\t================\t================\t================\t================\t================"
-						+ "\t======================\t\t================");
-				
-				//while (rs.next()) {
-					
+								+ "\t======================\t\t================");
 
-					int ptxno = rs.getInt("PURCHASE_TXN_NBR");
-					int pno = rs.getInt("PURCHASE_STORE_NBR");
-					int pro = rs.getInt("PURCHASE_REG_NBR");
-					int vno = rs.getInt("VALUE_COUPON_NBR");
-					int mno = rs.getInt("MEMBERSHIP_NBR");
-					int itemno=rs.getInt("ITEM_NBR");
-					Date redemptiondate=rs.getDate("PURCHASE_DATE");
-					BigDecimal quantty=rs.getBigDecimal("PURCHASE_QTY").stripTrailingZeros();
-					BigDecimal purchaseamt=rs.getBigDecimal("PURCHASE_AMT");
-					int pvrc=rs.getInt("PURCHASE_VALUE_RDMPT_CNT");
-					int nonvalqty=rs.getInt("NON_VALUE_ITEM_QTY");
-					
-					
-					String gtin="";
-					
-					System.out.println(ptxno + "\t\t\t" + pno + "\t\t\t" + pro + "\t\t\t" + vno + "\t\t\t" + mno +"\t\t" + itemno + "\t\t\t" + redemptiondate + "\t\t\t"
-							+ quantty + "\t\t\t" +purchaseamt + "\t\t\t" + pvrc + "\t\t\t\t" + nonvalqty);
-					
+				// while (rs.next()) {
+
+				int ptxno = rs.getInt("PURCHASE_TXN_NBR");
+				int pno = rs.getInt("PURCHASE_STORE_NBR");
+				int pro = rs.getInt("PURCHASE_REG_NBR");
+				int vno = rs.getInt("VALUE_COUPON_NBR");
+				int mno = rs.getInt("MEMBERSHIP_NBR");
+				int itemno = rs.getInt("ITEM_NBR");
+				Date redemptiondate = rs.getDate("PURCHASE_DATE");
+				BigDecimal quantty = rs.getBigDecimal("PURCHASE_QTY").stripTrailingZeros();
+				BigDecimal purchaseamt = rs.getBigDecimal("PURCHASE_AMT");
+				int pvrc = rs.getInt("PURCHASE_VALUE_RDMPT_CNT");
+				int nonvalqty = rs.getInt("NON_VALUE_ITEM_QTY");
+
+				String gtin = "";
+
+				System.out.println(ptxno + "\t\t\t" + pno + "\t\t\t" + pro + "\t\t\t" + vno + "\t\t\t" + mno + "\t\t"
+						+ itemno + "\t\t\t" + redemptiondate + "\t\t\t" + quantty + "\t\t\t" + purchaseamt + "\t\t\t"
+						+ pvrc + "\t\t\t\t" + nonvalqty);
+
 				/*
 				 * actualnew = new String[] { vno + "||" + pvrc + "||" + gtin + "||" + quantty +
 				 * "||" + itemno + "||" + purchaseamt + "||" + pro + "||" + ptxno + "||" + mno +
 				 * "||" + pno + "||" + redemptiondate + "||" + nonvalqty };
 				 */
-					
-					getDB2Values.put("PromoId",String.valueOf(vno));
-					getDB2Values.put("PVRC", String.valueOf(pvrc));
-					getDB2Values.put("Gtin", gtin);
-					getDB2Values.put("Quantity", String.valueOf(quantty));
-					getDB2Values.put("ItemId", String.valueOf(itemno));
-					getDB2Values.put("UnitDiscount", String.valueOf(purchaseamt));
-					getDB2Values.put("RegisterNumber", String.valueOf(pro));
-					getDB2Values.put("TransactioNumber", String.valueOf(ptxno));
-					getDB2Values.put("MembershipId", String.valueOf(mno));
-					getDB2Values.put("Clubid", String.valueOf(pno));
-					getDB2Values.put("RedemptionDate", String.valueOf(redemptiondate));
-					getDB2Values.put("NonValueItemQuantity", String.valueOf(nonvalqty));
-					
-					
-				//}
+
+				getDB2Values.put("PromoId", String.valueOf(vno));
+				getDB2Values.put("PVRC", String.valueOf(pvrc));
+				getDB2Values.put("Gtin", gtin);
+				getDB2Values.put("Quantity", String.valueOf(quantty));
+				getDB2Values.put("ItemId", String.valueOf(itemno));
+				getDB2Values.put("UnitDiscount", String.valueOf(purchaseamt));
+				getDB2Values.put("RegisterNumber", String.valueOf(pro));
+				getDB2Values.put("TransactioNumber", String.valueOf(ptxno));
+				getDB2Values.put("MembershipId", String.valueOf(mno));
+				getDB2Values.put("Clubid", String.valueOf(pno));
+				getDB2Values.put("RedemptionDate", String.valueOf(redemptiondate));
+				getDB2Values.put("NonValueItemQuantity", String.valueOf(nonvalqty));
+
+				// }
 			}
-			
+
 			con.close();
 		}
 
@@ -398,9 +408,7 @@ public class ClientConfigurationDatabase extends BaseStep {
 		return getDB2Values;
 
 	}
-	
-	
-			
+
 	public SoftAssertions getPromos(String VCN) throws IOException {
 
 		SoftAssertions softAssertions = new SoftAssertions();
@@ -409,12 +417,12 @@ public class ClientConfigurationDatabase extends BaseStep {
 			con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
 					prop.getProperty("password"));
 			Class.forName(prop.getProperty("database_driver"));
-			
+
 			query = "SELECT * FROM VALUE_COUPON WHERE VALUE_COUPON_NBR=" + VCN;
-			 
+
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
-		
+
 			if (rs.next() == false) {
 				System.out.println("No Values entered into DB2");
 				softAssertions.assertThat(rs.toString().isEmpty());
@@ -422,27 +430,23 @@ public class ClientConfigurationDatabase extends BaseStep {
 			}
 
 			else {
-				
-				System.out.println(
-						"========================VALUE_COUPON : DB2 TABLE ===============================");
-				System.out.println(
-						"VALUE_COUPON_NBR\tSTART_DATE\tEND_DATE\tVALUE_AMT");
-				System.out.println(
-						"=================\t==================\t==================\t===============");
-				
-				//while (rs.next()) {
-					
 
-					int ptxno = rs.getInt("VALUE_COUPON_NBR");
-					Date pno = rs.getDate("START_DATE");
-					Date pro = rs.getDate("END_DATE");
-					int vno = rs.getInt("VALUE_AMT");
+				System.out.println("========================VALUE_COUPON : DB2 TABLE ===============================");
+				System.out.println("VALUE_COUPON_NBR\tSTART_DATE\tEND_DATE\tVALUE_AMT");
+				System.out.println("=================\t==================\t==================\t===============");
 
-					System.out.println(ptxno + "\t\t\t" + pno + "\t\t\t" + pro + "\t\t\t" + vno);
+				// while (rs.next()) {
 
-				//}
+				int ptxno = rs.getInt("VALUE_COUPON_NBR");
+				Date pno = rs.getDate("START_DATE");
+				Date pro = rs.getDate("END_DATE");
+				int vno = rs.getInt("VALUE_AMT");
+
+				System.out.println(ptxno + "\t\t\t" + pno + "\t\t\t" + pro + "\t\t\t" + vno);
+
+				// }
 			}
-			
+
 			con.close();
 		}
 
@@ -455,11 +459,10 @@ public class ClientConfigurationDatabase extends BaseStep {
 
 	}
 
-	
 	public ResultSet PromotionsDB2(DataTable dataTable) throws IOException {
 
 		try {
-			
+
 			List<Map<String, String>> validations = dataTable.asMaps(String.class, String.class);
 			for (Map<String, String> form : validations) {
 
@@ -504,90 +507,84 @@ public class ClientConfigurationDatabase extends BaseStep {
 				String OFFER_DUR_DELAY_DAY_CNT = form.get("OFFER_DUR_DELAY_DAY_CNT");
 				String ASSGN_INVST_CNT = form.get("ASSGN_INVST_CNT");
 				String REDEMPTION_INVST_CNT = form.get("REDEMPTION_INVST_CNT");
-				
-			
-			con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
-					prop.getProperty("password"));
-			Class.forName(prop.getProperty("database_driver"));
-			
-			query = "INSERT INTO VALUE_COUPON ("
-			+ "VALUE_COUPON_NBR,BASE_DIV_NBR,START_DATE,"
-			+ "END_DATE,START_TIME,END_TIME,ACTIVE_IND,COUPON_ITEM_NBR,COUPON_UPC_NBR,"
-			+ "VALUE_AMT,VALUE_PCT,PACKAGE_CODE,INVESTMENT_AMT,INVESTMENT_CNT,DURATION_CODE,VENDOR_FUNDED_IND,"
-			+ "SHARED_VALUE_IND,PRVDR_COUPON_NBR,MANUAL_LOAD_IND,VAL_OFFER_TYP_CODE,MAX_RDMPT_CNT,MIN_BASKET_AMT,"
-			+ "VAL_ASSIGN_TYPE_CD,LAST_CHANGE_DATE,LAST_CHG_PGM_ID,CAMPAIGN_NBR,PURCH_FREQUENCY_PCT,FUNDING_TYPE_CD,"
-			+ "SUMMARY_DESC,DETAIL_DESC,RETAIL_AFTER_DISC_IND,MAX_PURCHASE_AMT,MAX_PURCHASE_QTY,"
-			+ "MAX_DISC_AMT,MIN_CORE_PURCH_QTY,MIN_SEED_PURCH_QTY,MIN_REWARD_PURCH_QTY,OFFER_AVAIL_DELAY_DAY_CNT,"
-			+ "OFFER_DUR_DELAY_DAY_CNT,ASSGN_INVST_CNT,REDEMPTION_INVST_CNT) "
-			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			
-			
-			PreparedStatement pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, Integer.valueOf(VALUE_COUPON_NBR));
-			pstmt.setInt(2, Integer.valueOf(BASE_DIV_NBR));
-			pstmt.setDate(3, Date.valueOf(START_DATE));
-			pstmt.setDate(4, Date.valueOf(END_DATE));
-			pstmt.setTime(5, Time.valueOf(START_TIME));
-			pstmt.setTime(6, Time.valueOf(END_TIME));
-			pstmt.setString(7, ACTIVE_IND);
-			pstmt.setInt(8, Integer.valueOf(COUPON_ITEM_NBR));
-			pstmt.setLong(9, Long.valueOf(COUPON_UPC_NBR));
-			pstmt.setFloat(10, Float.valueOf(VALUE_AMT));
-			pstmt.setFloat(11, Float.valueOf(VALUE_PCT));
-			pstmt.setInt(12, Integer.valueOf(PACKAGE_CODE));
-			pstmt.setFloat(13, Float.valueOf(INVESTMENT_AMT));
-			pstmt.setInt(14, Integer.valueOf(INVESTMENT_CNT));
-			pstmt.setInt(15, Integer.valueOf(DURATION_CODE));
-			pstmt.setString(16, VENDOR_FUNDED_IND);
-			pstmt.setString(17, SHARED_VALUE_IND);
-			pstmt.setInt(18, Integer.valueOf(PRVDR_COUPON_NBR));
-			pstmt.setString(19, MANUAL_LOAD_IND);
-			pstmt.setInt(20, Integer.valueOf(VAL_OFFER_TYP_CODE));
-			pstmt.setInt(21, Integer.valueOf(MAX_RDMPT_CNT));
-			pstmt.setFloat(22, Float.valueOf(MIN_BASKET_AMT));
-			pstmt.setInt(23, Integer.valueOf(VAL_ASSIGN_TYPE_CD));
-			pstmt.setDate(24, Date.valueOf(LAST_CHANGE_DATE));
-			pstmt.setString(25, LAST_CHG_PGM_ID);
-			pstmt.setInt(26, Integer.valueOf(CAMPAIGN_NBR));
-			pstmt.setFloat(27, Float.valueOf(PURCH_FREQUENCY_PCT));
-			pstmt.setInt(28, Integer.valueOf(FUNDING_TYPE_CD));
-			pstmt.setString(29, SUMMARY_DESC);
-			pstmt.setString(30, DETAIL_DESC);
-			pstmt.setString(31, RETAIL_AFTER_DISC_IND);
-			pstmt.setString(32, MAX_PURCHASE_AMT);
-			pstmt.setString(33, MAX_PURCHASE_QTY);
-			pstmt.setString(34, MAX_DISC_AMT);
-			pstmt.setInt(35, Integer.valueOf(MIN_CORE_PURCH_QTY));
-			pstmt.setString(36, MIN_SEED_PURCH_QTY);
-			pstmt.setString(37, MIN_REWARD_PURCH_QTY);
-			pstmt.setString(38, OFFER_AVAIL_DELAY_DAY_CNT);
-			pstmt.setString(39, OFFER_DUR_DELAY_DAY_CNT);
-			pstmt.setString(40, ASSGN_INVST_CNT);
-			pstmt.setString(41, REDEMPTION_INVST_CNT);
-			
-			pstmt.addBatch();
-			
-			int []rows=pstmt.executeBatch();	
-			
-			System.out.println(Arrays.toString(rows));
-			
-			query = "SELECT * FROM VALUE_COUPON WHERE VALUE_COUPON_NBR="+VALUE_COUPON_NBR;
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(query);
-			
-			
-			if (rs.next() == false) {
-				System.out.println("No Values entered into DB2");
-				assertTrue(rs.toString().isEmpty());
-				rs.close();
-			}
-			
-			con.close();
-			
+
+				con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
+						prop.getProperty("password"));
+				Class.forName(prop.getProperty("database_driver"));
+
+				query = "INSERT INTO VALUE_COUPON (" + "VALUE_COUPON_NBR,BASE_DIV_NBR,START_DATE,"
+						+ "END_DATE,START_TIME,END_TIME,ACTIVE_IND,COUPON_ITEM_NBR,COUPON_UPC_NBR,"
+						+ "VALUE_AMT,VALUE_PCT,PACKAGE_CODE,INVESTMENT_AMT,INVESTMENT_CNT,DURATION_CODE,VENDOR_FUNDED_IND,"
+						+ "SHARED_VALUE_IND,PRVDR_COUPON_NBR,MANUAL_LOAD_IND,VAL_OFFER_TYP_CODE,MAX_RDMPT_CNT,MIN_BASKET_AMT,"
+						+ "VAL_ASSIGN_TYPE_CD,LAST_CHANGE_DATE,LAST_CHG_PGM_ID,CAMPAIGN_NBR,PURCH_FREQUENCY_PCT,FUNDING_TYPE_CD,"
+						+ "SUMMARY_DESC,DETAIL_DESC,RETAIL_AFTER_DISC_IND,MAX_PURCHASE_AMT,MAX_PURCHASE_QTY,"
+						+ "MAX_DISC_AMT,MIN_CORE_PURCH_QTY,MIN_SEED_PURCH_QTY,MIN_REWARD_PURCH_QTY,OFFER_AVAIL_DELAY_DAY_CNT,"
+						+ "OFFER_DUR_DELAY_DAY_CNT,ASSGN_INVST_CNT,REDEMPTION_INVST_CNT) "
+						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+				PreparedStatement pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, Integer.valueOf(VALUE_COUPON_NBR));
+				pstmt.setInt(2, Integer.valueOf(BASE_DIV_NBR));
+				pstmt.setDate(3, Date.valueOf(START_DATE));
+				pstmt.setDate(4, Date.valueOf(END_DATE));
+				pstmt.setTime(5, Time.valueOf(START_TIME));
+				pstmt.setTime(6, Time.valueOf(END_TIME));
+				pstmt.setString(7, ACTIVE_IND);
+				pstmt.setInt(8, Integer.valueOf(COUPON_ITEM_NBR));
+				pstmt.setLong(9, Long.valueOf(COUPON_UPC_NBR));
+				pstmt.setFloat(10, Float.valueOf(VALUE_AMT));
+				pstmt.setFloat(11, Float.valueOf(VALUE_PCT));
+				pstmt.setInt(12, Integer.valueOf(PACKAGE_CODE));
+				pstmt.setFloat(13, Float.valueOf(INVESTMENT_AMT));
+				pstmt.setInt(14, Integer.valueOf(INVESTMENT_CNT));
+				pstmt.setInt(15, Integer.valueOf(DURATION_CODE));
+				pstmt.setString(16, VENDOR_FUNDED_IND);
+				pstmt.setString(17, SHARED_VALUE_IND);
+				pstmt.setInt(18, Integer.valueOf(PRVDR_COUPON_NBR));
+				pstmt.setString(19, MANUAL_LOAD_IND);
+				pstmt.setInt(20, Integer.valueOf(VAL_OFFER_TYP_CODE));
+				pstmt.setInt(21, Integer.valueOf(MAX_RDMPT_CNT));
+				pstmt.setFloat(22, Float.valueOf(MIN_BASKET_AMT));
+				pstmt.setInt(23, Integer.valueOf(VAL_ASSIGN_TYPE_CD));
+				pstmt.setDate(24, Date.valueOf(LAST_CHANGE_DATE));
+				pstmt.setString(25, LAST_CHG_PGM_ID);
+				pstmt.setInt(26, Integer.valueOf(CAMPAIGN_NBR));
+				pstmt.setFloat(27, Float.valueOf(PURCH_FREQUENCY_PCT));
+				pstmt.setInt(28, Integer.valueOf(FUNDING_TYPE_CD));
+				pstmt.setString(29, SUMMARY_DESC);
+				pstmt.setString(30, DETAIL_DESC);
+				pstmt.setString(31, RETAIL_AFTER_DISC_IND);
+				pstmt.setString(32, MAX_PURCHASE_AMT);
+				pstmt.setString(33, MAX_PURCHASE_QTY);
+				pstmt.setString(34, MAX_DISC_AMT);
+				pstmt.setInt(35, Integer.valueOf(MIN_CORE_PURCH_QTY));
+				pstmt.setString(36, MIN_SEED_PURCH_QTY);
+				pstmt.setString(37, MIN_REWARD_PURCH_QTY);
+				pstmt.setString(38, OFFER_AVAIL_DELAY_DAY_CNT);
+				pstmt.setString(39, OFFER_DUR_DELAY_DAY_CNT);
+				pstmt.setString(40, ASSGN_INVST_CNT);
+				pstmt.setString(41, REDEMPTION_INVST_CNT);
+
+				pstmt.addBatch();
+
+				int[] rows = pstmt.executeBatch();
+
+				System.out.println(Arrays.toString(rows));
+
+				query = "SELECT * FROM VALUE_COUPON WHERE VALUE_COUPON_NBR=" + VALUE_COUPON_NBR;
+				stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+
+				if (rs.next() == false) {
+					System.out.println("No Values entered into DB2");
+					assertTrue(rs.toString().isEmpty());
+					rs.close();
+				}
+
+				con.close();
 
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 
 			JOptionPane.showMessageDialog(null, e);
 			return null;
@@ -596,64 +593,57 @@ public class ClientConfigurationDatabase extends BaseStep {
 
 	}
 
-	
 	public ResultSet Promotions_VAL_CPN_ITEM(DataTable dataTable) throws IOException {
 
 		try {
-			
+
 			List<Map<String, String>> validations = dataTable.asMaps(String.class, String.class);
 			for (Map<String, String> form : validations) {
 
 				String VALUE_COUPON_NBR = form.get("VALUE_COUPON_NBR");
-				String ITEM_NBR=form.get("ITEM_NBR");   
-				String VAL_ITEM_TYPE_CODE=form.get("VAL_ITEM_TYPE_CODE"); 
-				String DEPT_NBR=form.get("DEPT_NBR"); 
-				String SUBCLASS_NBR=form.get("SUBCLASS_NBR");
-				String VENDOR_NBR=form.get("VENDOR_NBR");
-				String MIN_ITEM_PURCH_QTY=form.get("MIN_ITEM_PURCH_QTY");
-				
-				
-			
-			con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
-					prop.getProperty("password"));
-			Class.forName(prop.getProperty("database_driver"));
-			
-			query = "INSERT INTO VALUE_COUPON_ITEM (VALUE_COUPON_NBR,ITEM_NBR," + 
-					"VAL_ITEM_TYPE_CODE,DEPT_NBR,SUBCLASS_NBR,VENDOR_NBR,MIN_ITEM_PURCH_QTY)" + 
-					"VALUES (?,?,?,?,?,?,?)";
-			
-			
-			PreparedStatement pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, Integer.valueOf(VALUE_COUPON_NBR));
-			pstmt.setInt(2, Integer.valueOf(ITEM_NBR));
-			pstmt.setInt(3, Integer.valueOf(VAL_ITEM_TYPE_CODE));
-			pstmt.setInt(4, Integer.valueOf(DEPT_NBR));
-			pstmt.setInt(5, Integer.valueOf(SUBCLASS_NBR));
-			pstmt.setInt(6, Integer.valueOf(VENDOR_NBR));
-			pstmt.setInt(7, Integer.valueOf(MIN_ITEM_PURCH_QTY));
-			pstmt.addBatch();
-			
-			int []rows=pstmt.executeBatch();	
-			
-			System.out.println(Arrays.toString(rows));
-			
-			query = "SELECT * FROM VALUE_COUPON_ITEM WHERE VALUE_COUPON_NBR="+VALUE_COUPON_NBR;
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(query);
-			
-			
-			if (rs.next() == false) {
-				System.out.println("No Values entered into DB2");
-				assertTrue(rs.toString().isEmpty());
-				rs.close();
-			}
-			
-			con.close();
-			
+				String ITEM_NBR = form.get("ITEM_NBR");
+				String VAL_ITEM_TYPE_CODE = form.get("VAL_ITEM_TYPE_CODE");
+				String DEPT_NBR = form.get("DEPT_NBR");
+				String SUBCLASS_NBR = form.get("SUBCLASS_NBR");
+				String VENDOR_NBR = form.get("VENDOR_NBR");
+				String MIN_ITEM_PURCH_QTY = form.get("MIN_ITEM_PURCH_QTY");
+
+				con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
+						prop.getProperty("password"));
+				Class.forName(prop.getProperty("database_driver"));
+
+				query = "INSERT INTO VALUE_COUPON_ITEM (VALUE_COUPON_NBR,ITEM_NBR,"
+						+ "VAL_ITEM_TYPE_CODE,DEPT_NBR,SUBCLASS_NBR,VENDOR_NBR,MIN_ITEM_PURCH_QTY)"
+						+ "VALUES (?,?,?,?,?,?,?)";
+
+				PreparedStatement pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, Integer.valueOf(VALUE_COUPON_NBR));
+				pstmt.setInt(2, Integer.valueOf(ITEM_NBR));
+				pstmt.setInt(3, Integer.valueOf(VAL_ITEM_TYPE_CODE));
+				pstmt.setInt(4, Integer.valueOf(DEPT_NBR));
+				pstmt.setInt(5, Integer.valueOf(SUBCLASS_NBR));
+				pstmt.setInt(6, Integer.valueOf(VENDOR_NBR));
+				pstmt.setInt(7, Integer.valueOf(MIN_ITEM_PURCH_QTY));
+				pstmt.addBatch();
+
+				int[] rows = pstmt.executeBatch();
+
+				System.out.println(Arrays.toString(rows));
+
+				query = "SELECT * FROM VALUE_COUPON_ITEM WHERE VALUE_COUPON_NBR=" + VALUE_COUPON_NBR;
+				stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+
+				if (rs.next() == false) {
+					System.out.println("No Values entered into DB2");
+					assertTrue(rs.toString().isEmpty());
+					rs.close();
+				}
+
+				con.close();
 
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 
 			JOptionPane.showMessageDialog(null, e);
 			return null;
@@ -661,63 +651,55 @@ public class ClientConfigurationDatabase extends BaseStep {
 		return rs;
 
 	}
-	
-	
+
 	public ResultSet Promotions_VAL_CPN_STORE(DataTable dataTable) throws IOException {
 
 		try {
-			
+
 			List<Map<String, String>> validations = dataTable.asMaps(String.class, String.class);
 			for (Map<String, String> form : validations) {
 
 				String VALUE_COUPON_NBR = form.get("VALUE_COUPON_NBR");
-				String STORE_NBR=form.get("STORE_NBR");   
-				String START_DATE=form.get("START_DATE"); 
-				String END_DATE=form.get("END_DATE"); 
-				String START_TIME=form.get("START_TIME");
-				String END_TIME=form.get("END_TIME");
-				
-				
-				 
-			
-			con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
-					prop.getProperty("password"));
-			Class.forName(prop.getProperty("database_driver"));
-			
-			query = "INSERT INTO VAL_COUPON_STORE (VALUE_COUPON_NBR,"
-					+ "STORE_NBR,START_DATE,END_DATE,START_TIME,END_TIME) "
-					+ "VALUES (?,?,?,?,?,?)";
-			
-			PreparedStatement pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, Integer.valueOf(VALUE_COUPON_NBR));
-			pstmt.setInt(2, Integer.valueOf(STORE_NBR));
-			pstmt.setDate(3, Date.valueOf(START_DATE));
-			pstmt.setDate(4, Date.valueOf(END_DATE));
-			pstmt.setTime(5, Time.valueOf(START_TIME));
-			pstmt.setTime(6, Time.valueOf(END_TIME));
-			pstmt.addBatch();
-			
-			int []rows=pstmt.executeBatch();	
-			
-			System.out.println(Arrays.toString(rows));
-			
-			query = "SELECT * FROM VAL_COUPON_STORE WHERE VALUE_COUPON_NBR="+VALUE_COUPON_NBR;
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(query);
-			
-			
-			if (rs.next() == false) {
-				System.out.println("No Values entered into DB2");
-				assertTrue(rs.toString().isEmpty());
-				rs.close();
-			}
-			
-			con.close();
-			
+				String STORE_NBR = form.get("STORE_NBR");
+				String START_DATE = form.get("START_DATE");
+				String END_DATE = form.get("END_DATE");
+				String START_TIME = form.get("START_TIME");
+				String END_TIME = form.get("END_TIME");
+
+				con = DriverManager.getConnection(prop.getProperty("dbUrl"), prop.getProperty("username"),
+						prop.getProperty("password"));
+				Class.forName(prop.getProperty("database_driver"));
+
+				query = "INSERT INTO VAL_COUPON_STORE (VALUE_COUPON_NBR,"
+						+ "STORE_NBR,START_DATE,END_DATE,START_TIME,END_TIME) " + "VALUES (?,?,?,?,?,?)";
+
+				PreparedStatement pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, Integer.valueOf(VALUE_COUPON_NBR));
+				pstmt.setInt(2, Integer.valueOf(STORE_NBR));
+				pstmt.setDate(3, Date.valueOf(START_DATE));
+				pstmt.setDate(4, Date.valueOf(END_DATE));
+				pstmt.setTime(5, Time.valueOf(START_TIME));
+				pstmt.setTime(6, Time.valueOf(END_TIME));
+				pstmt.addBatch();
+
+				int[] rows = pstmt.executeBatch();
+
+				System.out.println(Arrays.toString(rows));
+
+				query = "SELECT * FROM VAL_COUPON_STORE WHERE VALUE_COUPON_NBR=" + VALUE_COUPON_NBR;
+				stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+
+				if (rs.next() == false) {
+					System.out.println("No Values entered into DB2");
+					assertTrue(rs.toString().isEmpty());
+					rs.close();
+				}
+
+				con.close();
 
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 
 			JOptionPane.showMessageDialog(null, e);
 			return null;
@@ -725,6 +707,5 @@ public class ClientConfigurationDatabase extends BaseStep {
 		return rs;
 
 	}
-	
-	
+
 }
