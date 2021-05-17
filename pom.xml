@@ -11,7 +11,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<powermock.version>2.0.2</powermock.version>
-		<application.insights.version>2.5.1</application.insights.version>
+		<application.insights.version>******</application.insights.version>
 	</properties>
 	<build>
 		<plugins>
@@ -81,8 +81,7 @@
 			<version>2.27.0</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency> <groupId>com.walmart.sams.mercury.api</groupId> <artifactId>mercury-dto</artifactId> 
-			<version>${version.mercury-dto}</version> </dependency> -->
+	
 
 		<dependency>
 			<groupId>com.microsoft.azure</groupId>
@@ -110,14 +109,14 @@
 			<version>2.3</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sams.promotions.platform</groupId>
-			<artifactId>promotions-platform-common</artifactId>
-			<version>0.0.59</version>
+			<groupId>com.******.promotions.platform</groupId>
+			<artifactId>******</artifactId>
+			<version>******</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sams.promotions.platform</groupId>
-			<artifactId>promotions-platform-dal</artifactId>
-			<version>0.0.30-SNAPSHOT</version>
+			<groupId>com.******.promotions.platform</groupId>
+			<artifactId>******</artifactId>
+			<version>******</version>
 		</dependency>
 		<dependency>
 			<groupId>ibm.db2</groupId>
@@ -125,9 +124,9 @@
 			<version>4.21.29</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sams.promotions.platform</groupId>
-			<artifactId>emulation-api</artifactId>
-			<version>0.0.64</version>
+			<groupId>******promotions.platform</groupId>
+			<artifactId>******</artifactId>
+			<version>******</version>
 		</dependency>
 		<dependency>
 			<groupId>info.cukes</groupId>
@@ -247,9 +246,9 @@
 
 
 		<dependency>
-			<groupId>com.sams.membership.nextgen</groupId>
-			<artifactId>membership-reactive-starter-cosmosdb</artifactId>
-			<version>1.0.2</version>
+			<groupId>******.nextgen</groupId>
+			<artifactId>******-cosmosdb</artifactId>
+			<version>******</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -258,9 +257,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>com.walmart.sams.mercury.api</groupId>
-			<artifactId>mercury-dto</artifactId>
-			<version>1.0.5</version>
+			<groupId>******.api</groupId>
+			<artifactId>******</artifactId>
+			<version>******</version>
 		</dependency>
 	</dependencies>
 </project>
