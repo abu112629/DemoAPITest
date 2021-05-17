@@ -31,7 +31,7 @@
         <mirror>
             <id>WARM Central</id>
             <name>Nexus Shared Repository</name>
-            <url>http://gec-maven-nexus.walmart.com/content/repositories/central</url>
+            <url>******/content/repositories/central</url>
             <mirrorOf>central</mirrorOf>
         </mirror>
     </mirrors>
@@ -45,7 +45,7 @@
                 <repository>
                     <id>isd_snapshot</id>
                     <name>Nexus ISD Snapshot</name>
-                    <url>http://gec-maven-nexus.walmart.com/content/repositories/isd_snapshot/</url>
+                    <url>******/content/repositories/isd_snapshot/</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
@@ -53,7 +53,7 @@
                 <repository>
                     <id>isd_release</id>
                     <name>Nexus ISD Release</name>
-                    <url>http://gec-maven-nexus.walmart.com/content/repositories/isd_release/</url>
+                    <url>******/content/repositories/isd_release/</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -61,7 +61,7 @@
                 <repository>
                     <id>pangaea_snapshots</id>
                     <name>GEC Snapshot</name>
-                    <url>http://gec-maven-nexus.walmart.com/content/repositories/pangaea_snapshots/</url>
+                    <url>******/content/repositories/pangaea_snapshots/</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
@@ -69,7 +69,7 @@
                 <repository>
                     <id>pangaea_releases</id>
                     <name>GEC Release</name>
-                    <url>http://gec-maven-nexus.walmart.com/content/repositories/pangaea_releases/</url>
+                    <url>******/content/repositories/pangaea_releases/</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -77,7 +77,7 @@
                 <repository>
                     <id>nexus_snapshot</id>
                     <name>WARM Public Snapshot</name>
-                    <url>http://gec-maven-nexus.walmart.com/nexus/content/groups/public_snapshot</url>
+                    <url>******/nexus/content/groups/public_snapshot</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
@@ -85,7 +85,7 @@
                 <repository>
                     <id>gec-public</id>
                     <name>WARM Public</name>
-                    <url>http://gec-maven-nexus.walmart.com/nexus/content/groups/public</url>
+                    <url>******/nexus/content/groups/public</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -93,7 +93,7 @@
                 <repository>
                     <id>repo-gecwalmart</id>
                     <name>WARM Release Repo Collection</name>
-                    <url>http://gec-maven-nexus.walmart.com/nexus/content/groups/walmart_release_repos/</url>
+                    <url>******/nexus/content/groups/walmart_release_repos/</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -101,7 +101,7 @@
                 <repository>
                     <id>repo-snap-gecwalmart</id>
                     <name>Walmart GeC Snapshot Repo Collection</name>
-                    <url>http://gec-maven-nexus.walmart.com/nexus/content/groups/walmart_snapshot_repos/</url>
+                    <url>******/nexus/content/groups/walmart_snapshot_repos/</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
@@ -109,7 +109,7 @@
                 <repository>
                     <id>central</id>
                     <name>Central Proxy</name>
-                    <url>http://gec-maven-nexus.walmart.com/nexus/content/repositories/central/</url>
+                    <url>******/nexus/content/repositories/central/</url>
                 </repository>
             </repositories>
         </profile>
